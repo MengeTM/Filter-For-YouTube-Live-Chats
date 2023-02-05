@@ -85,7 +85,20 @@ function YouTubeStreamHighlight() {
             let contents = that.box.querySelector("#contents");
             that.boxItems = contents.querySelector("#item-scroller>#item-offset>#items");
 
+            browser.runtime.onMessage.addListener(function (message) {
+                switch (message.type) {
+                    case "replay":
+                        for (let node of that.items.childNodes) {
+                            node.parentNode.removeChild(node);
+;                        }
+                }
+            });
+
             that.chatobserver.observe(that.boxItems, { attributes: false, childList: true, subtree: false });
+        } else {
+            document.getElementsByClassName("video-stream")[0].addEventListener("seeked", function () {
+                browser.runtime.sendMessage({ "type": "replay" });
+            });
         }
     }
 

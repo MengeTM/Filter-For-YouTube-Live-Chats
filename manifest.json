@@ -16,7 +16,7 @@
   "description": "__MSG_extensionDescription__",
 
   "icons": {
-    "128": "youtube_stream_highlight.svg"
+    "128": "youtube_stream_filter.svg"
   },
 
   "options_ui": {
@@ -24,12 +24,17 @@
     "browser_style": true
   },
 
+  "background": {
+    "page": "background_page/background_page.html",
+    "persistent": false
+  },
+
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*"],
       "all_frames": true,
-      "js": ["separator.js", "youtube_stream_highlight.js"],
-      "css": ["youtube_stream_highlight.css"],
+      "js": ["separator.js", "youtube_stream_filter.js"],
+      "css": ["youtube_stream_filter.css"],
       "run_at": "document_idle"
     }
   ],
