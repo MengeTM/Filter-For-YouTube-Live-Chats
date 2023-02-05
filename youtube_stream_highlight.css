@@ -1,0 +1,31 @@
+yt-live-chat-item-list-renderer+#separator+div.yt-live-chat-renderer, yt-live-chat-ninja-message-renderer.yt-live-chat-renderer {
+    flex: 1;
+    flex-basis: 0%;
+    flex-basis: 0.000000001px;
+}
+
+yt-live-chat-item-list-renderer+#separator+div {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    z-index: 0;
+}
+
+div > #contents > #item-scroller {
+    overflow-y: scroll;
+    height: 100%;
+}
+
+#separator.youtube-stream-slide {
+    border-bottom-style: solid;
+    border-bottom-width: 5px;
+}
+
+#mouse-element {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1;
+}

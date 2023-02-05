@@ -1,0 +1,35 @@
+html, body {
+  width: 100%;
+}
+
+.box {
+  padding:7px;
+  font-size: 1.5em;
+  border-width: 1px;
+  border-style: solid;
+  width: 75%;
+  float: left;
+  margin: 10px;
+  border-color: black;
+}
+
+.description {
+  display: inline-block;
+  text-align: left;
+  width: 117px;
+}
+
+.item {
+  width: 100%;
+  padding: 3px;
+  font-size: 1em;
+  text-align: center;
+}
+
+.option {
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: #CFF2F2;
+}

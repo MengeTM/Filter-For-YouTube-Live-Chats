@@ -1,0 +1,26 @@
+{
+  "extensionName": {
+    "message": "YouTube Stream Filter",
+    "description": "Name of extension."
+  },
+  "extensionDescription": {
+    "message": "Dieses Addon hebt Chat-Nachrichten von YouTube Streams hervor, indem sie in einer separaten Chat-Box angezeigt werden. Wenn man z.B. beim Filter \"[EN]\" einstellt, werden Chat-Nachrichten von Englischen Hololive Übersetzern hervorgehoben.",
+    "description": "Description of the extension."
+  },
+  "settingsFilters": {
+    "message": "Filter Einstellungen",
+    "description": "Filter settings for live-chat."
+  },
+  "settingsBoxSize": {
+    "message": "Chat-Box Größe",
+    "description": "Size of the live-chat box setting."
+  },
+  "settingsUsernames": {
+    "message": "Benutzernamen",
+    "description": "Filter-option usernames."
+  },
+  "settingsMessages": {
+    "message": "Chat-Nachrichten",
+    "description": "Filter-option messages."
+  }
+}

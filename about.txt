@@ -1,0 +1,5 @@
+The addon modifies the YouTube live-chat both for live-streams and re-plays, by separating it horizontally into two live-chats. The upper one is the original one, while the lower one displays chat messages you may filter for. The sizes of the chat-boxes are adjustable via dragging the separator line between the chat-boxes up or down.
+
+The settings allow you to set the size of the chat-box, and to filter for user-names or text-characters of a user message. You may filter for more than one username or message by separating them via seicolons, e.g. "[EN]; [EN-US]". The settings are preset to filter for common chat-based English translations of Japanese Hololive streams (at least the ones I watch).
+
+This addon is at its first version, and may contain some bugs. At least it did work on my laptop with some short testing, but please write me if you encounter some bugs or you would like some features to be implemented. Right now it is more of a fun-project, but I may improve it further when there is interest in this addon.

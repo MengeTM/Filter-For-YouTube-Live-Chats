@@ -1,0 +1,26 @@
+{
+  "extensionName": {
+    "message": "YouTube Stream Filter",
+    "description": "Name of extension."
+  },
+  "extensionDescription": {
+    "message": "このアドオンは、YouTubeストリームからのチャットメッセージを別のチャットボックスに表示して強調表示します。たとえば \"[EN]\" を設定すると、ストリームからHololiveの英語翻訳者のメッセージを強調表示できます。",
+    "description": "Description of the extension."
+  },
+  "settingsFilters": {
+    "message": "フィルター設定",
+    "description": "Filter settings for live-chat."
+  },
+  "settingsBoxSize": {
+    "message": "チャットボックスのサイズ",
+    "description": "Size of the live-chat box setting."
+  },
+  "settingsUsernames": {
+    "message": "ユーザー名",
+    "description": "Filter-option usernames."
+  },
+  "settingsMessages": {
+    "message": "メッセージ",
+    "description": "Filter-option messages."
+  }
+}
