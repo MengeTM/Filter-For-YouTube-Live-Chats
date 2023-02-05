@@ -35,10 +35,13 @@ function Setting() {
             that.newValue("keywords");
         });
 
-        document.querySelector("#s_filter_settings").textContent = browser.i18n.getMessage("settingsFilters");
-        document.querySelector("#s_box_size").textContent = browser.i18n.getMessage("settingsBoxSize");
-        document.querySelector("#s_usernames").textContent = browser.i18n.getMessage("settingsUsernames");
-        document.querySelector("#s_keywords").textContent = browser.i18n.getMessage("settingsMessages");
+        document.querySelectorAll(".i18n").forEach(function (node) {
+            if (node.hasAttribute("data-id")) {
+                node.textContent = browser.i18n.getMessage(node.getAttribute("data-id"));
+            } else {
+                console.log("i18n Element: No \"data-id\" attribute");
+            }
+        });
     }
 
     this.update = function () {
