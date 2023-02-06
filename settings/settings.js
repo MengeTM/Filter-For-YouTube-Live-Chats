@@ -1,40 +1,43 @@
-function Setting() {
-    this.size = null;
-    this.usernames = null;
-    this.keywords = null;
-
-    const that = this;
-
-    this.restoreOptions = function () {
-
-        function setCurrentChoice(result) {
-            that.size = result.size || 30;
-            that.keywords = result.keywords || ["[EN]"];
-            that.usernames = result.usernames || [];
-
-            that.update();
-        }
-
-        function onError(error) {
-            console.log(`Error: ${error}`);
-        }
-
-        var getting = browser.storage.sync.get();
-        getting.then(setCurrentChoice, onError);
+class Setting {
+    constructor() {
+        this.size = null;
+        this.usernames = null;
+        this.keywords = null;
     }
 
-    this.start = function () {
-        document.addEventListener("DOMContentLoaded", that.restoreOptions);
-        document.querySelector("#size").addEventListener("change", function () { return that.newValue("size") });
-        document.querySelector("#usernames").addEventListener("change", function () { return that.newValue("usernames") });
-        document.querySelector("#keywords").addEventListener("change", function () { return that.newValue("keywords") });
+    /*
+     * Loads settings
+     */
+    restoreOptions = function () {
+        let getting = browser.storage.sync.get();
+        getting.then((result) => {
+            this.size = result.size || 30;
+            this.keywords = result.keywords || ["[EN]"];
+            this.usernames = result.usernames || [];
 
-        document.addEventListener("unload", function () {
-            that.newValue("size");
-            that.newValue("usernames");
-            that.newValue("keywords");
+            this.update();
+        }, (error) => {
+            console.log(`Error: ${error}`);
+        });
+    }
+
+    /*
+     * Starts settings listener
+     */
+    start = function () {
+        // Saves settings when input element are updated
+        document.querySelector("#size").addEventListener("change", () => { return this.newValue("size") });
+        document.querySelector("#usernames").addEventListener("change", () => { return this.newValue("usernames") });
+        document.querySelector("#keywords").addEventListener("change", () => { return this.newValue("keywords") });
+
+        // Saves settings when page is left
+        document.addEventListener("unload", () => {
+            this.newValue("size");
+            this.newValue("usernames");
+            this.newValue("keywords");
         });
 
+        // Replaces placeholders of html with _locale strings
         document.querySelectorAll(".i18n").forEach(function (node) {
             if (node.hasAttribute("data-id")) {
                 node.textContent = browser.i18n.getMessage(node.getAttribute("data-id"));
@@ -42,18 +45,27 @@ function Setting() {
                 console.log("i18n Element: No \"data-id\" attribute");
             }
         });
+
+        this.restoreOptions();
     }
 
-    this.update = function () {
-        document.querySelector("#size").value = that.size;
+    /*
+     * Updates html input elements with settings
+     */
+    update = function () {
+        document.querySelector("#size").value = this.size;
 
-        document.querySelector("#usernames").value = that.usernames.join("; ");
+        document.querySelector("#usernames").value = this.usernames.join("; ");
 
-        document.querySelector("#keywords").value = that.keywords.join("; ");
+        document.querySelector("#keywords").value = this.keywords.join("; ");
     }
 
-    this.newValue = function (type) {
+    /*
+     * Sets new setting value and updates html input elements
+     */
+    newValue = function (type) {
 
+        // Formats a string separated by ";" into an Array and deletes empty elements
         function split(string) {
             stringList = string.trim().split(new RegExp("[ ]*;[ ]*"));
 
@@ -61,31 +73,34 @@ function Setting() {
             return stringList;
         }
         switch (type) {
-            case "size":
-                that.size = document.querySelector("#size").value;
-                that.size = Math.min(Math.max(that.size, 0), 100);
-                setOption({ size: that.size });
+            case "size":  // Heigth of highlight chat box
+                this.size = document.querySelector("#size").value;
+                this.size = Math.min(Math.max(this.size, 0), 100);
+                this.setOption({ size: this.size });
                 break;
-            case "usernames":
-                that.usernames = split(document.querySelector("#usernames").value);
-                setOption({ usernames: that.usernames });
+            case "usernames":  // Filter usernames
+                this.usernames = split(document.querySelector("#usernames").value);
+                this.setOption({ usernames: this.usernames });
                 break;
-            case "keywords":
-                that.keywords = split(document.querySelector("#keywords").value);
-                setOption({ keywords: that.keywords });
+            case "keywords":  // Filter messages
+                this.keywords = split(document.querySelector("#keywords").value);
+                this.setOption({ keywords: this.keywords });
                 break;
             default:
         }
 
-        that.update();
+        this.update();
 
         return false;
     }
 
-    function setOption(option) {
+    /*
+     * Saves setting
+     */
+    setOption(option) {
         browser.storage.sync.set(option);
     }
 }
 
-var setting = new Setting();
+let setting = new Setting();
 setting.start();

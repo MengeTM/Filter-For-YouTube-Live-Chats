@@ -1,76 +1,91 @@
-function Separator(box_top, box_bottom) {
-    this.element = document.createElement("div");
-    this.box_top = box_top;
-    this.box_bottom = box_bottom;
+class Separator {
 
-    this.element.id = "separator";
+    constructor(box_top, box_bottom) {
+        // Chat-box above the separator
+        this.box_top = box_top;
+        // Chat-box below the separator
+        this.box_bottom = box_bottom;
 
-    this.element.classList.add("style-scope");
-    this.element.classList.add("yt-live-chat-renderer");
-    this.element.classList.add("youtube-stream-slide");
+        // Separator
+        this.separatorElement = document.createElement("div");
+        this.separatorElement.id = "separator";
+        this.separatorElement.classList.add("style-scope");
+        this.separatorElement.classList.add("yt-live-chat-renderer");
+        this.separatorElement.classList.add("youtube-stream-slide");
 
-    this.mouseElement = document.createElement("div");
-    this.mouseElement.id = "mouse-element";
-    this.mouseElement.classList.add("mouse-element");
+        // Overlay for catching mouse events from all chat-boxes
+        this.mouseElement = document.createElement("div");
+        this.mouseElement.id = "mouse-element";
+        this.mouseElement.classList.add("mouse-element");
 
-    this.startY = null;
+        // Start variables when starting drag of separator
+        this.startY = null;  // Y-position
+        this.startHeight = null; // box_bottom height
+        this.startSize = null;  //  box_bottom
 
-    this.startHeight = null;
-    this.startSize = null;
+        // Add event listeners
 
+        this.separatorElement.addEventListener("mousedown", (event) => {
+            event.preventDefault();
 
-    let that = this;
+            // Start drag if not dragging
+            if (this.startY === null) {
+                // Set start variables
+                this.startY = event.clientY;
+                this.startHeight = this.box_bottom.offsetHeight;
+                this.startSize = this.box_bottom.offsetHeight / (this.box_top.offsetHeight + this.box_bottom.offsetHeight);
 
-    this.getSize = function (dY) {
-        size = that.startSize * (that.startHeight - dY) / that.startHeight * 100;
+                // Append mouseElement for getting mousemove and mouseup events
+                this.box_bottom.parentNode.appendChild(this.mouseElement);
+            }
+        });
+
+        this.mouseElement.addEventListener("mousemove", (event) => {
+            event.preventDefault();
+
+            // New mouse position
+            let posY = event.clientY;
+
+            // Set new height of box_bottom
+            let size = this.getSize(posY - this.startY);
+            this.updateSize(size);
+        });
+
+        this.mouseElement.addEventListener("mouseup", (event) => {
+            event.preventDefault();
+
+            // Stop dragging by removing mouseElement
+            this.box_bottom.parentNode.removeChild(this.mouseElement);
+
+            // Set new height of box_bottom and save height
+            this.startSize = this.getSize(event.clientY - this.startY);
+            this.updateSize(this.startSize);
+            browser.storage.sync.set({ size: this.startSize });
+
+            // Enabling new drag events by setting variables to null
+            this.startY = null;
+            this.startSize = null;
+        });
+    }
+
+    /*
+     * Gets flex size of box_bottom when moving mouse dY pixel
+     */
+    getSize = function (dY) {
+        let size = this.startSize * (this.startHeight - dY) / this.startHeight * 100;
 
         size = Math.round(size);
         size = Math.min(Math.max(size, 0), 100);
         return size;
     }
 
-    this.updateSize = function (size) {
+    /*
+     * Updates height of box_top and box_bottom
+     */
+    updateSize = function (size) {
         size = size / 100;
 
-        that.box_top.style.flex = 1 - size;
-        that.box_bottom.style.flex = size;
+        this.box_top.style.flex = 1 - size;
+        this.box_bottom.style.flex = size;
     }
-
-    function mousedownListener (event) {
-        event.preventDefault();
-
-        if (that.startY === null) {
-            that.startY = event.clientY;
-            that.startHeight = box_bottom.offsetHeight;
-            that.startSize = box_bottom.offsetHeight / (box_top.offsetHeight + box_bottom.offsetHeight);
-
-            that.box_bottom.parentNode.parentNode.appendChild(that.mouseElement);
-        }
-    }
-
-    function mousemoveListener (event) {
-        event.preventDefault();
-
-        let posY = event.clientY;
-
-        let size = that.getSize(posY - that.startY);
-        that.updateSize(size);
-    }
-
-    function mouseupListener (event) {
-        event.preventDefault();
-
-        that.box_bottom.parentNode.parentNode.removeChild(that.mouseElement);
-
-        that.startSize = that.getSize(event.clientY - that.startY);
-        that.updateSize(that.startSize);
-        browser.storage.sync.set({ size: that.startSize });
-
-        that.startY = null;
-        that.startSize = null;
-    }
-
-    this.element.addEventListener("mousedown", mousedownListener);
-    this.mouseElement.addEventListener("mousemove", mousemoveListener);
-    this.mouseElement.addEventListener("mouseup", mouseupListener);
 }

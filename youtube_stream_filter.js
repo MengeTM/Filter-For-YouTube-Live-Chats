@@ -1,20 +1,20 @@
-function YouTubeStreamHighlight() {
-    this.size = null;
-    this.usernames = null;
-    this.keywords = null;
+class YouTubeStreamFilter {
 
-    let that = this;
+    constructor() {
+        // Settings
+        this.size = null;  // Size of chat-window
+        this.usernames = null;  // Usernames for highlighting
+        this.keywords = null;  // Message keywords used for highlighting
 
-    this.separator = null;
+        // Html elements
+        this.highlightBox = null;  // Live-chat box for highlighting chat messages
+        this.separator = null;  // Separator between live-chat and highlighBox for adjusing height
+    }
 
-    this.box = null;
-    this.boxItems = null;
-
-    this.itemBox = null;
-    this.itemScroller = null;
-    this.items = null;
-
-    let includesAny = function (string, keywords) {
+    /*
+     * When the string is included in any of the keywords it returns true
+     */
+    includesAny = function (string, keywords) {
         let any = false;
         for (let keyword of keywords) {
             any = any || string.includes(keyword);
@@ -23,142 +23,115 @@ function YouTubeStreamHighlight() {
         return any;
     }
 
-    this.chatobserver = new MutationObserver(function (itemList) {
+    /*
+     * Merges messages of a YouTube chat message element and replaces emoji-images with text alts
+     */
+    mergeMessage = function (message) {
+        let stringMessage = "";
+        let string;
+        for (let node of message.childNodes) {
+            if (node instanceof HTMLImageElement) {
+                string = node.alt;
+            } else {
+                string = node.textContent;
+            }
+
+            stringMessage += string;
+        }
+
+        return stringMessage;
+    }
+
+    /*
+     * Observer of YouTube live-chat messages 
+     */
+    chatobserver = new MutationObserver((itemList) => {
         for (let item of itemList) {
+            // Added message elements
             for (let node of item.addedNodes) {
-                let authorName = node.querySelector("#author-name");
+                let authorName = node.querySelector("#author-name").textContent;
 
-                let message = node.querySelector("#content>#message");
+                let message = this.mergeMessage(node.querySelector("#content>#message"));
 
-                let stringMessage = "";
-                let string;
-                for (let node of message.childNodes) {
-                    if (node instanceof HTMLImageElement) {
-                        string = node.alt;
-                    } else {
-                        string = node.textContent;
-                    }
+                // Matches author and message of chat message
+                if (this.highlightBox !== null && (this.includesAny(authorName, this.usernames) || this.includesAny(message, this.keywords))) {
+                    console.log(message);
 
-                    stringMessage += string;
-                }
-
-                if (that.items !== null && that.itemScroller !== null && (includesAny(authorName, that.usernames) || includesAny(stringMessage, that.keywords))) {
-                    console.log(stringMessage);
-                    if (that.items.childNodes.length > 100) {
-                        that.items.removeChild(that.items.firstChild);
-                    }
-
-                    let scrollTopMax = that.itemScroller.scrollTopMax;
-                    that.items.appendChild(node);
-
-                    if (that.itemScroller.scrollTop > scrollTopMax - 15) {
-                        that.itemScroller.scrollTo(0, that.itemScroller.scrollTopMax);
-                    }
+                    // Adds chat message to highlight chat box
+                    this.highlightBox.addMessage(node);
                 }
             }
         }
     });
 
-    this.loadOptions = function () {
 
-        function setCurrentChoice(result) {
-            that.size = result.size || 30;
-            that.usernames = result.usernames || [];
-            that.keywords = result.keywords || ["[EN]"];
+    /*
+     * Loads add-on settings
+     */
+    loadOptions = function () {
 
-            that.makeBox();
-        }
+        let getting = browser.storage.sync.get();
+        getting.then((result) => {
 
-        function onError(error) {
+            this.size = result.size || 30;
+            this.usernames = result.usernames || [];
+            this.keywords = result.keywords || ["[EN]"];
+
+            this.setHighlightBox();
+        }, (error) => {
             console.log(`Error: ${error}`);
-        }
-
-        var getting = browser.storage.sync.get();
-        getting.then(setCurrentChoice, onError);
+        });
     }
 
-    this.start = function () {
-        if (document.getElementById("player") === null) {
-            that.loadOptions();
+    /*
+     * Starts add-on
+     */
+    start = function () {
+        if (document.getElementById("player") === null) {  // YouTube live-chat iFrame
+            this.loadOptions();
 
-            that.box = document.querySelector("#chat>#item-list>#live-chat-item-list-panel");
-            let contents = that.box.querySelector("#contents");
-            that.boxItems = contents.querySelector("#item-scroller>#item-offset>#items");
+            let box = document.querySelector("#chat>#item-list>#live-chat-item-list-panel");
+            box = box.querySelector("#contents");
+            let items = box.querySelector("#item-scroller>#item-offset>#items");
 
-            browser.runtime.onMessage.addListener(function (message) {
+            // Background page messages
+            browser.runtime.onMessage.addListener((message) => {
                 switch (message.type) {
                     case "replay":
-                        for (let node of that.items.childNodes) {
-                            node.parentNode.removeChild(node);
-;                        }
+                        // Removes highlighted messages when video is seeked
+                        if (this.highlightBox !== null) {
+                            this.highlightBox.clear();
+                        }
                 }
             });
 
-            that.chatobserver.observe(that.boxItems, { attributes: false, childList: true, subtree: false });
-        } else {
-            document.getElementsByClassName("video-stream")[0].addEventListener("seeked", function () {
+            // Starts messages observer
+            this.chatobserver.observe(items, { attributes: false, childList: true, subtree: false });
+        } else {  // YouTube player
+            // Sends message to background page if YouTube video seeked
+            document.getElementsByClassName("video-stream")[0].addEventListener("seeked", () => {
                 browser.runtime.sendMessage({ "type": "replay" });
             });
         }
     }
 
-    this.updateSize = function (size) {
-        if (size === undefined) {
-            size = that.size;
-        }
+    /*
+     * Makes and appends highlighted chat messages box and the separator element
+     */
+    setHighlightBox = function () {
+        let box = document.querySelector("#chat>#item-list>#live-chat-item-list-panel");
+        let contents = box.querySelector("#contents");
 
-        if (that.separator !== null) {
-            that.separator.updateSize(size);
-        }
-    }
+        this.highlightBox = new ChatBox();
+        this.separator = new Separator(box, this.highlightBox.renderer);
 
-    this.makeBox = function () {
-        let addRenderer = function (node) {
-            node.classList.add("style-scope")
-            node.classList.add("yt-live-chat-item-list-renderer");
-        }
+        contents.parentNode.parentNode.appendChild(this.separator.separatorElement);
+        contents.parentNode.parentNode.appendChild(this.highlightBox.renderer);
 
-        let renderer = document.createElement("div");
-        renderer.id = "live-chat-item-list-panel";
-        renderer.classList.add("style-scope")
-        renderer.classList.add("yt-live-chat-renderer");
-        renderer.setAttribute("allow-scroll", "");
-
-        let contents = document.createElement("div");
-        contents.id = "contents";
-        addRenderer(contents);
-        renderer.appendChild(contents);
-
-        let itemScroller = document.createElement("div");
-        itemScroller.id = "item-scroller";
-        itemScroller.classList.add("animated");
-        contents.appendChild(itemScroller);
-
-        let items = document.createElement("div");
-        items.id = "items";
-        addRenderer(items);
-        itemScroller.appendChild(items);
-        itemScroller.addEventListener("scroll", function () {
-            if (itemScroller.scrollTop > itemScroller.scrollTopMax - 15) {
-                itemScroller.scrollTo(0, itemScroller.scrollTopMax);
-            }
-        });
-
-        that.separator = new Separator(that.box, renderer);
-        let separator = that.separator.element;
-
-        let box = that.box.querySelector("#contents");
-        box.parentNode.parentNode.appendChild(separator);
-        box.parentNode.parentNode.appendChild(renderer);
-
-        that.itemBox = renderer;
-        that.itemScroller = itemScroller;
-        that.items = items;
-
-        that.updateSize();
+        this.separator.updateSize(this.size);
     }
 
 }
 
-let youtubeStreamHighlight = new YouTubeStreamHighlight();
-youtubeStreamHighlight.start();
+let youtubeStreamFilter = new YouTubeStreamFilter();
+youtubeStreamFilter.start();

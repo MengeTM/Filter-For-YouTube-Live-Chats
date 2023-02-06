@@ -1,25 +1,21 @@
-function MessageListener() {
+class MessageListener {
 
-    const that = this;
+    constructor() {
 
-    this.start = function () {
-        browser.runtime.onMessage.addListener(onMessage);
     }
 
-    function onError(error) {
-        console.log(error);
-    }
+    start = function () {
+        browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+            console.log("Received message: " + message.type, message, sender);
 
-
-    function onMessage(message, sender, sendResponse) {
-        console.log("Received message: " + message.type, message, sender);
-        switch (message.type) {
-            case "replay":
-                browser.tabs.sendMessage(sender.tab.id, { type: "replay" });
-                break;
-        }
+            switch (message.type) {
+                case "replay":
+                    browser.tabs.sendMessage(sender.tab.id, { type: "replay" });
+                    break;
+            }
+        });
     }
 }
 
-var messageListener = new MessageListener();
+let messageListener = new MessageListener();
 messageListener.start();
