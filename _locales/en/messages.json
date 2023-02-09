@@ -15,12 +15,136 @@
     "message": "Chat-box size",
     "description": "Size of the live-chat box setting."
   },
-  "settingsUsernames": {
-    "message": "Usernames",
-    "description": "Filter-option usernames."
+  "newFilter": {
+    "message": "New filter",
+    "description": "Settings: add new filter"
   },
-  "settingsMessages": {
-    "message": "Messages",
-    "description": "Filter-option messages."
+  "highlight": {
+    "message": "highlight",
+    "description": "Settings: select option for highlighting messages"
+  },
+  "delete": {
+    "message": "delete",
+    "description": "Settings: select option for deleting messages"
+  },
+  "startsWith": {
+    "message": "starts with",
+    "description": "Settings: select option for matching string starting with"
+  },
+  "endsWith": {
+    "message": "ends with",
+    "description": "Settings: select option for matching string ending with"
+  },
+  "includes": {
+    "message": "includes",
+    "description": "Settings: select option for matching string including"
+  },
+  "is": {
+    "message": "is the same as",
+    "description": "Settings: select option for matching string being the same as"
+  },
+  "regexp": {
+    "message": "match Regular Expression",
+    "description": "Settings: select option for matching string Regular Expression"
+  },
+  "some": {
+    "message": "any of",
+    "description": "Settings: select option for matching some"
+  },
+  "every": {
+    "message": "all of",
+    "description": "Settings: select option for matching every"
+  },
+  "none": {
+    "message": "none of",
+    "description": "Settings: select option for matching none"
+  },
+  "and": {
+    "message": "and",
+    "description": "Settings: select option for logical and"
+  },
+  "or": {
+    "message": "or",
+    "description": "Settings: select option for logical or"
+  },
+  "not": {
+    "message": "not",
+    "description": "Settings: select option for logical not"
+  },
+  "author": {
+    "message": "author",
+    "description": "Settings: select option for author string"
+  },
+  "message": {
+    "message": "message",
+    "description": "Settings: select option for message string"
+  },
+  "if": {
+    "message": "If",
+    "description": "Settings: When of When string matches"
+  },
+  "filterName": {
+    "message": "Filter name",
+    "description": "Settings: Filter name text field"
+  },
+  "enableHighlight": {
+    "message": "Enable highlight chat-box",
+    "description": "Settings: Slider for enabling highlight chat-box"
+  },
+  "expertMode": {
+    "message": "Expert mode",
+    "description": "Settings: Checkbox for enabling expert mode"
+  },
+  "placeholderRegexp": {
+    "message": "Regular Expression",
+    "description": "Settings: Placeholder for regular expression text input"
+  },
+  "placeholderStringArray": {
+    "message": "Search texts separated by \";\"",
+    "description": "Settings: Placeholder for string array text input"
+  },
+  "titleFilterName": {
+    "message": "Name of filter",
+    "description": "Settings: Title of filterName text box"
+  },
+  "titleSelectAction": {
+    "message": "What happens with filtered elements",
+    "description": "Settings: Title of filter action select"
+  },
+  "titleSelectAuthor": {
+    "message": "Search within author name or chat-message",
+    "description": "Settings: Title of author select"
+  },
+  "titleSelectAlgo": {
+    "message": "How to match",
+    "description": "Settings: Title of algorithm select"
+  },
+  "titleSelectArray": {
+    "message": "When more than one search-string is entered, this sets whether at least one, all or none should match it",
+    "description": "Settings: Title of array select"
+  },
+  "titleTextSearchRegex": {
+    "message": "What to match. Enter one Regular Expression (see https://regexone.com/ for help)",
+    "description": "Settings: Title of search text when regex"
+  },
+  "titleTextSearchStrings": {
+    "message": "What to match. Enter one or more search-texts, separated by \";\"",
+    "description": "Settings: Title of search text when strings"
+  },
+  "titleDeleteFilter": {
+    "message": "Delete filter",
+    "description": "Settings: Title of deleting filter"
+  },
+  "deleteFilterMessage": {
+    "message": "Delete filter \"$1\"?",
+    "description": "Settings: Confirmation message when deleting filter"
+  },
+  "titleSwitchEnableFilter": {
+    "message": "Enables or disables this filter",
+    "description": "Settings: Title enable or disable filter"
+  },
+  "titleSelectNumberFilter": {
+    "message": "Number of matching-rules for new filters",
+    "description": "Settings: Select number of filter elements"
   }
 }

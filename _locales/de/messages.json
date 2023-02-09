@@ -15,12 +15,136 @@
     "message": "Chat-Box Größe",
     "description": "Size of the live-chat box setting."
   },
-  "settingsUsernames": {
-    "message": "Benutzernamen",
-    "description": "Filter-option usernames."
+  "newFilter": {
+    "message": "Neuer Filter",
+    "description": "Settings: add new filter"
   },
-  "settingsMessages": {
-    "message": "Chat-Nachrichten",
-    "description": "Filter-option messages."
+  "highlight": {
+    "message": "hervorheben",
+    "description": "Settings: select option for highlighting messages"
+  },
+  "delete": {
+    "message": "löschen",
+    "description": "Settings: select option for deleting messages"
+  },
+  "startsWith": {
+    "message": "beginnt mit",
+    "description": "Settings: select option for matching string starting with"
+  },
+  "endsWith": {
+    "message": "endet mit",
+    "description": "Settings: select option for matching string ending with"
+  },
+  "includes": {
+    "message": "enthält",
+    "description": "Settings: select option for matching string including"
+  },
+  "is": {
+    "message": "ist gleich wie",
+    "description": "Settings: select option for matching string being the same as"
+  },
+  "regexp": {
+    "message": "matches Regular Expression",
+    "description": "Settings: select option for matching string Regular Expression"
+  },
+  "some": {
+    "message": "irgendwas von",
+    "description": "Settings: select option for matching some"
+  },
+  "every": {
+    "message": "alles von",
+    "description": "Settings: select option for matching every"
+  },
+  "none": {
+    "message": "nichts von",
+    "description": "Settings: select option for matching none"
+  },
+  "and": {
+    "message": "und",
+    "description": "Settings: select option for logical and"
+  },
+  "or": {
+    "message": "oder",
+    "description": "Settings: select option for logical or"
+  },
+  "not": {
+    "message": "nicht",
+    "description": "Settings: select option for logical not"
+  },
+  "author": {
+    "message": "Author",
+    "description": "Settings: select option for author string"
+  },
+  "message": {
+    "message": "Chat-Nachricht",
+    "description": "Settings: select option for message string"
+  },
+  "if": {
+    "message": "Wenn",
+    "description": "Settings: When of When string matches"
+  },
+  "filterName": {
+    "message": "Filter Name",
+    "description": "Settings: Filter name text field"
+  },
+  "enableHighlight": {
+    "message": "Aktiviere Highlight Chat-Box",
+    "description": "Settings: Slider for enabling highlight chat-box"
+  },
+  "expertMode": {
+    "message": "Experten Modus",
+    "description": "Settings: Checkbox for enabling expert mode"
+  },
+  "placeholderRegexp": {
+    "message": "Regular Expression",
+    "description": "Settings: Placeholder for regular expression text input"
+  },
+  "placeholderStringArray": {
+    "message": "Suchtext, separiert mit \";\"",
+    "description": "Settings: Placeholder for string array text input"
+  },
+  "titleFilterName": {
+    "message": "Name des Filters",
+    "description": "Settings: Title of filterName text box"
+  },
+  "titleSelectAction": {
+    "message": "Was mit den gematchten Chat-Nachrichten gemacht wird",
+    "description": "Settings: Title of filter action select"
+  },
+  "titleSelectAuthor": {
+    "message": "Suche im Author-Namen oder der Chat-Nachricht",
+    "description": "Settings: Title of author select"
+  },
+  "titleSelectAlgo": {
+    "message": "Wie gematcht wird",
+    "description": "Settings: Title of algorithm select"
+  },
+  "titleSelectArray": {
+    "message": "Setzt ob mindestens einer, alle, oder keiner der eingebenen Such-Texte gematcht werden muss",
+    "description": "Settings: Title of array select"
+  },
+  "titleTextSearchRegex": {
+    "message": "Zu matchende Regular Expression (siehe https://regexone.com/ für Hilfe)",
+    "description": "Settings: Title of search text when regex"
+  },
+  "titleTextSearchStrings": {
+    "message": "Einer oder mehrere zu matchende Such-Texte, welche mit \";\" separiert sind",
+    "description": "Settings: Title of search text when strings"
+  },
+  "titleDeleteFilter": {
+    "message": "Lösche filter",
+    "description": "Settings: Title of deleting filter"
+  },
+  "deleteFilterMessage": {
+    "message": "Lösche Filter \"$1\"?",
+    "description": "Settings: Confirmation message when deleting filter"
+  },
+  "titleSwitchEnableFilter": {
+    "message": "Aktiviert oder deaktiviert den Filter",
+    "description": "Settings: Title enable or disable filter"
+  },
+  "titleSelectNumberFilter": {
+    "message": "Anzahl Matching-Rules für neuen Filter",
+    "description": "Settings: Select number of filter elements"
   }
 }

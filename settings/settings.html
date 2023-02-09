@@ -1,29 +1,54 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<link rel="stylesheet" href="style.css"/>
-	</head>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="select_box.css" />
+    <link rel="stylesheet" href="toggle_switch.css" />
+    <script src="select_box.js"></script>
+    <script src="toggle_switch.js"></script>
+    <script src="settings_data.js"></script>
+    <script src="filter_list.js"></script>
+</head>
 
     <body>
-        <h2 class="i18n" data-id="settingsFilters"></h2>
         <div class="box">
-            <span class="item">
-                <span class="i18n" data-id="settingsBoxSize"></span>:&nbsp;
-                <input type="number" id="size" min="0" max="100" />&nbsp;%
-            </span>
-            <br />
+            <h2 class="i18n" data-id="settingsFilters"></h2>
+            <div id="settings" class="settings-box">
 
-            <span class="item">
-                <span class="i18n" data-id="settingsUsernames"></span>:&nbsp;
-                <input typeof="text" id="usernames" />
-            </span>
-            <br />
+                <span class="item">
+                    <span class="i18n" data-id="settingsBoxSize"></span>:&nbsp;
+                    <input type="number" id="size" min="0" max="100" />&nbsp;%
+                </span>
 
-            <span class="item">
-                <span class="i18n" data-id="settingsMessages"></span>:&nbsp;
-                <input typeof="text" id="keywords" />
-            </span>
+                <span class="item">
+                    <label class="switch">
+                        <input type="checkbox" id="enable_highlight" />
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="i18n" data-id="enableHighlight"></span>
+                </span>
+
+                <span class="item">
+                    <label class="switch">
+                        <input type="checkbox" id="enable_expert_mode" />
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="i18n" data-id="expertMode"></span>
+                </span>
+
+                <span class="item">
+                    <select id="select_new_filter" class="i18n" title-id="titleSelectNumberFilter" value="1" required="required">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+
+                    <input type="button" id="btn_add_filter" class="i18n" data-id="newFilter" name="Add filter" value="Add filter" />
+                </span>
+            </div>
+            <div id="filters-box">
+
+            </div>
         </div>
         <script src="settings.js"></script>
     </body>

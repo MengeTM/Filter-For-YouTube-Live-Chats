@@ -3,24 +3,12 @@ class YouTubeStreamFilter {
     constructor() {
         // Settings
         this.size = null;  // Size of chat-window
-        this.usernames = null;  // Usernames for highlighting
-        this.keywords = null;  // Message keywords used for highlighting
+        this.enableHighlight = null;
+        this.filters = null;  // Usernames for highlighting
 
         // Html elements
         this.highlightBox = null;  // Live-chat box for highlighting chat messages
         this.separator = null;  // Separator between live-chat and highlighBox for adjusing height
-    }
-
-    /*
-     * When the string is included in any of the keywords it returns true
-     */
-    includesAny = function (string, keywords) {
-        let any = false;
-        for (let keyword of keywords) {
-            any = any || string.includes(keyword);
-        }
-
-        return any;
     }
 
     /*
@@ -53,13 +41,36 @@ class YouTubeStreamFilter {
 
                 let message = this.mergeMessage(node.querySelector("#content>#message"));
 
-                // Matches author and message of chat message
-                if (this.highlightBox !== null && (this.includesAny(authorName, this.usernames) || this.includesAny(message, this.keywords))) {
-                    console.log(message);
 
-                    // Adds chat message to highlight chat box
-                    this.highlightBox.addMessage(node);
+                // Matches author and message of chat message
+                let data = { author: authorName, message: message };
+                let move = true;
+                if (this.filters !== null) { 
+                    for (let filter of this.filters) {
+                        if (filter.enable) {
+                            switch (filter.type) {
+                                case "highlight":
+                                    if (this.highlightBox !== null && move && filter.data.evaluate(data)) {
+                                        console.log("highlight", message);
+
+                                        // Adds chat message to highlight chat box
+                                        this.highlightBox.addMessage(node);
+                                        move = false;
+                                    }
+                                    break;
+                                case "delete":
+                                    if (move && filter.data.evaluate(data)) {
+                                        console.log("delete", message);
+
+                                        node.parentNode.removeChild(node);
+                                        move = false;
+                                    }
+                                    break;
+                            }
+                        }
+                    }
                 }
+                
             }
         }
     });
@@ -74,10 +85,25 @@ class YouTubeStreamFilter {
         getting.then((result) => {
 
             this.size = result.size || 30;
-            this.usernames = result.usernames || [];
-            this.keywords = result.keywords || ["[EN]"];
+            this.enableHighlight = result.enableHighlight;
+            this.filters = result.filters || {
+                name: "",
+                type: "highlight",
+                data_type: "1",
+                data: new LogicalArray("some", new StringRegex("includes", new StringOption("message"), new TextElement(["[]"]))),
+                enable: true
+            };
 
-            this.setHighlightBox();
+            if (this.enableHighlight === undefined) {
+                this.enableHighlight = true;
+            }
+
+            if (this.enableHighlight) {
+                this.setHighlightBox();
+            }
+
+            let parser = new JSONParser();
+            this.filters = parser.parseJSON(this.filters);
         }, (error) => {
             console.log(`Error: ${error}`);
         });
@@ -98,7 +124,7 @@ class YouTubeStreamFilter {
             browser.runtime.onMessage.addListener((message) => {
                 switch (message.type) {
                     case "replay":
-                        // Removes highlighted messages when video is seeked
+                        // Removes highlighted messages when video is seeking
                         if (this.highlightBox !== null) {
                             this.highlightBox.clear();
                         }
@@ -108,8 +134,8 @@ class YouTubeStreamFilter {
             // Starts messages observer
             this.chatobserver.observe(items, { attributes: false, childList: true, subtree: false });
         } else {  // YouTube player
-            // Sends message to background page if YouTube video seeked
-            document.getElementsByClassName("video-stream")[0].addEventListener("seeked", () => {
+            // Sends message to background page if YouTube video seeking
+            document.getElementsByClassName("video-stream")[0].addEventListener("seeking", () => {
                 browser.runtime.sendMessage({ "type": "replay" });
             });
         }

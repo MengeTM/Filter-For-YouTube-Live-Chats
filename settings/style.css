@@ -1,35 +1,162 @@
-html, body {
-  width: 100%;
+.box {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    padding: 7px;
+    font-size: 12pt;
+    font-family: Arial;
+    background-color: #F9F9F9;
 }
 
-.box {
-  padding:7px;
-  font-size: 1.5em;
-  border-width: 1px;
-  border-style: solid;
-  width: 75%;
-  float: left;
-  margin: 10px;
-  border-color: black;
+.settings-box {
+    background-color: #E0E0E0;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    align-items: flex-start;
+    margin-bottom: 5px;
+    padding: 5px;
 }
 
 .description {
-  display: inline-block;
-  text-align: left;
-  width: 117px;
+    display: inline-block;
+    text-align: left;
+    width: 117px;
 }
 
 .item {
-  width: 100%;
-  padding: 3px;
-  font-size: 1em;
-  text-align: center;
+    flex: none;
+    padding: 5px 3px 5px 3px;
+    font-size: 12pt;
+    text-align: center;
 }
 
-.option {
-  cursor: pointer;
+#select_new_filter {
+    margin-top: 5px;
+    padding: 5px;
 }
 
-.option:hover {
-  background-color: #CFF2F2;
+#btn_add_filter {
+    margin-top: 5px;
+    padding: 5px;
+}
+
+#filters-box {
+    background-color: #EFEFEF;
+    border-radius: 5px;
+    flex: auto;
+    position: relative;
+}
+.filters-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    flex: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding: 3px;
+}
+
+.filter {
+    border-style: solid;
+    border-width: 2px;
+    border-color: #a9deff;
+    border-radius: 5px;
+}
+
+.filters-container > div ~ div {
+    margin-top: 10px;
+}
+
+.filter > .main {
+    display: flex;
+    height: 50px;
+    background-color: #bfe7ffff;
+    padding: 3px 15px 3px 3px;
+}
+
+.main input {
+    text-align: center;   
+}
+
+.main select {
+    text-align: center;
+}
+
+.main > .name {
+    flex: none;
+    margin: 3px;
+}
+
+.main > .filter-type {
+    flex: none;
+    margin: 3px 15px 3px 3px;
+}
+
+.main > .filter-container {
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: #a9deff;
+    padding: 3px 3px 3px 3px;
+    display: flex;
+    flex: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+
+.input {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex: auto;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    height: auto;
+    margin: 3px;
+}
+
+.main > .enable {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex: none;
+    margin-left: 20px;
+}
+
+
+.filter > .control {
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: #a9deff;
+    padding: 3px 15px 3px 3px;
+}
+
+.control > img {
+    width: 15px;
+    margin-left: 5px;
+}
+.control {
+    padding-right: 30px;
+}
+
+.dragging {
+    opacity: 30%;
 }
