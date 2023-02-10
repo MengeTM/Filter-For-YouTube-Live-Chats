@@ -11,21 +11,60 @@ yt-live-chat-item-list-renderer+#separator+div {
     z-index: 0;
 }
 
-div > #contents > #item-scroller {
+.sf-highlight-chat-box > #contents > #item-scroller {
     overflow-y: scroll;
     height: 100%;
 }
 
-#separator.youtube-stream-slide {
+#separator.sf-separator {
     border-bottom-style: solid;
     border-bottom-width: 5px;
 }
 
-#mouse-element {
+.sf-separator-mouse {
     position: absolute;
     top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
     z-index: 1;
+}
+
+.sf-hidden {
+    display: none !important;
+}
+
+.sf-menu-item {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    font-family: "Roboto", "Noto", sans-serif;
+    font-weight: 400;
+    line-height: 24px;
+    font-size: 16px;
+    white-space: nowrap;
+    padding: 0px 12px 0px 16px;
+    cursor: pointer;
+    min-height: 36px;
+}
+
+.sf-menu-item:hover {
+    background-color: #e5e5e5;
+}
+
+.sf-menu-item:focus {
+    background-color: #e0e0e0;
+}
+
+.sf-menu-item > img {
+    margin-right: 16px;
+    width: 24px;
+    height: 24px;
+}
+
+.sf-menu-item > span {
+    color: var(--yt-spec-text-primary);
+    margin-right: 24px;
+    font-size: 1.4rem;
+    line-height: 2rem;
 }

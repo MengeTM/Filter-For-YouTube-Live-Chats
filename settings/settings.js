@@ -7,6 +7,8 @@ class Setting {
 
         this.filterList = new FilterList();
         document.querySelector("#filters-box").appendChild(this.filterList.filters);
+
+        document.title = i18n("titleSettingsPage");
     }
 
     /*
@@ -22,7 +24,7 @@ class Setting {
                 name: "",
                 type: "highlight",
                 data_type: "1",
-                data: new LogicalArray("some", new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]))),
+                data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")),
                 enable: true
             };
 

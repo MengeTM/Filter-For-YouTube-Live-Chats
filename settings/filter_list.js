@@ -48,17 +48,17 @@ class _FilterBox {
     block_one = function (data) {
         if (browser.i18n.getUILanguage().startsWith("ja")) {
             return [
-                data.array.key.element,     // string
-                data.array.regexp.element,  // text
-                data.element,               // every
-                data.array.element,         // matches
+                data.key.element,       // string
+                data.regexp.element,    // text
+                data.bool.element,      // every
+                data.element,           // matches
             ];
         } else {
             return [
-                data.array.key.element,     // string
-                data.array.element,         // matches
-                data.element,               // every
-                data.array.regexp.element   // text
+                data.key.element,       // string
+                data.element,           // matches
+                data.bool.element,      // every
+                data.regexp.element     // text
             ];
         }
     }
@@ -66,27 +66,27 @@ class _FilterBox {
     block_two = function (data) {
         if (browser.i18n.getUILanguage().startsWith("ja")) {
             return [
-                data.a.array.key.element,       // string
-                data.a.array.regexp.element,    // text
-                data.a.element,                 // every
-                data.a.array.element,           // matches
+                data.a.key.element,         // string
+                data.a.regexp.element,      // text
+                data.a.bool.element,        // every
+                data.a.element,             // matches
                 this.getText(i18n("and")),
-                data.b.array.key.element,       // string
-                data.b.array.regexp.element,    // text
-                data.b.element,                 // every
-                data.b.array.element,           // matches
+                data.b.key.element,         // string
+                data.b.regexp.element,      // text
+                data.b.bool.element,        // every
+                data.b.element,             // matches
             ];
         } else {
             return [
-                data.a.array.key.element,       // string
-                data.a.array.element,           // matches
-                data.a.element,                 // every
-                data.a.array.regexp.element,    // text
+                data.a.key.element,         // string
+                data.a.element,             // matches
+                data.a.bool.element,        // every
+                data.a.regexp.element,      // text
                 this.getText(i18n("and")),
-                data.b.array.key.element,       // string
-                data.b.array.element,           // matches
-                data.b.element,                 // every
-                data.b.array.regexp.element     // text
+                data.b.key.element,         // string
+                data.b.element,             // matches
+                data.b.bool.element,        // every
+                data.b.regexp.element       // text
             ];
         }
     }
@@ -112,7 +112,7 @@ class Filter {
                         name: "",
                         type: "highlight",
                         data_type: "1",
-                        data: new LogicalArray("some", new StringRegex("includes", new StringOption("message"), new TextElement([]))),
+                        data: new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some")),
                         enable: true
                     };
                     break;
@@ -121,9 +121,7 @@ class Filter {
                         name: "",
                         type: "highlight",
                         data_type: "2",
-                        data: new LogicalBinary("and", new LogicalArray("some", new StringRegex("includes", new StringOption("author"),
-                            new TextElement([]))), new LogicalArray("some", new StringRegex("includes", new StringOption("message"),
-                                new TextElement([])))),
+                        data: new LogicalBinary("and", new StringRegex("includes", new StringOption("author"), new TextElement([]), new LogicalArray("some")), new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some"))),
                         enable: true
                     };
                     break;

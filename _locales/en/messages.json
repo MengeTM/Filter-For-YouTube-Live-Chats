@@ -146,5 +146,17 @@
   "titleSelectNumberFilter": {
     "message": "Number of matching-rules for new filters",
     "description": "Settings: Select number of filter elements"
+  },
+  "titleSettingsPage": {
+    "message": "YouTube Stream filter settings",
+    "description": "Tab title of settings page"
+  },
+  "menuSettingsPage": {
+    "message": "Filter settings",
+    "description": "YouTube menu item for opening filter settings"
+  },
+  "menuHideHighlight": {
+    "message": "Highlight chat",
+    "description": "YouTube menu item for disabling highlight chat-box"
   }
 }

@@ -146,5 +146,17 @@
   "titleSelectNumberFilter": {
     "message": "新しいフィルターの一致ルールの数",
     "description": "Settings: Select number of filter elements"
+  },
+  "titleSettingsPage": {
+    "message": "YouTube Stream Filter の設定",
+    "description": "Tab title of settings page"
+  },
+  "menuSettingsPage": {
+    "message": "フィルタ設定",
+    "description": "YouTube menu item for opening filter settings"
+  },
+  "menuHideHighlight": {
+    "message": "チャットのハイライト",
+    "description": "YouTube menu item for disabling highlight chat-box"
   }
 }

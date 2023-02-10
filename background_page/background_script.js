@@ -12,6 +12,9 @@ class MessageListener {
                 case "replay":
                     browser.tabs.sendMessage(sender.tab.id, { type: "replay" });
                     break;
+                case "settings":
+                    browser.runtime.openOptionsPage();
+                    break;
             }
         });
     }

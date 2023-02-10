@@ -12,6 +12,7 @@ class ChatBox {
         renderer.id = "live-chat-item-list-panel";
         renderer.classList.add("style-scope")
         renderer.classList.add("yt-live-chat-renderer");
+        renderer.classList.add("sf-highlight-chat-box");
         renderer.setAttribute("allow-scroll", "");
         this.renderer = renderer;
 

@@ -21,9 +21,9 @@ class JSONParser {
                 case "StringOption":
                     return new StringOption(json["name"]);
                 case "StringRegex":
-                    return new StringRegex(json["name"], this.parseJSON(json["key"]), this.parseJSON(json["regexp"]));
+                    return new StringRegex(json["name"], this.parseJSON(json["key"]), this.parseJSON(json["regexp"]), this.parseJSON(json["bool"]));
                 case "LogicalA":
-                    return new LogicalArray(json["name"], this.parseJSON(json["array"]));
+                    return new LogicalArray(json["name"]);
                 default:
                     throw Error(`Error while evaluating, type="${json["type"]}" is not available`);
             }
@@ -202,47 +202,55 @@ class StringOption extends BaseSelect {
 }
 
 class LogicalArray extends BaseSelect {
-    constructor(name, array) {
+    constructor(name) {
         super(name, ["some", "every", "none"], i18n(["some", "every", "none"]));
-
-        this.array = array;
+        this.name = name;
 
         this.element.title = i18n("titleSelectArray");
+
+        this.element.addEventListener("change", () => { this.name = this.element.value; });
 
         this.element.namedItem("every").classList.add("expert");
         this.element.namedItem("none").classList.add("expert");
     }
 
-    json = function () {
-        return { type: "LogicalA", name: this.element.value, array: this.array.json() };
-    }
+    disable = function (disabled) {
+        this.element.disabled = disabled;
 
-    evaluate = function (data) {
-        switch (this.name) {
-            case "some":
-                return this.array.evaluate(data).some((i) => { return i; });
-            case "every":
-                return this.array.evaluate(data).every((i) => { return i; });
-            case "none":
-                return !this.array.evaluate(data).some((i) => { return i; });
+        if (disabled) {
+            this.element.value = "";
+        } else {
+            this.element.value = this.name;
         }
     }
 
-    replace = function (data) {
-        return this.array.replace(data);
+    json = function () {
+        return { type: "LogicalA", name: this.name };
+    }
+
+    evaluate = function (array, fun) {
+        switch (this.name) {
+            case "some":
+                return array.some((i) => { return fun(i); });
+            case "every":
+                return array.every((i) => { return fun(i); });
+            case "none":
+                return !array.some((i) => { return fun(i); });
+        }
     }
 
     toString = function () {
-        return `${this.name} of ${this.array.toString()}`
+        return `${this.name}`
     }
 }
 
 class StringRegex extends BaseSelect {
-    constructor(name, key, regexp) {
+    constructor(name, key, regexp, bool) {
         super(name, ["startsWith", "endsWith", "includes", "is", "regexp"], i18n(["startsWith", "endsWith", "includes", "is", "regexp"]));
 
         this.key = key;
         this.regexp = regexp;
+        this.bool = bool;
 
         this.element.title = i18n("titleSelectAlgo");
         this.setElements();
@@ -255,7 +263,7 @@ class StringRegex extends BaseSelect {
     }
 
     json = function () {
-        return { type: "StringRegex", name: this.element.value, key: this.key.json(), regexp: this.regexp.json() };
+        return { type: "StringRegex", name: this.element.value, key: this.key.json(), regexp: this.regexp.json(), bool: this.bool.json() };
     }
 
     evaluate = function (data) { 
@@ -263,15 +271,15 @@ class StringRegex extends BaseSelect {
 
         switch (this.name) { 
             case "startsWith":
-                return this.regexp.string.map((key) => { return string.startsWith(key.toLocaleLowerCase()); });
+                return this.bool.evaluate(this.regexp.string, (key) => { return string.startsWith(key.toLocaleLowerCase()); });
             case "endsWith":
-                return this.regexp.string.map((key) => { return string.endsWith(key.toLocaleLowerCase()); });
+                return this.bool.evaluate(this.regexp.string, (key) => { return string.endsWith(key.toLocaleLowerCase()); });
             case "includes":
-                return this.regexp.string.map((key) => { return string.includes(key.toLocaleLowerCase()); });
+                return this.bool.evaluate(this.regexp.string, (key) => { return string.includes(key.toLocaleLowerCase()); });
             case "is":
-                return this.regexp.string.map((key) => { return string == key.toLocaleLowerCase() });
+                return this.bool.evaluate(this.regexp.string, (key) => { return string == key.toLocaleLowerCase() });
             case "regexp":
-                return [ string.match(new RegExp(this.regexp.string)) !== null ];
+                return string.match(new RegExp(this.regexp.string)) !== null;
         }
     }
 
@@ -307,13 +315,15 @@ class StringRegex extends BaseSelect {
         if (this.element.value == "regexp") {
             this.regexp.element.placeholder = i18n("placeholderRegexp");
             this.regexp.element.title = i18n("titleTextSearchRegex");
+            this.bool.disable(true);
         } else {
             this.regexp.element.placeholder = i18n("placeholderStringArray");
             this.regexp.element.title = i18n("titleTextSearchStrings");
+            this.bool.disable(false);
         }
     }
 
     toString = function () {
-        return `${this.key.name} ${this.name} ${this.regexp.string}`;
+        return `${this.key.name} ${this.name} ${this.bool.toString()} of ${this.regexp.string}`;
     }
 }

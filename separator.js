@@ -12,32 +12,51 @@ class Separator {
         this.separatorElement.classList.add("style-scope");
         this.separatorElement.classList.add("yt-live-chat-renderer");
         this.separatorElement.classList.add("youtube-stream-slide");
+        this.separatorElement.classList.add("sf-separator");
 
         // Overlay for catching mouse events from all chat-boxes
         this.mouseElement = document.createElement("div");
         this.mouseElement.id = "mouse-element";
-        this.mouseElement.classList.add("mouse-element");
+        this.mouseElement.classList.add("sf-separator-mouse");
 
         // Start variables when starting drag of separator
         this.startY = null;  // Y-position
-        this.startHeight = null; // box_bottom height
-        this.startSize = null;  //  box_bottom
+        this.height = null;  // height both chat-boxes
+        this.startHeight = null;  // height box_bottom
+
+        this.startDragging = function (y) {
+            // Start drag if not dragging
+            if (this.startY === null) {
+                // Set start variables
+                this.startY = y;
+                this.height = this.box_top.offsetHeight + this.box_bottom.offsetHeight;
+                this.startHeight = this.box_bottom.offsetHeight;
+
+                // Append mouseElement for getting mousemove and mouseup events
+                this.box_bottom.parentNode.appendChild(this.mouseElement);
+            }
+        }
+
+        this.stopDragging = function (y) {
+            // Stop dragging by removing mouseElement
+            this.box_bottom.parentNode.removeChild(this.mouseElement);
+
+            // Set new height of box_bottom and save height
+            let size = this.getSize(y - this.startY);
+            this.updateSize(size);
+            browser.storage.sync.set({ size: size });
+
+            // Enabling new drag events by setting variables to null
+            this.startY = null;
+            this.startHeight = null;
+        }
 
         // Add event listeners
 
         this.separatorElement.addEventListener("mousedown", (event) => {
             event.preventDefault();
 
-            // Start drag if not dragging
-            if (this.startY === null) {
-                // Set start variables
-                this.startY = event.clientY;
-                this.startHeight = this.box_bottom.offsetHeight;
-                this.startSize = this.box_bottom.offsetHeight / (this.box_top.offsetHeight + this.box_bottom.offsetHeight);
-
-                // Append mouseElement for getting mousemove and mouseup events
-                this.box_bottom.parentNode.appendChild(this.mouseElement);
-            }
+            this.startDragging(event.clientY);
         });
 
         this.mouseElement.addEventListener("mousemove", (event) => {
@@ -54,17 +73,13 @@ class Separator {
         this.mouseElement.addEventListener("mouseup", (event) => {
             event.preventDefault();
 
-            // Stop dragging by removing mouseElement
-            this.box_bottom.parentNode.removeChild(this.mouseElement);
+            this.stopDragging(event.clientY);
+        });
 
-            // Set new height of box_bottom and save height
-            this.startSize = this.getSize(event.clientY - this.startY);
-            this.updateSize(this.startSize);
-            browser.storage.sync.set({ size: this.startSize });
+        this.mouseElement.addEventListener("mouseleave", (event) => {
+            event.preventDefault();
 
-            // Enabling new drag events by setting variables to null
-            this.startY = null;
-            this.startSize = null;
+            this.stopDragging(event.clientY);
         });
     }
 
@@ -72,7 +87,7 @@ class Separator {
      * Gets flex size of box_bottom when moving mouse dY pixel
      */
     getSize = function (dY) {
-        let size = this.startSize * (this.startHeight - dY) / this.startHeight * 100;
+        let size = (this.startHeight - dY) / this.height * 100;
 
         size = Math.round(size);
         size = Math.min(Math.max(size, 0), 100);
