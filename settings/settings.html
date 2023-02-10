@@ -14,17 +14,27 @@
     <body>
         <div class="box">
             <h2 class="i18n" data-id="settingsFilters"></h2>
+            <div id="filters-box">
+                <div class="header">
+                    <span class="i18n" data-id="filterName"></span>
+                    <span class="i18n" data-id="filterAction"></span>
+                    <span class="i18n" data-id="filterRule"></span>
+                </div>
+                <div class="body">
+                    <div id="filters"></div>
+                </div>
+            </div>
             <div id="settings" class="settings-box">
 
                 <span class="item">
                     <span class="i18n" data-id="settingsBoxSize"></span>:&nbsp;
-                    <input type="number" id="size" min="0" max="100" />&nbsp;%
+                    <input type="number" id="size" class="i18n" title-id="titleHighlightBoxSize" min="0" max="100" />&nbsp;%
                 </span>
 
                 <span class="item">
                     <label class="switch">
                         <input type="checkbox" id="enable_highlight" />
-                        <span class="slider round"></span>
+                        <span class="slider round i18n" title-id="titleEnableHighlightBox"></span>
                     </label>
                     <span class="i18n" data-id="enableHighlight"></span>
                 </span>
@@ -32,7 +42,7 @@
                 <span class="item">
                     <label class="switch">
                         <input type="checkbox" id="enable_expert_mode" />
-                        <span class="slider round"></span>
+                        <span class="slider round i18n" title-id="titleExpertMode"></span>
                     </label>
                     <span class="i18n" data-id="expertMode"></span>
                 </span>
@@ -43,10 +53,8 @@
                         <option value="2">2</option>
                     </select>
 
-                    <input type="button" id="btn_add_filter" class="i18n" data-id="newFilter" name="Add filter" value="Add filter" />
+                    <input type="button" id="btn_add_filter" class="i18n" data-id="newFilter" title-id="titleNewFilter" name="Add filter" value="Add filter" />
                 </span>
-            </div>
-            <div id="filters-box">
             </div>
         </div>
         <script src="settings.js"></script>

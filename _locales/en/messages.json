@@ -4,11 +4,11 @@
     "description": "Name of extension."
   },
   "extensionDescription": {
-    "message": "This addon highlights chat-messages from YouTube streams by displaying them in a separate chat-box. When selecting e.g. \"[EN]\" it allows to highlight Hololive English translators from stream messages.",
+    "message": "This addon filters chat-messages from YouTube live streams. It either highlights chat-messages by displaying them in a separate chat-box, or deletes them. When selecting e.g. \"[EN]\", the addoon allows to highlight Hololive English translators from stream messages.",
     "description": "Description of the extension."
   },
   "settingsFilters": {
-    "message": "Filter settings",
+    "message": "YouTube Stream Filter settings",
     "description": "Filter settings for live-chat."
   },
   "settingsBoxSize": {
@@ -87,6 +87,14 @@
     "message": "Filter name",
     "description": "Settings: Filter name text field"
   },
+  "filterAction": {
+    "message": "Filter action",
+    "description": "Settings: Name of column filter action"
+  },
+  "filterRule": {
+    "message": "Filter matching rules",
+    "description": "Settings: Name of column filter rules"
+  },
   "enableHighlight": {
     "message": "Enable highlight chat-box",
     "description": "Settings: Slider for enabling highlight chat-box"
@@ -146,6 +154,22 @@
   "titleSelectNumberFilter": {
     "message": "Number of matching-rules for new filters",
     "description": "Settings: Select number of filter elements"
+  },
+  "titleNewFilter": {
+    "message": "Adds a new filter rule",
+    "description": "Settings: Title button filter"
+  },
+  "titleExpertMode": {
+    "message": "Enables expert mode for using regular expressions for matching",
+    "description": "Settings: Title of switch expert mode"
+  },
+  "titleEnableHighlightBox": {
+    "message": "Shows a chat-box below the YouTube chat-box where highlighted chat-messages are displayed",
+    "description": "Settings: Title of switch highlight box"
+  },
+  "titleHighlightBoxSize": {
+    "message": "Size of the highlight chat-box in relation to YouTube chat-box in percent",
+    "description": "Sittings: Title of highlight box size"
   },
   "titleSettingsPage": {
     "message": "YouTube Stream filter settings",

@@ -5,8 +5,7 @@ class Setting {
         this.expertMode = null;
         this.filters = null;
 
-        this.filterList = new FilterList();
-        document.querySelector("#filters-box").appendChild(this.filterList.filters);
+        this.filterList = new FilterList(document.querySelector("#filters"));
 
         document.title = i18n("titleSettingsPage");
     }

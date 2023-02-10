@@ -149,7 +149,7 @@ class Filter {
             event.stopPropagation();
 
             let filter = document.getElementById(event.dataTransfer.getData("filter"));
-            if (filter !== null) {
+            if (filter !== null && this.filterElement !== filter) {
                 this.swapFilter(filter);
             }
         });
@@ -170,10 +170,12 @@ class Filter {
         });
     }
 
-    swapFilter(element) {
-        let filterParent = element.parentElement;
-        this.filterElement.parentElement.appendChild(element);
-        filterParent.appendChild(this.filterElement);
+    swapFilter(filterElement) {
+        let element = document.createElement("div");
+
+        this.filterList.filters.replaceChild(element, filterElement);
+        this.filterList.filters.replaceChild(filterElement, this.filterElement);
+        this.filterList.filters.replaceChild(this.filterElement, element);
     }
 
     addDragListener = function (element) {
@@ -198,10 +200,6 @@ class Filter {
         this.filterList.save();
     }
 
-    editFilter = function () {
-
-    }
-
     deleteFilter = function () {
         this.filterList.deleteFilter(this);
     }
@@ -209,7 +207,6 @@ class Filter {
     addMain = function () {
         let mainElement = document.createElement("div");
         mainElement.classList.add("main");
-        mainElement.classList.add("flex-container");
         this.filterElement.appendChild(mainElement);
 
         this.filterNameElement = new TextElement(this.filterData.name, false);
@@ -272,8 +269,12 @@ class Filter {
 }
 
 class FilterList {
-    constructor() { 
-        this.filters = document.createElement("div");
+    constructor(filtersElement) { 
+        if (filtersElement === undefined) {
+            filtersElement = document.createElement("div");
+        }
+
+        this.filters = filtersElement;
         this.filters.id = "filters";
         this.filters.classList.add("filters-container")
 
@@ -287,10 +288,7 @@ class FilterList {
 
         filter.filterList = this;
 
-        let dragElement = document.createElement("div");
-        dragElement.appendChild(filter.filterElement);
-
-        this.filters.appendChild(dragElement);
+        this.filters.appendChild(filter.filterElement);
         filter.filterElement.id = `filter_${this.next_id}`;
         this.next_id += 1;
 
@@ -298,7 +296,7 @@ class FilterList {
     }
 
     deleteFilter = function (filter) {
-        this.filters.removeChild(filter.filterElement.parentElement);
+        this.filters.removeChild(filter.filterElement);
         filter.filterList = null;
 
         this.save();
@@ -313,8 +311,8 @@ class FilterList {
 
     save = function () {
         let filters = [];
-        for (let dropElement of this.filters.childNodes) {
-            filters.push(dropElement.firstElementChild.filter.json());
+        for (let filterElement of this.filters.childNodes) {
+            filters.push(filterElement.filter.json());
         }
 
         browser.storage.sync.set({ filters: filters });

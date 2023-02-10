@@ -4,11 +4,11 @@
     "description": "Name of extension."
   },
   "extensionDescription": {
-    "message": "このアドオンは、YouTubeストリームからのチャットメッセージを別のチャットボックスに表示して強調表示します。たとえば \"[EN]\" を設定すると、ストリームからHololiveの英語翻訳者のメッセージを強調表示できます。",
+    "message": "このアドオンは、YouTube ライブ ストリームからのチャット メッセージをフィルタリングします。 チャット メッセージを別のチャット ボックスに表示して強調表示するか、削除します。",
     "description": "Description of the extension."
   },
   "settingsFilters": {
-    "message": "フィルター設定",
+    "message": "YouTube Stream Filter 設定",
     "description": "Filter settings for live-chat."
   },
   "settingsBoxSize": {
@@ -87,6 +87,14 @@
     "message": "フィルター名",
     "description": "Settings: Filter name text field"
   },
+  "filterAction": {
+    "message": "フィルタ アクション",
+    "description": "Settings: Name of column filter action"
+  },
+  "filterRule": {
+    "message": "フィルター一致ルール",
+    "description": "Settings: Name of column filter rules"
+  },
   "enableHighlight": {
     "message": "ハイライトチャットボックスを有効にする",
     "description": "Settings: Slider for enabling highlight chat-box"
@@ -146,6 +154,22 @@
   "titleSelectNumberFilter": {
     "message": "新しいフィルターの一致ルールの数",
     "description": "Settings: Select number of filter elements"
+  },
+  "titleNewFilter": {
+    "message": "新しいフィルタ ルールを追加します",
+    "description": "Settings: Title button filter"
+  },
+  "titleExpertMode": {
+    "message": "マッチングに正規表現を使用するためのエキスパート モードを有効にします",
+    "description": "Settings: Title of switch expert mode"
+  },
+  "titleEnableHighlightBox": {
+    "message": "YouTube チャット ボックスの下にチャット メッセージを強調表示するためのチャット ボックスを表示します",
+    "description": "Settings: Title of switch highlight box"
+  },
+  "titleHighlightBoxSize": {
+    "message": "YouTube チャット ボックスに対するハイライト チャット ボックスのサイズ (パーセント)",
+    "description": "Sittings: Title of highlight box size"
   },
   "titleSettingsPage": {
     "message": "YouTube Stream Filter の設定",
