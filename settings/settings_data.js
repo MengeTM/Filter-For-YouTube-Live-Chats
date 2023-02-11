@@ -3,14 +3,19 @@ class JSONParser {
 
     }
 
+    /*
+     * Parses JSON data of a Filter to HTML elements
+     */
     parseJSON = function (json) {
         if (json.length !== undefined) {
+            // List
             for (let filter of json) {
                 filter.data = this.parseJSON(filter.data);
             }
 
             return json;
         } else {
+            // Input object
             switch (json["type"]) {
                 case "TextElement":
                     return new TextElement(json["string"], json["is_array"]);
@@ -31,6 +36,9 @@ class JSONParser {
     }
 }
 
+/*
+ * Locale Message from list or id
+ */
 function i18n(id, options = []) {
     if (Array.isArray(id)) {
         return id.map((_id) => { return i18n(_id); });
@@ -39,34 +47,47 @@ function i18n(id, options = []) {
     }
 }
 
+/*
+ * Input text element
+ */
 class TextElement {
     constructor(string, isArray = true) {
+        // String of input
         this.string = string;
 
+        // If string is a list of strings or a string
         this.isArray = isArray;
 
+        // HTML input element
         this.element = document.createElement("input");
         this.element.type = "text";
         this.element.classList.add("input");
 
+        // Sets value of HTML element
         if (isArray && string.push !== undefined) {
             this.element.value = string.join("; ");
         } else {
             this.element.value = string;
         }
 
+        // Formats string
         this.element.addEventListener("change", () => {
             this.update();
         });
     }
 
+    /*
+     * Sets whether strings are formatted as lists or as strings
+     */
     setArray(isArray) {
         this.isArray = isArray;
 
         this.update();
     }
 
-    // Formats a string separated by ";" into an Array and deletes empty elements
+    /*
+     * Formats a string separated by ";" into an Array and deletes empty elements
+     */
     split = function (string) {
         let stringList = string.trim().split(new RegExp("[ ]*;[ ]*"));
 
@@ -74,6 +95,9 @@ class TextElement {
         return stringList;
     }
 
+    /*
+     * Sets and formats the input string
+     */
     update = function () {
         let string = this.element.value;
 
@@ -85,13 +109,20 @@ class TextElement {
         this.string = string;
     }
 
+    /*
+     * JSON data from text element
+     */
     json = function () {
         return { type: "TextElement", string: this.split(this.element.value), is_array: this.isArray };
     }
 }
 
+/*
+ * Base HTML select, sets option elements
+ */
 class BaseSelect extends SelectBox {
     constructor(name, options, textList) {
+        // List of value, text for generating options
         let selectOptions = [];
         for (let i = 0; i < options.length; i++) {
             selectOptions.push({ value: options[i], text: textList === undefined ? options[i] : textList[i] });
@@ -99,6 +130,7 @@ class BaseSelect extends SelectBox {
 
         super(name, selectOptions);
 
+        // HTML select element
         this.element.classList.add("input");
         this.element.addEventListener("change", () => {
             this.name = this.element.value;
@@ -112,15 +144,24 @@ class BaseSelect extends SelectBox {
         this.name = name;
     }
 
+    /*
+     * JSON data from HTML element
+     */
     json = function () {
 
     }
 
+    /*
+     * String
+     */
     toString = function () {
 
     }
 }
 
+/*
+ * Logical Binary Operator
+ */
 class LogicalBinary extends BaseSelect {
     constructor(name, a, b) {
         super(name, ["and", "or"], i18n(["and", "or"]));
@@ -131,10 +172,16 @@ class LogicalBinary extends BaseSelect {
         this.element.title = "If author AND message should match, or if message OR author should match";
     }
 
+    /*
+     * JSON data from HTML element
+     */
     json = function () {
         return { type: "LogicalB", name: this.element.value, a: this.a.json(), b: this.b.json() };
     }
 
+    /*
+     * Evaluates if data matches
+     */
     evaluate = function (data) {
         switch (this.name) {
             case "and":
@@ -144,6 +191,9 @@ class LogicalBinary extends BaseSelect {
         }
     }
 
+    /*
+     * Replaces data if data matches
+     */
     replace = function (data) {
         data = this.a.replace(data);
         data = this.b.replace(data);
@@ -151,11 +201,17 @@ class LogicalBinary extends BaseSelect {
         return data;
     }
 
+    /*
+     * String
+     */
     toString = function () {
         return `${a.toString()} ${this.name} ${b.toString()}`;
     }
 }
 
+/*
+ * Logical Unary Oparator
+ */
 class LogicalUnary extends BaseSelect {
     constructor(name, a) { 
         super(name, ["not", "none"], [i18n("not"), ""]);
@@ -163,10 +219,16 @@ class LogicalUnary extends BaseSelect {
         this.a = a;
     }
 
+    /*
+     * JSON data from HTML element
+     */
     json = function () {
         return { type: "LogicalU", name: this.element.value, a: this.a.json() };
     }
 
+    /*
+     * Evaluates if data matches
+     */
     evaluate = function (data) {
         switch (this.name) { 
             case "not":
@@ -176,6 +238,9 @@ class LogicalUnary extends BaseSelect {
         }
     }
 
+    /*
+     * String
+     */
     toString = function () {
         if (this.name != "none") {
             return `${this.name} ${this.a.toString()}`;
@@ -184,11 +249,17 @@ class LogicalUnary extends BaseSelect {
         }
     }
 
+    /*
+     * Replaces data if data matches
+     */
     replace = function (data) {
         return this.a.replace(data);
     }
 }
 
+/*
+ * Select matching data
+ */
 class StringOption extends BaseSelect {
     constructor(name) {
         super(name, ["author", "message"], i18n(["author", "message"]));
@@ -196,11 +267,17 @@ class StringOption extends BaseSelect {
         this.element.title = i18n("titleSelectAuthor");
     }
 
+    /*
+     * JSON data from HTML element
+     */
     json = function () {
         return { type: "StringOption", name: this.element.value };
     }
 }
 
+/*
+ * Logical Binary Operator for boolean list
+ */
 class LogicalArray extends BaseSelect {
     constructor(name) {
         super(name, ["some", "every", "none"], i18n(["some", "every", "none"]));
@@ -210,10 +287,14 @@ class LogicalArray extends BaseSelect {
 
         this.element.addEventListener("change", () => { this.name = this.element.value; });
 
+        // Expert mode
         this.element.namedItem("every").classList.add("expert");
         this.element.namedItem("none").classList.add("expert");
     }
 
+    /*
+     * Disables HTML select element and sets ""
+     */
     disable = function (disabled) {
         this.element.disabled = disabled;
 
@@ -223,11 +304,17 @@ class LogicalArray extends BaseSelect {
             this.element.value = this.name;
         }
     }
-
+    
+    /*
+     * JSON data from HTML element
+     */
     json = function () {
         return { type: "LogicalA", name: this.name };
     }
 
+    /*
+     * Evaluates list with boolean function fun
+     */
     evaluate = function (array, fun) {
         switch (this.name) {
             case "some":
@@ -239,22 +326,35 @@ class LogicalArray extends BaseSelect {
         }
     }
 
+    /*
+     * String
+     */
     toString = function () {
         return `${this.name}`
     }
 }
 
+/*
+ * Matches data with strings or list of strings
+ */
 class StringRegex extends BaseSelect {
     constructor(name, key, regexp, bool) {
         super(name, ["startsWith", "endsWith", "includes", "is", "regexp"], i18n(["startsWith", "endsWith", "includes", "is", "regexp"]));
 
+        // String used for replacing matches
+        this.replace_str = "";
+
+        // StringOption
         this.key = key;
+        // TextElement
         this.regexp = regexp;
+        // LogicalArray
         this.bool = bool;
 
         this.element.title = i18n("titleSelectAlgo");
         this.setElements();
 
+        // Expert mode
         this.element.namedItem("regexp").classList.add("expert");
 
         this.element.addEventListener("change", () => {
@@ -262,10 +362,18 @@ class StringRegex extends BaseSelect {
         });
     }
 
+    /*
+     * JSON data from HTML element
+     */
     json = function () {
         return { type: "StringRegex", name: this.element.value, key: this.key.json(), regexp: this.regexp.json(), bool: this.bool.json() };
     }
 
+    /*
+     * Evaluates if regexp.string matches data
+     * String matching uses list of keys as input
+     * RegExp matching uses string as input
+     */
     evaluate = function (data) { 
         let string = data[this.key.name].toLocaleLowerCase();
 
@@ -283,6 +391,11 @@ class StringRegex extends BaseSelect {
         }
     }
 
+    /*
+     * Replaces data if data matches
+     * String matching uses list of keys as input
+     * RegExp matching uses string as input
+     */
     replace = function (data) {
         let string = data[this.name.key];
 
@@ -309,6 +422,9 @@ class StringRegex extends BaseSelect {
         return data;
     }
 
+    /*
+     * Sets LogicalArray as disabled when RegExp is selected
+     */
     setElements = function () {
         this.regexp.setArray(this.element.value != "regexp");
 
@@ -323,6 +439,9 @@ class StringRegex extends BaseSelect {
         }
     }
 
+    /*
+     * String
+     */
     toString = function () {
         return `${this.key.name} ${this.name} ${this.bool.toString()} of ${this.regexp.string}`;
     }

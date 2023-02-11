@@ -3,15 +3,16 @@ class YouTubeStreamFilter {
     constructor() {
         // Settings
         this.size = null;  // Size of chat-window
-        this.enableHighlight = null;
+        this.enableHighlight = null;  // Enables highlight chat-box
         this.filters = null;  // Usernames for highlighting
 
         // Html elements
         this.highlightBox = null;  // Live-chat box for highlighting chat messages
         this.separator = null;  // Separator between live-chat and highlighBox for adjusing height
-        this.menuItemSettings = null;
-        this.menuItemFilter = null;
+        this.menuItemSettings = null;  // Menu item for opening settings
+        this.menuItemFilter = null;  // Menu item for toggling highlight cat-box
 
+        // List of chat-messages for matching
         this.newMessageQueue = [];
     }
 
@@ -39,7 +40,7 @@ class YouTubeStreamFilter {
      */
     chatobserver = new MutationObserver((itemList) => {
         for (let item of itemList) {
-            // Added message elements
+            // Added message elements for matching
             for (let node of item.addedNodes) {
                 this.newMessageQueue.push(node);
                 node.hidden = true;
@@ -47,6 +48,7 @@ class YouTubeStreamFilter {
         }
 
         if (this.filters !== null) {
+            // Messages for matching
             for (let node = this.newMessageQueue.shift(); node !== undefined; node = this.newMessageQueue.shift()) {
                 let authorName = node.querySelector("#author-name").textContent;
 
@@ -54,12 +56,12 @@ class YouTubeStreamFilter {
 
                 // Matches author and message of chat message
                 let data = { author: authorName, message: message };
-                let addChatBox = true;
+                let match = false;  // Does not apply other filters when already matched
                 for (let filter of this.filters) {
                     if (filter.enable) {
                         switch (filter.type) {
                             case "highlight":
-                                if (this.highlightBox !== null && addChatBox && filter.data.evaluate(data)) {
+                                if (this.enableHighlight && !match && filter.data.evaluate(data)) {
                                     console.log("highlight", message);
                                     node.hidden = false;
 
@@ -69,8 +71,7 @@ class YouTubeStreamFilter {
                                 }
                                 break;
                             case "delete":
-                                if (addChatBox && filter.data.evaluate(data)) {
-                                    console.log("delete", message);
+                                if (!match && filter.data.evaluate(data)) {
 
                                     node.parentNode.removeChild(node);
                                     addChatBox = false;
@@ -85,12 +86,16 @@ class YouTubeStreamFilter {
         }
     });
 
+    /*
+     * Observer of YouTube live chat menu
+     */
     settingsobserver = new MutationObserver((itemList) => {
         for (let item of itemList) {
             for (let node of item.addedNodes) {
                 if (node.id != "sf-menu-item") {
                     console.log("Settings update");
 
+                    // Adds menu items
                     node.parentNode.appendChild(this.menuItemSettings.element);
                     node.parentNode.appendChild(this.menuItemFilter.element);
                 }
@@ -98,6 +103,9 @@ class YouTubeStreamFilter {
         }
     });
 
+    /*
+     * Observer of YouTube live chat app
+     */
     appobserver = new MutationObserver((itemList) => {
         for (let item of itemList) {
             for (let node of item.addedNodes) {
@@ -106,6 +114,7 @@ class YouTubeStreamFilter {
 
                     let menu = node.querySelector("ytd-menu-popup-renderer>#items");
 
+                    // YouTube live chat menu added
                     this.settingsobserver.observe(menu, { attributes: false, childList: true, subtree: false });
                     this.appobserver.disconnect();
                 }
@@ -142,6 +151,7 @@ class YouTubeStreamFilter {
                 this.toggleHighlightBox(this.enableHighlight);
             }
 
+            // Parses Filter data for logical evaluation and string matching
             let parser = new JSONParser();
             this.filters = parser.parseJSON(this.filters);
         }, (error) => {
@@ -149,6 +159,9 @@ class YouTubeStreamFilter {
         });
     }
 
+    /*
+     * Toggles highlight chat-box and separator functionallity and visibillity
+     */
     toggleHighlightBox = function (highlight) {
         if (this.highlightBox !== null) {
             if (highlight === undefined) {
@@ -177,6 +190,7 @@ class YouTubeStreamFilter {
         if (document.getElementById("player") === null) {  // YouTube live-chat iFrame
             this.loadOptions();
 
+            // Menu item for opening settings page
             this.menuItemSettings = new MenuItem(i18n("menuSettingsPage"), browser.runtime.getURL("menu.svg"));
             this.menuItemSettings.element.addEventListener("mousedown", (event) => {
                 event.preventDefault();
@@ -184,6 +198,7 @@ class YouTubeStreamFilter {
                 browser.runtime.sendMessage({ type: "settings" });
             });
 
+            // Menu item for toggling highlight chat-box
             this.menuItemFilter = new MenuItem(i18n("menuHideHighlight"), browser.runtime.getURL("enable_highlight.svg"));
             this.menuItemFilter.element.addEventListener("mousedown", (event) => {
                 event.preventDefault();
@@ -192,6 +207,7 @@ class YouTubeStreamFilter {
 
             let app = document.querySelector("yt-live-chat-app");
 
+            // YouTube chat-box
             let box = document.querySelector("#chat>#item-list>#live-chat-item-list-panel");
             box = box.querySelector("#contents");
             let items = box.querySelector("#item-scroller>#item-offset>#items");

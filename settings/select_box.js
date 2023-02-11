@@ -5,6 +5,7 @@ class SelectBox {
         this.element.autocomplete = true;
         this.element.required = "required";
 
+        // Adds select options
         options.forEach((option) => {
             let optionElement = document.createElement("option");
             optionElement.classList.add("option");
