@@ -24,6 +24,9 @@ class Separator {
         this.height = null;  // height both chat-boxes
         this.startHeight = null;  // height box_bottom
 
+        /*
+         * Starts dragging separator
+         */
         this.startDragging = function (y) {
             // Start drag if not dragging
             if (this.startY === null) {
@@ -37,6 +40,9 @@ class Separator {
             }
         }
 
+        /*
+         * Stops dragging separator
+         */
         this.stopDragging = function (y) {
             // Stop dragging by removing mouseElement
             this.box_bottom.parentNode.removeChild(this.mouseElement);
