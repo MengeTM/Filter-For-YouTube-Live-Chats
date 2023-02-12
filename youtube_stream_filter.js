@@ -134,10 +134,10 @@ class YouTubeStreamFilter {
             this.size = result.size || 30;
             this.enableHighlight = result.enableHighlight;
             this.filters = result.filters || [{
-                name: "",
+                name: "Hololive EN",
                 type: "highlight",
                 data_type: "1",
-                data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")),
+                data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")).json(),
                 enable: true
             }];
 
