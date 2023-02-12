@@ -4,7 +4,7 @@
     "description": "Name of extension."
   },
   "extensionDescription": {
-    "message": "This addon filters chat-messages from YouTube live streams. It either highlights chat-messages by displaying them in a separate chat-box, or deletes them. When selecting e.g. \"[EN]\", the addoon allows to highlight Hololive English translators from stream messages.",
+    "message": "This add-on filters chat-messages from YouTube live streams. It either highlights chat-messages by displaying them in a separate chat-box, or deletes them.",
     "description": "Description of the extension."
   },
   "settingsFilters": {

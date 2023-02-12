@@ -67,14 +67,14 @@ class YouTubeStreamFilter {
 
                                     // Adds chat message to highlight chat box
                                     this.highlightBox.addMessage(node);
-                                    addChatBox = false;
+                                    match = true;
                                 }
                                 break;
                             case "delete":
                                 if (!match && filter.data.evaluate(data)) {
 
                                     node.parentNode.removeChild(node);
-                                    addChatBox = false;
+                                    match = true;
                                 }
                                 break;
                         }
@@ -133,13 +133,13 @@ class YouTubeStreamFilter {
 
             this.size = result.size || 30;
             this.enableHighlight = result.enableHighlight;
-            this.filters = result.filters || {
+            this.filters = result.filters || [{
                 name: "",
                 type: "highlight",
                 data_type: "1",
                 data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")),
                 enable: true
-            };
+            }];
 
             if (this.enableHighlight === undefined) {
                 this.enableHighlight = true;
@@ -147,9 +147,7 @@ class YouTubeStreamFilter {
 
             this.setHighlightBox();
 
-            if (this.enableHighlight) {
-                this.toggleHighlightBox(this.enableHighlight);
-            }
+            this.toggleHighlightBox(this.enableHighlight);
 
             // Parses Filter data for logical evaluation and string matching
             let parser = new JSONParser();

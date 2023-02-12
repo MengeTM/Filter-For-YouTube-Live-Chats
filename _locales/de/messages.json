@@ -4,7 +4,7 @@
     "description": "Name of extension."
   },
   "extensionDescription": {
-    "message": "Dieses Add-On filtert Chat-Nachrichten von YouTube Live Streams. Das Add-On hebt Chat-Nachrichten hervor, indem es sie in einer separaten Chat-Box angezeigt, oder löscht sie. Wenn man z.B. beim Filter \"[EN]\" einstellt, werden Chat-Nachrichten von Englischen Hololive Übersetzern hervorgehoben.",
+    "message": "Dieses Add-On filtert Chat-Nachrichten von YouTube Live Streams. Das Add-On hebt Chat-Nachrichten hervor, indem es sie in einer separaten Chat-Box angezeigt, oder löscht sie.",
     "description": "Description of the extension."
   },
   "settingsFilters": {

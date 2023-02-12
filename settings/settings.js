@@ -22,13 +22,13 @@ class Setting {
             this.size = result.size || 30;
             this.enableHighlight = result.enableHighlight;
             this.expertMode = result.expertMode;
-            this.filters = result.filters || {
+            this.filters = result.filters || [{
                 name: "",
                 type: "highlight",
                 data_type: "1",
                 data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")),
                 enable: true
-            };
+            }];
 
             if (this.enableHighlight === undefined) {
                 this.enableHighlight = true;
