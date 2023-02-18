@@ -222,6 +222,12 @@ class YouTubeStreamFilter {
 
             this.appobserver.observe(app, { attributes: false, childList: true, subtree: false });
 
+            let menu = app.querySelector("tp-yt-iron-dropdown ytd-menu-popup-renderer>#items");
+            if (menu !== null) {
+                // YouTube live chat menu added
+                this.settingsobserver.observe(menu, { attributes: false, childList: true, subtree: false });
+                this.appobserver.disconnect();
+            }
 
         } else {  // YouTube player
             // Sends message to background page if YouTube video seeking

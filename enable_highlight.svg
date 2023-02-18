@@ -3,12 +3,15 @@
 
 <svg
    width="100.678mm"
-   height="100.732mm"
-   viewBox="0 0 100.678 100.732"
+   height="100.73201mm"
+   viewBox="0 0 100.678 100.73201"
    version="1.1"
    id="svg7769"
    inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
    sodipodi:docname="enable_highlight.svg"
+   inkscape:export-filename="enable_highlight.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -41,12 +44,12 @@
      id="layer1"
      transform="translate(-19.201789,-14.973866)">
     <path
-       style="fill:#cccccc;stroke:#666666;stroke-width:1.99852;stroke-dasharray:none"
+       style="fill:#e0e0e0;fill-opacity:1;stroke:#636363;stroke-width:1.999;stroke-dasharray:none;stroke-opacity:1"
        d="m 26.575673,65.586152 c -0.122272,-11.314841 0.907275,-23.980333 43.610562,-23.411313 42.839925,0.57084 42.325365,11.988405 42.325365,23.125808 0,11.137404 -2.7689,23.073118 -42.325365,23.125808 -41.753596,0.05562 -43.48829,-11.525463 -43.610562,-22.840303 z"
        id="path9744"
        sodipodi:nodetypes="zsssz" />
     <ellipse
-       style="fill:#808080;stroke:#666666;stroke-width:1.79009;stroke-dasharray:none"
+       style="fill:#808080;stroke:#636363;stroke-width:1.79009;stroke-dasharray:none;stroke-opacity:1"
        id="path9798"
        cx="49.295712"
        cy="65.339867"
