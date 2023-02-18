@@ -159,6 +159,10 @@
     padding-left: 15px;
 }
 
+.filter-container::-webkit-scrollbar {
+    display: none;
+}
+
 .main > .enable {
     align-items: center;
     justify-content: center;

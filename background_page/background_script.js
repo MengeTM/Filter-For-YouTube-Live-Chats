@@ -1,24 +1,12 @@
-class MessageListener {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("Received message: " + message.type, message, sender);
 
-    constructor() {
-
+    switch (message.type) {
+        case "replay":
+            chrome.tabs.sendMessage(sender.tab.id, { type: "replay" });
+            break;
+        case "settings":
+            chrome.runtime.openOptionsPage();
+            break;
     }
-
-    start = function () {
-        browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-            console.log("Received message: " + message.type, message, sender);
-
-            switch (message.type) {
-                case "replay":
-                    browser.tabs.sendMessage(sender.tab.id, { type: "replay" });
-                    break;
-                case "settings":
-                    browser.runtime.openOptionsPage();
-                    break;
-            }
-        });
-    }
-}
-
-let messageListener = new MessageListener();
-messageListener.start();
+});

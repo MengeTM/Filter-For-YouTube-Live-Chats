@@ -62,7 +62,7 @@ class _FilterBox {
      * Lists HTML input elements regarding language order for one logical block
      */
     block_one = function (data) {
-        if (browser.i18n.getUILanguage().startsWith("ja")) {
+        if (chrome.i18n.getUILanguage().startsWith("ja")) {
             return [
                 data.key.element,       // string
                 data.regexp.element,    // text
@@ -83,7 +83,7 @@ class _FilterBox {
      * List HTML elements regarding language order for two logical blocks with and
      */
     block_two = function (data) {
-        if (browser.i18n.getUILanguage().startsWith("ja")) {
+        if (chrome.i18n.getUILanguage().startsWith("ja")) {
             return [
                 data.a.key.element,         // string
                 data.a.regexp.element,      // text
@@ -392,6 +392,6 @@ class FilterList {
             filters.push(filterElement.filter.json());
         }
 
-        browser.storage.sync.set({ filters: filters });
+        sync_set({ filters: filters });
     }
 }

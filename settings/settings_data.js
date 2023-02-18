@@ -37,17 +37,6 @@ class JSONParser {
 }
 
 /*
- * Locale Message from list or id
- */
-function i18n(id, options = []) {
-    if (Array.isArray(id)) {
-        return id.map((_id) => { return i18n(_id); });
-    } else {
-        return browser.i18n.getMessage(id, options);
-    }
-}
-
-/*
  * Input text element
  */
 class TextElement {

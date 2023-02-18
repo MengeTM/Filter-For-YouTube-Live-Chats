@@ -128,9 +128,7 @@ class YouTubeStreamFilter {
      */
     loadOptions = function () {
 
-        let getting = browser.storage.sync.get();
-        getting.then((result) => {
-
+        sync_get(["size", "enableHighlight", "filters"], (result) => {
             this.size = result.size || 30;
             this.enableHighlight = result.enableHighlight;
             this.filters = result.filters || [{
@@ -152,8 +150,6 @@ class YouTubeStreamFilter {
             // Parses Filter data for logical evaluation and string matching
             let parser = new JSONParser();
             this.filters = parser.parseJSON(this.filters);
-        }, (error) => {
-            console.log(`Error: ${error}`);
         });
     }
 
@@ -164,7 +160,7 @@ class YouTubeStreamFilter {
         if (this.highlightBox !== null) {
             if (highlight === undefined) {
                 this.enableHighlight = !this.enableHighlight;
-                browser.storage.sync.set({ enableHighlight: this.enableHighlight });
+                sync_set({ enableHighlight: this.enableHighlight });
             } else {
                 this.enableHighlight = highlight;
             }
@@ -189,15 +185,15 @@ class YouTubeStreamFilter {
             this.loadOptions();
 
             // Menu item for opening settings page
-            this.menuItemSettings = new MenuItem(i18n("menuSettingsPage"), browser.runtime.getURL("menu.svg"));
+            this.menuItemSettings = new MenuItem(i18n("menuSettingsPage"), chrome.runtime.getURL("menu.svg"));
             this.menuItemSettings.element.addEventListener("mousedown", (event) => {
                 event.preventDefault();
 
-                browser.runtime.sendMessage({ type: "settings" });
+                chrome.runtime.sendMessage({ type: "settings" });
             });
 
             // Menu item for toggling highlight chat-box
-            this.menuItemFilter = new MenuItem(i18n("menuHideHighlight"), browser.runtime.getURL("enable_highlight.svg"));
+            this.menuItemFilter = new MenuItem(i18n("menuHideHighlight"), chrome.runtime.getURL("enable_highlight.svg"));
             this.menuItemFilter.element.addEventListener("mousedown", (event) => {
                 event.preventDefault();
                 this.toggleHighlightBox();
@@ -211,7 +207,7 @@ class YouTubeStreamFilter {
             let items = box.querySelector("#item-scroller>#item-offset>#items");
 
             // Background page messages
-            browser.runtime.onMessage.addListener((message) => {
+            chrome.runtime.onMessage.addListener((message) => {
                 switch (message.type) {
                     case "replay":
                         // Removes highlighted messages when video is seeking
@@ -230,7 +226,7 @@ class YouTubeStreamFilter {
         } else {  // YouTube player
             // Sends message to background page if YouTube video seeking
             document.getElementsByClassName("video-stream")[0].addEventListener("seeking", () => {
-                browser.runtime.sendMessage({ "type": "replay" });
+                chrome.runtime.sendMessage({ "type": "replay" });
             });
         }
     }

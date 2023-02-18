@@ -19,6 +19,7 @@ yt-live-chat-item-list-renderer+#separator+div {
 #separator.sf-separator {
     border-bottom-style: solid;
     border-bottom-width: 5px;
+    border-color: #e0e0e0;
 }
 
 .sf-separator-mouse {
@@ -48,9 +49,9 @@ yt-live-chat-item-list-renderer+#separator+div {
     min-height: 36px;
 }
 
-.sf-menu-item:hover {
-    background-color: #e5e5e5;
-}
+    .sf-menu-item:hover {
+        background-color: var(--yt-spec-10-percent-layer);
+    }
 
 .sf-menu-item:focus {
     background-color: #e0e0e0;

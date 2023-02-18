@@ -1,6 +1,6 @@
 {
 
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "version": "0.1",
 
@@ -16,7 +16,7 @@
   "description": "__MSG_extensionDescription__",
 
   "icons": {
-    "128": "youtube_stream_filter.svg"
+    "128": "youtube_stream_filter.png"
   },
 
   "options_ui": {
@@ -26,15 +26,21 @@
   },
 
   "background": {
-    "page": "background_page/background_page.html",
-    "persistent": false
+    "scripts": [ "background_page/background_script.js" ]
   },
+
+  "web_accessible_resources": [
+    {
+      "resources": [ "menu.svg", "enable_highlight.svg" ],
+      "matches": [ "*://www.youtube.com/*" ]
+    }
+  ],
 
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*"],
       "all_frames": true,
-      "js": [ "separator.js", "chatbox.js", "menu_item.js", "settings/select_box.js", "settings/settings_data.js", "youtube_stream_filter.js" ],
+      "js": [ "separator.js", "chatbox.js", "menu_item.js", "settings/select_box.js", "i18n.js", "storage.js", "settings/settings_data.js", "youtube_stream_filter.js" ],
       "css": ["youtube_stream_filter.css"],
       "run_at": "document_idle"
     }

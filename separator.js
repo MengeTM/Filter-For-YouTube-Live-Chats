@@ -9,9 +9,6 @@ class Separator {
         // Separator
         this.separatorElement = document.createElement("div");
         this.separatorElement.id = "separator";
-        this.separatorElement.classList.add("style-scope");
-        this.separatorElement.classList.add("yt-live-chat-renderer");
-        this.separatorElement.classList.add("youtube-stream-slide");
         this.separatorElement.classList.add("sf-separator");
 
         // Overlay for catching mouse events from all chat-boxes
@@ -28,16 +25,13 @@ class Separator {
          * Starts dragging separator
          */
         this.startDragging = function (y) {
-            // Start drag if not dragging
-            if (this.startY === null) {
-                // Set start variables
-                this.startY = y;
-                this.height = this.box_top.offsetHeight + this.box_bottom.offsetHeight;
-                this.startHeight = this.box_bottom.offsetHeight;
+            // Set start variables
+            this.startY = y;
+            this.height = this.box_top.offsetHeight + this.box_bottom.offsetHeight;
+            this.startHeight = this.box_bottom.offsetHeight;
 
-                // Append mouseElement for getting mousemove and mouseup events
-                this.box_bottom.parentNode.appendChild(this.mouseElement);
-            }
+            // Append mouseElement for getting mousemove and mouseup events
+            this.box_bottom.parentNode.appendChild(this.mouseElement);
         }
 
         /*
@@ -50,9 +44,8 @@ class Separator {
             // Set new height of box_bottom and save height
             let size = this.getSize(y - this.startY);
             this.updateSize(size);
-            browser.storage.sync.set({ size: size });
+            sync_set({ size: size });
 
-            // Enabling new drag events by setting variables to null
             this.startY = null;
             this.startHeight = null;
         }
