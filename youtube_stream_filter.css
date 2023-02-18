@@ -19,7 +19,7 @@ yt-live-chat-item-list-renderer+#separator+div {
 #separator.sf-separator {
     border-bottom-style: solid;
     border-bottom-width: 5px;
-    border-color: #e0e0e0;
+    border-color: var(--yt-spec-10-percent-layer);
 }
 
 .sf-separator-mouse {

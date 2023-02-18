@@ -1,0 +1,44 @@
+{
+
+  "manifest_version": 2,
+  "name": "__MSG_extensionName__",
+  "version": "0.1",
+
+  "default_locale": "en",
+
+  "browser_specific_settings": {
+    "gecko": {
+      "strict_min_version": "57.0",
+      "id": "youtube_stream_highlighter@example.com"
+    }
+  },
+
+  "description": "__MSG_extensionDescription__",
+
+  "icons": {
+    "128": "youtube_stream_filter.svg"
+  },
+
+  "options_ui": {
+    "page": "settings/settings.html",
+    "open_in_tab":  true,
+    "browser_style": true
+  },
+
+  "background": {
+    "scripts": [ "background_page/background_script.js" ]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*"],
+      "all_frames": true,
+      "js": [ "separator.js", "chatbox.js", "menu_item.js", "settings/select_box.js", "i18n.js", "storage.js", "settings/settings_data.js", "youtube_stream_filter.js" ],
+      "css": ["youtube_stream_filter.css"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "permissions": ["storage"]
+
+}
