@@ -1,17 +1,10 @@
 {
 
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "version": "0.1",
 
   "default_locale": "en",
-
-  "browser_specific_settings": {
-    "gecko": {
-      "strict_min_version": "57.0",
-      "id": "youtube_stream_highlighter@example.com"
-    }
-  },
 
   "description": "__MSG_extensionDescription__",
 
@@ -26,8 +19,15 @@
   },
 
   "background": {
-    "scripts": [ "background_page/background_script.js" ]
+    "service_worker": "background_page/background_script.js"
   },
+
+  "web_accessible_resources": [
+    {
+      "resources": [ "menu.svg", "enable_highlight.svg" ],
+      "matches": [ "*://www.youtube.com/*" ]
+    }
+  ],
 
   "content_scripts": [
     {

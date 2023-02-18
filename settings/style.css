@@ -8,13 +8,74 @@
     flex-direction: column;
     flex: none;
     padding: 7px;
+    color-scheme: dark light;
     font-size: 12pt;
     font-family: Arial;
-    background-color: #F9F9F9;
+}
+
+@media (prefers-color-scheme: dark) {
+    .box {
+        background-color: #151515;
+        color: white;
+    }
+
+    .settings-box {
+        background-color: #353535;
+    }
+
+    .header, .body {
+        background-color: #555555;
+    }
+
+    .filter, .filter > .control {
+        border-color: #153350;
+    }
+
+        .filter > .main {
+            background-color: #1e3e59;
+        }
+
+        .filter > .control {
+            background-color: #153350;
+        }
+
+    .main > .filter-container {
+        border-left-color: #153350;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+
+    .box {
+        background-color: #F9F9F9;
+    }
+
+    .settings-box {
+        background-color: #E0E0E0;
+    }
+
+    .header, .body {
+        background-color: #EFEFEF;
+    }
+
+    .filter {
+        border-color: #a9deff;
+    }
+
+        .filter > .main {
+            background-color: #bfe7ffff;
+        }
+
+        .filter > .control {
+            background-color: #a9deff;
+        }
+
+    .main > .filter-container {
+        border-left-color: #a9deff;
+    }
 }
 
 .settings-box {
-    background-color: #E0E0E0;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -55,7 +116,6 @@
 }
 
 .header {
-    background-color: #EFEFEF;
     border-radius: 5px;
     padding: 10px 70px 10px 10px;
     margin-bottom: 10px;
@@ -74,7 +134,6 @@
 .body {
     position: relative;
     flex: auto;
-    background-color: #EFEFEF;
     border-radius: 5px;
 }
 
@@ -101,7 +160,6 @@
 .filter {
     border-style: solid;
     border-width: 2px;
-    border-color: #a9deff;
     border-radius: 5px;
 }
 
@@ -111,7 +169,6 @@
 
 .filter > .main {
     height: 50px;
-    background-color: #bfe7ffff;
     padding: 5px 15px 5px 5px;
 }
 
@@ -149,7 +206,6 @@
 .main > .filter-container {
     border-left-style: solid;
     border-left-width: 1px;
-    border-left-color: #a9deff;
     display: flex;
     flex: auto;
     overflow-x: scroll;
@@ -174,7 +230,6 @@
 .filter > .control {
     display: flex;
     flex-direction: row-reverse;
-    background-color: #a9deff;
     padding: 3px 15px 3px 3px;
 }
 
