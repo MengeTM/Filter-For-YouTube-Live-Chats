@@ -19,7 +19,7 @@ class YouTubeStreamFilter {
     /*
      * Merges messages of a YouTube chat message element and replaces emoji-images with text alts
      */
-    mergeMessage = function (message) {
+    mergeMessage(message) {
         let stringMessage = "";
         let string;
         for (let node of message.childNodes) {
@@ -126,7 +126,7 @@ class YouTubeStreamFilter {
     /*
      * Loads add-on settings
      */
-    loadOptions = function () {
+    loadOptions() {
 
         sync_get(["size", "enableHighlight", "filters"], (result) => {
             this.size = result.size || 30;
@@ -148,7 +148,6 @@ class YouTubeStreamFilter {
             this.toggleHighlightBox(this.enableHighlight);
 
             // Parses Filter data for logical evaluation and string matching
-            let parser = new JSONParser();
             this.filters = parser.parseJSON(this.filters);
         });
     }
@@ -156,7 +155,7 @@ class YouTubeStreamFilter {
     /*
      * Toggles highlight chat-box and separator functionallity and visibillity
      */
-    toggleHighlightBox = function (highlight) {
+    toggleHighlightBox(highlight) {
         if (this.highlightBox !== null) {
             if (highlight === undefined) {
                 this.enableHighlight = !this.enableHighlight;
@@ -180,12 +179,12 @@ class YouTubeStreamFilter {
     /*
      * Starts add-on
      */
-    start = function () {
+    start() {
         if (document.getElementById("player") === null) {  // YouTube live-chat iFrame
             this.loadOptions();
 
             // Menu item for opening settings page
-            this.menuItemSettings = new MenuItem(i18n("menuSettingsPage"), chrome.runtime.getURL("menu.svg"));
+            this.menuItemSettings = new MenuItem(i18n("menuSettingsPage"), chrome.runtime.getURL("menu_item/menu.svg"));
             this.menuItemSettings.element.addEventListener("mousedown", (event) => {
                 event.preventDefault();
 
@@ -193,7 +192,7 @@ class YouTubeStreamFilter {
             });
 
             // Menu item for toggling highlight chat-box
-            this.menuItemFilter = new MenuItem(i18n("menuHideHighlight"), chrome.runtime.getURL("enable_highlight.svg"));
+            this.menuItemFilter = new MenuItem(i18n("menuHideHighlight"), chrome.runtime.getURL("menu_item/enable_highlight.svg"));
             this.menuItemFilter.element.addEventListener("mousedown", (event) => {
                 event.preventDefault();
                 this.toggleHighlightBox();
@@ -240,7 +239,7 @@ class YouTubeStreamFilter {
     /*
      * Makes and appends highlighted chat messages box and the separator element
      */
-    setHighlightBox = function () {
+    setHighlightBox() {
         let box = document.querySelector("#chat>#item-list>#live-chat-item-list-panel");
         let contents = box.querySelector("#contents");
 

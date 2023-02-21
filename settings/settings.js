@@ -16,7 +16,7 @@ class Setting {
     /*
      * Loads settings
      */
-    restoreOptions = function () {
+    restoreOptions() {
 
         sync_get(["size", "enable_highlight", "expertMode", "filters"], (result) => {
             this.size = result.size || 30;
@@ -50,7 +50,7 @@ class Setting {
     /*
      * Starts settings listener
      */
-    start = function () {
+    start() {
         // Saves highlight chat-box size settings
         document.querySelector("#size").addEventListener("change", () => {
             this.size = document.querySelector("#size").value;
@@ -98,7 +98,7 @@ class Setting {
     /*
      * Updates html input elements with settings
      */
-    update = function () {
+    update() {
         document.querySelector("#size").value = this.size;
         document.querySelector("#enable_highlight").checked = this.enableHighlight;
         this.filterList.setExpertMode(this.expertMode);

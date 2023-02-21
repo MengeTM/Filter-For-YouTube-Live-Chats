@@ -4,6 +4,8 @@
   "name": "__MSG_extensionName__",
   "version": "0.1",
 
+  "homepage_url": "https://github.com/MengeTM/Filter-For-YouTube-Live-Chats",
+
   "default_locale": "en",
 
   "description": "__MSG_extensionDescription__",
@@ -12,9 +14,11 @@
     "128": "youtube_stream_filter.png"
   },
 
+  "host_permission": [ "*://www.youtube.com/*" ],
+
   "options_ui": {
     "page": "settings/settings.html",
-    "open_in_tab":  true,
+    "open_in_tab": true,
     "browser_style": true
   },
 
@@ -24,21 +28,21 @@
 
   "web_accessible_resources": [
     {
-      "resources": [ "menu.svg", "enable_highlight.svg" ],
+      "resources": [ "menu_item/menu.svg", "menu_item/enable_highlight.svg" ],
       "matches": [ "*://www.youtube.com/*" ]
     }
   ],
 
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*"],
+      "matches": [ "*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*" ],
       "all_frames": true,
-      "js": [ "separator.js", "chatbox.js", "menu_item.js", "settings/select_box.js", "i18n.js", "storage.js", "settings/settings_data.js", "youtube_stream_filter.js" ],
-      "css": ["youtube_stream_filter.css"],
+      "js": [ "separator.js", "chatbox.js", "menu_item/menu_item.js", "settings/select_box.js", "i18n.js", "storage.js", "settings/settings_data.js", "youtube_stream_filter.js" ],
+      "css": [ "youtube_stream_filter.css" ],
       "run_at": "document_idle"
     }
   ],
 
-  "permissions": ["storage"]
+  "permissions": [ "storage" ]
 
 }

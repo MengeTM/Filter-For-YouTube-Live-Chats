@@ -18,7 +18,7 @@ class SelectBox {
         this.element.value = option;
     }
 
-    setOption = function (option) {
+    setOption(option) {
         this.element.value = option;
     }
 }

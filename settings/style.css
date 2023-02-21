@@ -45,7 +45,6 @@
 }
 
 @media (prefers-color-scheme: light) {
-
     .box {
         background-color: #F9F9F9;
     }
@@ -63,7 +62,7 @@
     }
 
         .filter > .main {
-            background-color: #bfe7ffff;
+            background-color: #bfe7ff;
         }
 
         .filter > .control {
@@ -206,12 +205,16 @@
 .main > .filter-container {
     border-left-style: solid;
     border-left-width: 1px;
+    padding-left: 15px;
+}
+
+.filter-container {
+
     display: flex;
     flex: auto;
     overflow-x: scroll;
     overflow-y: hidden;
     scrollbar-width: none;
-    padding-left: 15px;
 }
 
 .filter-container::-webkit-scrollbar {

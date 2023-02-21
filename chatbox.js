@@ -45,16 +45,16 @@ class ChatBox {
         this.items = items;
     }
 
-    clear = function () {
-        for (let node of this.items.childNodes) {
-            node.parentNode.removeChild(node);
+    clear() {
+        while (this.items.firstElementChild !== null) {
+            this.items.removeChild(this.items.firstElementChild);
         }
     }
 
     /*
     * Adds YouTube live-chat message element to chat box
     */
-    addMessage = function (message) {
+    addMessage(message) {
         // Removes oldest highlighted message if 100 messages
         if (this.items.childNodes.length > 100) {
             this.items.removeChild(this.items.firstChild);

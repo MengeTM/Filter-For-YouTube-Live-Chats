@@ -4,12 +4,14 @@
   "name": "__MSG_extensionName__",
   "version": "0.1",
 
+  "homepage_url": "https://github.com/MengeTM/Filter-For-YouTube-Live-Chats",
+
   "default_locale": "en",
 
   "browser_specific_settings": {
     "gecko": {
       "strict_min_version": "57.0",
-      "id": "youtube_stream_highlighter@example.com"
+      "id": "youtube_stream_filter@example.com"
     }
   },
 
@@ -21,7 +23,7 @@
 
   "options_ui": {
     "page": "settings/settings.html",
-    "open_in_tab":  true,
+    "open_in_tab": true,
     "browser_style": true
   },
 
@@ -31,14 +33,14 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*"],
+      "matches": [ "*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*" ],
       "all_frames": true,
-      "js": [ "separator.js", "chatbox.js", "menu_item.js", "settings/select_box.js", "i18n.js", "storage.js", "settings/settings_data.js", "youtube_stream_filter.js" ],
-      "css": ["youtube_stream_filter.css"],
+      "js": [ "separator.js", "chatbox.js", "menu_item/menu_item.js", "settings/select_box.js", "i18n.js", "storage.js", "settings/settings_data.js", "youtube_stream_filter.js" ],
+      "css": [ "youtube_stream_filter.css" ],
       "run_at": "document_idle"
     }
   ],
 
-  "permissions": ["storage"]
+  "permissions": [ "storage" ]
 
 }

@@ -1,5 +1,5 @@
 class _FilterBox {
-    constructor(filter, data, data_type) {
+    constructor(filter, data) {
         // Element container
         this.element = document.createElement("div");
         this.element.classList.add("filter-container");
@@ -11,27 +11,24 @@ class _FilterBox {
         this.data = data;
 
         // List of HTML elements parsed from JSON
-        let elementList;
-        switch (data_type) {
-            // One logic block
-            case "1":
-                elementList = this.block_one(data);
-                break;
-            // Two logic blocks with and
-            case "2":
-                elementList = this.block_two(data);
-                break;
-            default:
-                throw Error(`JSON data_type="${data_type}" should be of ["1", "2"]`)
-        }
+        this.elementList = this.parseData(data);
 
-        this.addElements(elementList);
+        this.update();
+    }
+
+    /*
+     * Adds an event listener to all elements
+     */
+    addEventListener(type, listener) {
+        for (let element of this.elementList) {
+            element.addEventListener(type, listener);
+        }
     }
 
     /* 
      * Makes a HTML text node
      */
-    getText = function (string) {
+    getText(string) {
         let node = document.createElement("div");
         node.classList.add("input");
 
@@ -44,69 +41,73 @@ class _FilterBox {
     /* 
      * Adds HTML input elements from a list, adds listener for saving when input is updated
      */
-    addElements = function (elementList) {
-        for (let element of elementList) {
-            this.element.appendChild(element);
+    update() {
+        while (this.element.firstElementChild !== null) {
+            this.element.removeChild(this.element.firstElementChild);
+        }
 
-            if (!(element instanceof Text)) {
-                element.addEventListener("change", () => {
-                    this.filter.save();
-                });
-            }
+        for (let element of this.elementList) {
+            this.element.appendChild(element);
 
             this.filter.addDragListener(element);
         }
     }
 
     /*
-     * Lists HTML input elements regarding language order for one logical block
+     * Copies elements and data of this element
      */
-    block_one = function (data) {
-        if (chrome.i18n.getUILanguage().startsWith("ja")) {
-            return [
-                data.key.element,       // string
-                data.regexp.element,    // text
-                data.bool.element,      // every
-                data.element,           // matches
-            ];
-        } else {
-            return [
-                data.key.element,       // string
-                data.element,           // matches
-                data.bool.element,      // every
-                data.regexp.element     // text
-            ];
+    copy() {
+        let data = parseJSON(this.data.json());
+        let filter = new _FilterBox(this.filter, data);
+        filter.setExpertMode(this.filter.experMode);
+
+        return filter;
+    }
+
+    save() {
+        this.filter.save();
+    }
+
+    /*
+     * Sets Expert mode for all select options
+     */
+    setExpertMode(expert) {
+        // Selects expert elements by class and enables or disables them
+        let expertElements = this.element.querySelectorAll(".expert");
+        for (let element of expertElements) {
+            element.hidden = !expert;
         }
     }
 
     /*
-     * List HTML elements regarding language order for two logical blocks with and
+     * Formats JSON tree of html elements into a list of html elements
      */
-    block_two = function (data) {
-        if (chrome.i18n.getUILanguage().startsWith("ja")) {
-            return [
-                data.a.key.element,         // string
-                data.a.regexp.element,      // text
-                data.a.bool.element,        // every
-                data.a.element,             // matches
-                this.getText(i18n("and")),
-                data.b.key.element,         // string
-                data.b.regexp.element,      // text
-                data.b.bool.element,        // every
-                data.b.element,             // matches
-            ];
+    parseData (data) {
+        if (data instanceof LogicalBinary) {
+            // Logical and
+            let array = this.parseData(data.a);
+            array.push(this.getText(i18n("and")));
+            array = array.concat(this.parseData(data.b));
+
+            return array;
         } else {
-            return [
-                data.a.key.element,         // string
-                data.a.element,             // matches
-                data.a.bool.element,        // every
-                data.a.regexp.element,      // text
-                this.getText(i18n("and")),
-                data.b.key.element,         // string
-                data.b.element,             // matches
-                data.b.bool.element,        // every
-                data.b.regexp.element       // text
-            ];
+            // Japanese block
+            if (chrome.i18n.getUILanguage().startsWith("ja")) {
+                return [
+                    data.key.element,       // string
+                    data.regexp.element,    // text
+                    data.bool.element,      // every
+                    data.element,           // matches
+                ];
+            // English, German block
+            } else {
+                return [
+                    data.key.element,       // string
+                    data.element,           // matches
+                    data.bool.element,      // every
+                    data.regexp.element     // text
+                ];
+            }
         }
     }
 }
@@ -135,7 +136,6 @@ class Filter {
                     json = {
                         name: "",
                         type: "highlight",
-                        data_type: "1",
                         data: new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some")),
                         enable: true
                     };
@@ -145,7 +145,6 @@ class Filter {
                     json = {
                         name: "",
                         type: "highlight",
-                        data_type: "2",
                         data: new LogicalBinary("and", new StringRegex("includes", new StringOption("author"), new TextElement([]), new LogicalArray("some")), new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some"))),
                         enable: true
                     };
@@ -154,8 +153,7 @@ class Filter {
             
         } else {
             // Parses the filter data to HTML elements (Select, TextField)
-            let parser = new JSONParser();
-            json.data = parser.parseJSON(json.data);
+            json.data = parseJSON(json.data);
         }
 
         this.filterData = json;
@@ -218,7 +216,7 @@ class Filter {
     /*
      * Sets listener for text elements, needed for enabling selecting text, when the element is draggable
      */
-    addDragListener = function (element) {
+    addDragListener(element) {
         // Mozilla error, needed for text input to function when dragging
         if (element instanceof HTMLInputElement) {
             element.addEventListener("focus", () => { this.filterElement.draggable = false; });
@@ -229,12 +227,11 @@ class Filter {
     /*
      * JSON data from the HTML elements data 
      */
-    json = function () {
+    json() {
         return {
             name: this.filterData.name,
             type: this.filterData.type,
-            data_type: this.filterData.data_type,
-            data: this.filterData.data.json(),
+            data: this.filterBox.data.json(),
             enable: this.filterData.enable
         };
     }
@@ -242,21 +239,21 @@ class Filter {
     /*
      * Saves the FilterList and this Filter
      */
-    save = function () {
+    save() {
         this.filterList.save();
     }
 
     /*
      * Deletes Filter from FilterList and saves FilterList
      */
-    deleteFilter = function () {
+    deleteFilter () {
         this.filterList.deleteFilter(this);
     }
 
     /* 
      * Adds HTML element with data input elements
      */
-    addMain = function () {
+    addMain() {
         // Element contrainer
         let mainElement = document.createElement("div");
         mainElement.classList.add("main");
@@ -289,7 +286,10 @@ class Filter {
         mainElement.appendChild(this.filterActionElement.element);
 
         // Scrollable box with match settings for filter
-        this.filterBox = new _FilterBox(this, this.filterData.data, this.filterData.data_type);
+        this.filterBox = new _FilterBox(this, this.filterData.data);
+        this.filterBox.addEventListener("change", () => {
+            this.save();
+        });
         mainElement.appendChild(this.filterBox.element);
 
         // Switch for enabling the filter
@@ -309,7 +309,7 @@ class Filter {
     /* 
      * Adds HTML element for interacting with filter
      */
-    addControl = function () {
+    addControl() {
         // Element container
         let controlElement = document.createElement("div");
         controlElement.classList.add("control");
@@ -317,7 +317,7 @@ class Filter {
 
         // Icon button for deleting filter
         let imgTrash = document.createElement("img");
-        imgTrash.src = "trash.svg";
+        imgTrash.src = "filters/trash.svg";
         imgTrash.title = i18n("titleDeleteFilter");
         imgTrash.addEventListener("click", () => {
             if (confirm(i18n("deleteFilterMessage", this.filterData.name))) {
@@ -327,6 +327,17 @@ class Filter {
         imgTrash.draggable = true;
         imgTrash.addEventListener("dragstart", (event) => { event.preventDefault(); event.stopPropagation(); });
         controlElement.appendChild(imgTrash);
+
+        // Icon button for evaluating filter
+        let imgEvaluate = document.createElement("img");
+        imgEvaluate.src = "filters/edit.svg";
+        imgEvaluate.title = i18n("evaluateFilter");
+        imgEvaluate.addEventListener("click", () => {
+            this.filterList.filterEvaluation.showFilter(this.filterBox);
+        });
+        imgEvaluate.draggable = true;
+        imgEvaluate.addEventListener("dragstart", (event) => { event.preventDefault(); event.stopPropagation(); });
+        controlElement.appendChild(imgEvaluate);
     }
 }
 
@@ -336,6 +347,8 @@ class FilterList {
             filtersElement = document.createElement("div");
         }
 
+        this.expertMode = true;
+
         // Element for adding filter elements
         this.filters = filtersElement;
         this.filters.id = "filters";
@@ -343,12 +356,14 @@ class FilterList {
 
         // Id for added filter elements
         this.next_id = 0;
+
+        this.filterEvaluation = new FilterEvaluation();
     }
 
     /*
      * Adds Filter element and sets reference and id
      */
-    addFilter = function (filter) {
+    addFilter(filter) {
         if (filter.filterList !== null) {
             filter.filterList.deleteFilter(filter);
         }
@@ -365,7 +380,7 @@ class FilterList {
     /*
      * Deletes Filter element
      */
-    deleteFilter = function (filter) {
+    deleteFilter(filter) {
         this.filters.removeChild(filter.filterElement);
         filter.filterList = null;
 
@@ -376,6 +391,8 @@ class FilterList {
      * Sets expert mode for all Filter elements
      */
     setExpertMode(expert) {
+        this.expertMode = expert;
+
         // Selects expert elements by class and enables or disables them
         let expertElements = this.filters.querySelectorAll(".expert");
         for (let element of expertElements) {
@@ -386,12 +403,14 @@ class FilterList {
     /*
      * Saves all Filter elements as JSON
      */
-    save = function () {
+    save() {
         let filters = [];
         for (let filterElement of this.filters.childNodes) {
             filters.push(filterElement.filter.json());
         }
 
         sync_set({ filters: filters });
+
+        chrome.runtime.sendMessage({ type: "update" });
     }
 }

@@ -1,16 +1,12 @@
-class JSONParser {
-    constructor() {
-
-    }
-
-    /*
-     * Parses JSON data of a Filter to HTML elements
-     */
-    parseJSON = function (json) {
+/*
+* Parses JSON data of a Filter to HTML elements
+*/
+function parseJSON(json) {
+    try {
         if (json.length !== undefined) {
             // List
             for (let filter of json) {
-                filter.data = this.parseJSON(filter.data);
+                filter.data = parseJSON(filter.data);
             }
 
             return json;
@@ -18,21 +14,24 @@ class JSONParser {
             // Input object
             switch (json["type"]) {
                 case "TextElement":
-                    return new TextElement(json["string"], json["is_array"]);
+                    return new TextElement(json["strings"], json["format_array"]);
                 case "LogicalB":
-                    return new LogicalBinary(json["name"], this.parseJSON(json["a"]), this.parseJSON(json["b"]));
+                    return new LogicalBinary(json["name"], parseJSON(json["a"]), parseJSON(json["b"]));
                 case "LogicalU":
-                    return new LogicalUnary(json["name"], this.parseJSON(json["a"]));
+                    return new LogicalUnary(json["name"], parseJSON(json["a"]));
                 case "StringOption":
                     return new StringOption(json["name"]);
                 case "StringRegex":
-                    return new StringRegex(json["name"], this.parseJSON(json["key"]), this.parseJSON(json["regexp"]), this.parseJSON(json["bool"]));
+                    return new StringRegex(json["name"], parseJSON(json["key"]), parseJSON(json["regexp"]), parseJSON(json["bool"]));
                 case "LogicalA":
                     return new LogicalArray(json["name"]);
                 default:
                     throw Error(`Error while evaluating, type="${json["type"]}" is not available`);
             }
-        }   
+        }
+    } catch (e) {
+        console.log(`Error while parsing JSON:\n\t${e}`);
+        return null;
     }
 }
 
@@ -40,44 +39,56 @@ class JSONParser {
  * Input text element
  */
 class TextElement {
-    constructor(string, isArray = true) {
+    constructor(strings, formatArray = true) {
+        if (strings.push === undefined) {
+            strings = [strings];
+        }
+
         // String of input
-        this.string = string;
+        this.strings = strings;
 
         // If string is a list of strings or a string
-        this.isArray = isArray;
+        this.formatArray = formatArray;
 
         // HTML input element
         this.element = document.createElement("input");
         this.element.type = "text";
         this.element.classList.add("input");
 
-        // Sets value of HTML element
-        if (isArray && string.push !== undefined) {
-            this.element.value = string.join("; ");
-        } else {
-            this.element.value = string;
-        }
+        this.element.value = this.strings.join("; ");
 
         // Formats string
         this.element.addEventListener("change", () => {
-            this.update();
+            this.updateStrings();
+        });
+        this.element.addEventListener("input", () => {
+            if (!this.formatArray) {
+                this.updateStrings();
+            }
         });
     }
 
     /*
+     * Sets text
+     */
+    set(textElement) {
+        this.strings = textElement.strings;
+        this.element.value = this.strings.join("; ");
+    } 
+
+    /*
      * Sets whether strings are formatted as lists or as strings
      */
-    setArray(isArray) {
-        this.isArray = isArray;
+    setArray(formatArray) {
+        this.formatArray = formatArray;
 
-        this.update();
+        this.updateStrings();
     }
 
     /*
      * Formats a string separated by ";" into an Array and deletes empty elements
      */
-    split = function (string) {
+    split(string) {
         let stringList = string.trim().split(new RegExp("[ ]*;[ ]*"));
 
         stringList = stringList.filter(function (item) { return item.length > 0 });
@@ -87,22 +98,22 @@ class TextElement {
     /*
      * Sets and formats the input string
      */
-    update = function () {
-        let string = this.element.value;
+    updateStrings() {
+        let value = this.element.value;
 
-        if (this.isArray) {
-            string = this.split(string);
-            this.element.value = string.join("; ");
+        if (this.formatArray) {
+            this.strings = this.split(value);
+            this.element.value = this.strings.join("; ");
+        } else {
+            this.strings = [value];
         }
-
-        this.string = string;
     }
 
     /*
      * JSON data from text element
      */
-    json = function () {
-        return { type: "TextElement", string: this.split(this.element.value), is_array: this.isArray };
+    json() {
+        return { type: "TextElement", strings: this.strings, format_array: this.formatArray };
     }
 }
 
@@ -136,14 +147,26 @@ class BaseSelect extends SelectBox {
     /*
      * JSON data from HTML element
      */
-    json = function () {
+    json() {
 
+    }
+
+    /*
+     * Sets value of the element
+     */
+    set(baseSelect) {
+        if (typeof baseSelect != typeof this) {
+            throw Error(`Error while setting filter data:\n\tthis="${typeof this}" is not the same as value="${baseSelect}"`);
+        }
+
+        this.name = baseSelect.name;
+        this.element.value = baseSelect.element.value;
     }
 
     /*
      * String
      */
-    toString = function () {
+    toString() {
 
     }
 }
@@ -164,14 +187,24 @@ class LogicalBinary extends BaseSelect {
     /*
      * JSON data from HTML element
      */
-    json = function () {
+    json() {
         return { type: "LogicalB", name: this.element.value, a: this.a.json(), b: this.b.json() };
+    }
+
+    /*
+     * Sets value
+     */
+    set(element) {
+        super.set(element);
+
+        this.a.set(element.a);
+        this.b.set(element.b);
     }
 
     /*
      * Evaluates if data matches
      */
-    evaluate = function (data) {
+    evaluate(data) {
         switch (this.name) {
             case "and":
                 return this.a.evaluate(data) && this.a.evaluate(data);
@@ -183,7 +216,7 @@ class LogicalBinary extends BaseSelect {
     /*
      * Replaces data if data matches
      */
-    replace = function (data) {
+    replace(data) {
         data = this.a.replace(data);
         data = this.b.replace(data);
 
@@ -193,7 +226,7 @@ class LogicalBinary extends BaseSelect {
     /*
      * String
      */
-    toString = function () {
+    toString() {
         return `${a.toString()} ${this.name} ${b.toString()}`;
     }
 }
@@ -211,14 +244,23 @@ class LogicalUnary extends BaseSelect {
     /*
      * JSON data from HTML element
      */
-    json = function () {
+    json() {
         return { type: "LogicalU", name: this.element.value, a: this.a.json() };
+    }
+
+    /*
+     * Sets value
+     */
+    set(element) {
+        super.set(element);
+
+        this.a.set(element.a);
     }
 
     /*
      * Evaluates if data matches
      */
-    evaluate = function (data) {
+    evaluate(data) {
         switch (this.name) { 
             case "not":
                 return !this.a.evaluate(data);
@@ -230,7 +272,7 @@ class LogicalUnary extends BaseSelect {
     /*
      * String
      */
-    toString = function () {
+    toString() {
         if (this.name != "none") {
             return `${this.name} ${this.a.toString()}`;
         } else {
@@ -241,7 +283,7 @@ class LogicalUnary extends BaseSelect {
     /*
      * Replaces data if data matches
      */
-    replace = function (data) {
+    replace(data) {
         return this.a.replace(data);
     }
 }
@@ -259,7 +301,7 @@ class StringOption extends BaseSelect {
     /*
      * JSON data from HTML element
      */
-    json = function () {
+    json() {
         return { type: "StringOption", name: this.element.value };
     }
 }
@@ -284,7 +326,7 @@ class LogicalArray extends BaseSelect {
     /*
      * Disables HTML select element and sets ""
      */
-    disable = function (disabled) {
+    disable(disabled) {
         this.element.disabled = disabled;
 
         if (disabled) {
@@ -293,18 +335,24 @@ class LogicalArray extends BaseSelect {
             this.element.value = this.name;
         }
     }
+
+    set(element) {
+        super.set(element);
+
+        this.element.disabled = element.element.disabled;
+    }
     
     /*
      * JSON data from HTML element
      */
-    json = function () {
+    json() {
         return { type: "LogicalA", name: this.name };
     }
 
     /*
      * Evaluates list with boolean function fun
      */
-    evaluate = function (array, fun) {
+    evaluate(array, fun) {
         switch (this.name) {
             case "some":
                 return array.some((i) => { return fun(i); });
@@ -318,7 +366,7 @@ class LogicalArray extends BaseSelect {
     /*
      * String
      */
-    toString = function () {
+    toString() {
         return `${this.name}`
     }
 }
@@ -352,9 +400,20 @@ class StringRegex extends BaseSelect {
     }
 
     /*
+     * Sets value
+     */
+    set(element) {
+        super.set(element);
+
+        this.key.set(element.key);
+        this.regexp.set(element.regexp);
+        this.bool.set(element.bool)
+    }
+
+    /*
      * JSON data from HTML element
      */
-    json = function () {
+    json() {
         return { type: "StringRegex", name: this.element.value, key: this.key.json(), regexp: this.regexp.json(), bool: this.bool.json() };
     }
 
@@ -363,20 +422,20 @@ class StringRegex extends BaseSelect {
      * String matching uses list of keys as input
      * RegExp matching uses string as input
      */
-    evaluate = function (data) { 
-        let string = data[this.key.name].toLocaleLowerCase();
+    evaluate(data) { 
+        let string = data[this.key.name];
 
         switch (this.name) { 
             case "startsWith":
-                return this.bool.evaluate(this.regexp.string, (key) => { return string.startsWith(key.toLocaleLowerCase()); });
+                return this.bool.evaluate(this.regexp.strings, (key) => { return string.toLocaleLowerCase().startsWith(key.toLocaleLowerCase()); });
             case "endsWith":
-                return this.bool.evaluate(this.regexp.string, (key) => { return string.endsWith(key.toLocaleLowerCase()); });
+                return this.bool.evaluate(this.regexp.strings, (key) => { return string.toLocaleLowerCase().endsWith(key.toLocaleLowerCase()); });
             case "includes":
-                return this.bool.evaluate(this.regexp.string, (key) => { return string.includes(key.toLocaleLowerCase()); });
+                return this.bool.evaluate(this.regexp.strings, (key) => { return string.toLocaleLowerCase().includes(key.toLocaleLowerCase()); });
             case "is":
-                return this.bool.evaluate(this.regexp.string, (key) => { return string == key.toLocaleLowerCase() });
+                return this.bool.evaluate(this.regexp.strings, (key) => { return string.toLocaleLowerCase() == key.toLocaleLowerCase() });
             case "regexp":
-                return string.match(new RegExp(this.regexp.string)) !== null;
+                return string.match(new RegExp(this.regexp.strings[0])) !== null;
         }
     }
 
@@ -385,7 +444,7 @@ class StringRegex extends BaseSelect {
      * String matching uses list of keys as input
      * RegExp matching uses string as input
      */
-    replace = function (data) {
+    replace(data) {
         let string = data[this.name.key];
 
         switch (this.name) {
@@ -414,7 +473,7 @@ class StringRegex extends BaseSelect {
     /*
      * Sets LogicalArray as disabled when RegExp is selected
      */
-    setElements = function () {
+    setElements() {
         this.regexp.setArray(this.element.value != "regexp");
 
         if (this.element.value == "regexp") {
@@ -431,7 +490,7 @@ class StringRegex extends BaseSelect {
     /*
      * String
      */
-    toString = function () {
+    toString() {
         return `${this.key.name} ${this.name} ${this.bool.toString()} of ${this.regexp.string}`;
     }
 }

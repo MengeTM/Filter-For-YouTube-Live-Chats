@@ -1,0 +1,148 @@
+.background {
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #00000099;
+    color-scheme: dark light;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .evaluation-window {
+        background-color: #383838;
+        color: white;
+    }
+
+    #evaluation-header {
+        background-color: #555555;
+    }
+
+    .row {
+        background-color: #555555;
+    }
+
+    .match {
+        color: #33bb22;
+    }
+
+    .no-match {
+        color: #bb3322;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .evaluation-window {
+        background-color: #ffffff;
+    }
+
+    #evaluation-header {
+        background-color: #EFEFEF;
+    }
+
+    .row {
+        background-color: #EFEFEF;
+    }
+
+    .match {
+        color: #33bb22;
+    }
+
+    .no-match {
+        color: #bb3322;
+    }
+}
+
+.evaluation-window {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    width: 80%;
+    height: 80%;
+    padding: 10px;
+}
+
+.evaluation-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+}
+
+.evaluation-box .input {
+    text-align: center;
+    justify-content: center;
+}
+
+.evaluation-box > .filter-container {
+    flex: none;
+    height: 50px;
+    margin-bottom: 30px;
+}
+
+.row {
+    border-radius: 10px;
+    height: 50px;
+    padding: 8px;
+}
+
+.row ~ .row {
+    margin-top: 10px;
+}
+
+.evaluation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#evaluation-header {
+    border-radius: 3px;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#evaluation-body {
+    border-radius: 3px;
+    position: relative;
+    flex: auto;
+}
+
+.evaluation-scroll {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.evaluation-element {
+    display: flex;
+    align-items: center;
+}
+
+.evaluation-element ~ .evaluation-element {
+    margin-left: 8px;
+}
+
+.evaluation-control {
+    padding: 8px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.evaluation-control button {
+    padding: 8px;
+}
+
+.hidden {
+    display: none;
+}

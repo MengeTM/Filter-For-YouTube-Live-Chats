@@ -22,7 +22,7 @@ class ToggleSwitch {
         });
     }
 
-    toggle = function () {
+    toggle() {
         this.checkbox.checked = !this.checkbox.checked;
     }
 }

@@ -53,9 +53,9 @@ yt-live-chat-item-list-renderer+#separator+div {
         background-color: var(--yt-spec-10-percent-layer);
     }
 
-.sf-menu-item:focus {
-    background-color: #e0e0e0;
-}
+    .sf-menu-item:focus {
+        background-color: var(--yt-spec-10-percent-layer);
+    }
 
 .sf-menu-item > img {
     margin-right: 16px;

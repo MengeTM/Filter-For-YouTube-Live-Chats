@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "YouTube Stream Filter",
+    "message": "YouTube ライブチャット用フィルター アドオン",
     "description": "Name of extension."
   },
   "extensionDescription": {
@@ -103,6 +103,26 @@
     "message": "エキスパートモード",
     "description": "Settings: Checkbox for enabling expert mode"
   },
+  "evaluateFilter": {
+    "message": "フィルタ ルールの検証",
+    "description": "Settings: Title of filter rule evaluation"
+  },
+  "match": {
+    "message": "フィルタ ルールの一致",
+    "description": "Settings: Title filter rule match"
+  },
+  "doesMatch": {
+    "message": "一致します",
+    "description": "Settings: Match of filter rule"
+  },
+  "noMatch": {
+    "message": "一致していません",
+    "description": "Settings: No Matchg of filter rule"
+  },
+  "btnExit": {
+    "message": "閉じます",
+    "description": "Settings: Button exit"
+  },
   "placeholderRegexp": {
     "message": "正規表現",
     "description": "Settings: Placeholder for regular expression text input"
@@ -110,6 +130,14 @@
   "placeholderStringArray": {
     "message": "「;」で区切られた検索文字列",
     "description": "Settings: Placeholder for string array text input"
+  },
+  "placeholderAuthor": {
+    "message": "著者文字列",
+    "description": "Settings: Placeholder for author"
+  },
+  "placeholderMessage": {
+    "message": "チャット メッセージ文字列",
+    "description": "Settings: Placeholder for message"
   },
   "titleFilterName": {
     "message": "フィルター名",
@@ -162,6 +190,26 @@
   "titleExpertMode": {
     "message": "マッチングに正規表現を使用するためのエキスパート モードを有効にします",
     "description": "Settings: Title of switch expert mode"
+  },
+  "titleAuthorEvaluation": {
+    "message": "フィルタ ルールの検証のための YouTube ライブ チャット メッセージの著者名の例",
+    "description": "Settings: Title of author"
+  },
+  "titleMessageEvaluation": {
+    "message": "フィルタ ルールの検証のための YouTube ライブ チャット メッセージのチャット メッセージの例",
+    "description": "Settings: Title of message"
+  },
+  "titleDoesMatch": {
+    "message": "フィルタ ルールが著者文字列とチャット メッセージ文字列に一致しません",
+    "description": "Settings: Title of match string"
+  },
+  "titleNoMatch": {
+    "message": "フィルタールールは著者文字列とチャットメッセジ文字例に一致します",
+    "description": "Settings: Title of no match string"
+  },
+  "titleBtnExit": {
+    "message": "フィルタールール検証をを閉じてフィルタールールをセーブします",
+    "description": "Settings: Title of exit button"
   },
   "titleEnableHighlightBox": {
     "message": "YouTube チャット ボックスの下にチャット メッセージを強調表示するためのチャット ボックスを表示します",

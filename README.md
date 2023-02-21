@@ -12,13 +12,13 @@ The settings are preset to highlight for common chat-based English translations 
 This add-on is at its first version, and may contain some bugs. Please write me if you encounter some bugs or you would like some features to be implemented. Right now, it is more of a fun-project, but I may improve it further when there is interest in this add-on.
 
 ## Installation
-Before installing the add-on, rename either "manifest_mozilla.json" for Mozilla Firefox, or "manifest_google.json" in "manifest.json".
+Before installing the add-on, rename either "manifes_mozilla.json" for Mozilla Firefox, or "manifest_goofle.json" for Google Chrome in "manifes.json".
 ### Mozilla Firefox
 For using the storage API make sure, that for manifest.json the "id" is set with an e-mail address:
 
 "browser_specific_settings": {
     "gecko": {
-        "id": "youtube_stream_highlighter@example.com"
+        "id": "youtube_stream_filter@example.com"
     }
 }
 

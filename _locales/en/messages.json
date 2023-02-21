@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "YouTube Stream Filter",
+    "message": "Filter for YouTube live-chats",
     "description": "Name of extension."
   },
   "extensionDescription": {
@@ -103,6 +103,26 @@
     "message": "Expert mode",
     "description": "Settings: Checkbox for enabling expert mode"
   },
+  "evaluateFilter": {
+    "message": "Filter rule validation",
+    "description": "Settings: Title of filter rule evaluation"
+  },
+  "match": {
+    "message": "Filter rule matching",
+    "description": "Settings: Title filter rule match"
+  },
+  "doesMatch": {
+    "message": "Match",
+    "description": "Settings: Match of filter rule"
+  },
+  "noMatch": {
+    "message": "No match",
+    "description": "Settings: No Matchg of filter rule"
+  },
+  "btnExit": {
+    "message": "Exit",
+    "description": "Settings: Button exit"
+  },
   "placeholderRegexp": {
     "message": "Regular Expression",
     "description": "Settings: Placeholder for regular expression text input"
@@ -110,6 +130,14 @@
   "placeholderStringArray": {
     "message": "Search texts separated by \";\"",
     "description": "Settings: Placeholder for string array text input"
+  },
+  "placeholderAuthor": {
+    "message": "Author",
+    "description": "Settings: Placeholder for author"
+  },
+  "placeholderMessage": {
+    "message": "Chat-message",
+    "description": "Settings: Placeholder for message"
   },
   "titleFilterName": {
     "message": "Name of filter",
@@ -162,6 +190,26 @@
   "titleExpertMode": {
     "message": "Enables expert mode for using regular expressions for matching",
     "description": "Settings: Title of switch expert mode"
+  },
+  "titleAuthorEvaluation": {
+    "message": "Example author string of a YouTube live-chat message, for validating the filter rule",
+    "description": "Settings: Title of author"
+  },
+  "titleMessageEvaluation": {
+    "message": "Examle chat-message string of a YouTube live-chat message, for validating the filter rule",
+    "description": "Settings: Title of message"
+  },
+  "titleDoesMatch": {
+    "message": "Filter rule does match author and chat-message",
+    "description": "Settings: Title of match string"
+  },
+  "titleNoMatch": {
+    "message": "Filter rule does not match author and chat-message",
+    "description": "Settings: Title of no match string"
+  },
+  "titleBtnExit": {
+    "message": "Exits filter rule validation and saves filter rule",
+    "description": "Settings: Title of exit button"
   },
   "titleEnableHighlightBox": {
     "message": "Shows a chat-box below the YouTube chat-box where highlighted chat-messages are displayed",
