@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "YouTube ライブチャット用フィルター アドオン",
+    "message": "YouTube™ ライブチャット用フィルター アドオン",
     "description": "Name of extension."
   },
   "extensionDescription": {
@@ -8,15 +8,23 @@
     "description": "Description of the extension."
   },
   "settingsFilters": {
-    "message": "YouTube Stream Filter 設定",
+    "message": "YouTube™ ライブチャットのフィルタ アドオンの設定",
     "description": "Filter settings for live-chat."
+  },
+  "filterTitle": {
+    "message": "フィルタ ルール",
+    "description": "Settings: Title filter"
+  },
+  "evaluationTitle": {
+    "message": "YouTube ライブチャット メッセージの例",
+    "description": "Settings: Title evaluation"
   },
   "settingsBoxSize": {
     "message": "チャットボックスのサイズ",
     "description": "Size of the live-chat box setting."
   },
   "newFilter": {
-    "message": "新しいフィルター",
+    "message": "新しいフィルター ルール",
     "description": "Settings: add new filter"
   },
   "highlight": {

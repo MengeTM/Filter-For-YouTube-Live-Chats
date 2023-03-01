@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Filter for YouTube live-chats",
+    "message": "Filter for YouTube™ live-chats",
     "description": "Name of extension."
   },
   "extensionDescription": {
@@ -8,15 +8,23 @@
     "description": "Description of the extension."
   },
   "settingsFilters": {
-    "message": "YouTube Stream Filter settings",
+    "message": "Settings of Filter for YouTube™ live-chats",
     "description": "Filter settings for live-chat."
+  },
+  "filterTitle": {
+    "message": "Filter rule",
+    "description": "Settings: Title filter"
+  },
+  "evaluationTitle": {
+    "message": "YouTube live-chat example messages",
+    "description": "Settings: Title evaluation"
   },
   "settingsBoxSize": {
     "message": "Chat-box size",
     "description": "Size of the live-chat box setting."
   },
   "newFilter": {
-    "message": "New filter",
+    "message": "New filter rule",
     "description": "Settings: add new filter"
   },
   "highlight": {

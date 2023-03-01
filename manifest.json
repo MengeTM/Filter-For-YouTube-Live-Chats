@@ -35,7 +35,7 @@
     {
       "matches": [ "*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*" ],
       "all_frames": true,
-      "js": [ "separator.js", "chatbox.js", "menu_item/menu_item.js", "settings/select_box.js", "i18n.js", "storage.js", "filter_data.js", "youtube_stream_filter.js" ],
+      "js": [ "separator.js", "chatbox.js", "menu_item/menu_item.js", "settings/select_box.js", "xml.js", "i18n.js", "storage.js", "filter_data.js", "youtube_stream_filter.js" ],
       "css": [ "youtube_stream_filter.css" ],
       "run_at": "document_idle"
     }

@@ -329,15 +329,13 @@ class Filter {
         controlElement.appendChild(imgTrash);
 
         // Icon button for evaluating filter
-        let imgEvaluate = document.createElement("img");
-        imgEvaluate.src = "filters/edit.svg";
-        imgEvaluate.title = i18n("evaluateFilter");
-        imgEvaluate.addEventListener("click", () => {
+        let btnEvaluate = document.createElement("button");
+        btnEvaluate.textContent = i18n("evaluateFilter");
+        btnEvaluate.title = i18n("evaluateFilter");
+        btnEvaluate.addEventListener("click", () => {
             this.filterList.filterEvaluation.showFilter(this.filterBox);
         });
-        imgEvaluate.draggable = true;
-        imgEvaluate.addEventListener("dragstart", (event) => { event.preventDefault(); event.stopPropagation(); });
-        controlElement.appendChild(imgEvaluate);
+        controlElement.appendChild(btnEvaluate);
     }
 }
 

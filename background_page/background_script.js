@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             chrome.runtime.openOptionsPage();
             break;
         case "update":
-            chrome.tabs.query({ url: "*://www.youtube.com:/*" }, (tabs) => {
+            chrome.tabs.query({ url: "*://www.youtube.com/*" }, (tabs) => {
                 for (let tab of tabs) {
                     chrome.tabs.sendMessage(tab.id, { type: "update" });
                 }

@@ -1,4 +1,5 @@
 class YouTubeStreamFilter {
+    menu = null;
 
     constructor() {
         // Settings
@@ -9,8 +10,6 @@ class YouTubeStreamFilter {
         // Html elements
         this.highlightBox = null;  // Live-chat box for highlighting chat messages
         this.separator = null;  // Separator between live-chat and highlighBox for adjusing height
-        this.menuItemSettings = null;  // Menu item for opening settings
-        this.menuItemFilter = null;  // Menu item for toggling highlight cat-box
 
         // List of chat-messages for matching
         this.newMessageQueue = [];
@@ -87,48 +86,30 @@ class YouTubeStreamFilter {
     });
 
     /*
-     * Observer of YouTube live chat menu
-     */
-    settingsobserver = new MutationObserver((itemList) => {
-        for (let item of itemList) {
-            for (let node of item.addedNodes) {
-                if (node.id != "sf-menu-item") {
-                    console.log("Settings update");
-
-                    // Adds menu items
-                    node.parentNode.appendChild(this.menuItemSettings.element);
-                    node.parentNode.appendChild(this.menuItemFilter.element);
-                }
-            }
-        }
-    });
-
-    /*
-     * Observer of YouTube live chat app
-     */
-    appobserver = new MutationObserver((itemList) => {
-        for (let item of itemList) {
-            for (let node of item.addedNodes) {
-                if (node.nodeName.toLowerCase() == "tp-yt-iron-dropdown") {
-                    console.log("Settings added");
-
-                    let menu = node.querySelector("ytd-menu-popup-renderer>#items");
-
-                    // YouTube live chat menu added
-                    this.settingsobserver.observe(menu, { attributes: false, childList: true, subtree: false });
-                    this.appobserver.disconnect();
-                }
-            }
-        }
-    });
-
-
-    /*
      * Loads add-on settings
      */
     loadOptions() {
 
-        sync_get(["size", "enableHighlight", "filters"], (result) => {
+        sync_get(["size", "enableHighlight"], (result) => {
+            this.size = result.size || 30;
+            this.enableHighlight = result.enableHighlight;
+
+            if (this.enableHighlight === undefined) {
+                this.enableHighlight = true;
+            }
+
+            this.setHighlightBox();
+
+            this.toggleHighlightBox(this.enableHighlight);
+        });
+    }
+
+    /*
+     * Loads add-on filters
+     */
+    loadFilters() {
+
+        sync_get(["filters"], (result) => {
             this.size = result.size || 30;
             this.enableHighlight = result.enableHighlight;
             this.filters = result.filters || [{
@@ -139,16 +120,8 @@ class YouTubeStreamFilter {
                 enable: true
             }];
 
-            if (this.enableHighlight === undefined) {
-                this.enableHighlight = true;
-            }
-
-            this.setHighlightBox();
-
-            this.toggleHighlightBox(this.enableHighlight);
-
             // Parses Filter data for logical evaluation and string matching
-            this.filters = parser.parseJSON(this.filters);
+            this.filters = parseJSON(this.filters);
         });
     }
 
@@ -182,21 +155,7 @@ class YouTubeStreamFilter {
     start() {
         if (document.getElementById("player") === null) {  // YouTube live-chat iFrame
             this.loadOptions();
-
-            // Menu item for opening settings page
-            this.menuItemSettings = new MenuItem(i18n("menuSettingsPage"), chrome.runtime.getURL("menu_item/menu.svg"));
-            this.menuItemSettings.element.addEventListener("mousedown", (event) => {
-                event.preventDefault();
-
-                chrome.runtime.sendMessage({ type: "settings" });
-            });
-
-            // Menu item for toggling highlight chat-box
-            this.menuItemFilter = new MenuItem(i18n("menuHideHighlight"), chrome.runtime.getURL("menu_item/enable_highlight.svg"));
-            this.menuItemFilter.element.addEventListener("mousedown", (event) => {
-                event.preventDefault();
-                this.toggleHighlightBox();
-            });
+            this.loadFilters();
 
             let app = document.querySelector("yt-live-chat-app");
 
@@ -213,20 +172,32 @@ class YouTubeStreamFilter {
                         if (this.highlightBox !== null) {
                             this.highlightBox.clear();
                         }
+                        break;
+                    case "update":
+                        console.log("update");
+                        this.loadFilters();
+                        break;
                 }
             });
            
             // Starts messages observer
             this.chatobserver.observe(items, { attributes: false, childList: true, subtree: false });
 
-            this.appobserver.observe(app, { attributes: false, childList: true, subtree: false });
+            this.menu = new Menu(app);
 
-            let menu = app.querySelector("tp-yt-iron-dropdown ytd-menu-popup-renderer>#items");
-            if (menu !== null) {
-                // YouTube live chat menu added
-                this.settingsobserver.observe(menu, { attributes: false, childList: true, subtree: false });
-                this.appobserver.disconnect();
-            }
+            // Menu item for opening settings page
+            let menuItemSettings = new MenuItem(i18n("menuSettingsPage"), chrome.runtime.getURL("menu_item/menu.svg"));
+            menuItemSettings.addEventListener("mousedown", () => {
+                chrome.runtime.sendMessage({ type: "settings" });
+            });
+            this.menu.addMenuItem(menuItemSettings);
+
+            // Menu item for toggling highlight chat-box
+            let menuItemFilter = new MenuItem(i18n("menuHideHighlight"), chrome.runtime.getURL("menu_item/enable_highlight.svg"));
+            menuItemFilter.addEventListener("mousedown", () => {
+                this.toggleHighlightBox();
+            });
+            this.menu.addMenuItem(menuItemFilter);
 
         } else {  // YouTube player
             // Sends message to background page if YouTube video seeking

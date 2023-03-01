@@ -35,6 +35,10 @@ yt-live-chat-item-list-renderer+#separator+div {
     display: none !important;
 }
 
+.sf-menu-item-element {
+    position: relative;
+}
+
 .sf-menu-item {
     display: flex;
     align-items: center;
@@ -53,19 +57,34 @@ yt-live-chat-item-list-renderer+#separator+div {
         background-color: var(--yt-spec-10-percent-layer);
     }
 
-    .sf-menu-item:focus {
-        background-color: var(--yt-spec-10-percent-layer);
+    .sf-menu-item:focus::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        background: var(--paper-item-focused-before-background, currentColor);
+        border-radius: var(--paper-item-focused-before-border-radius, 0);
+        content: var(--paper-item-focused-before-content, "");
+        opacity: var(--paper-item-focused-before-opacity, var(--dark-divider-opacity, 0.12));
     }
 
-.sf-menu-item > img {
-    margin-right: 16px;
-    width: 24px;
-    height: 24px;
-}
+    .sf-menu-item:focus {
+        position: relative;
+        outline: 0;
+    }
 
-.sf-menu-item > span {
-    color: var(--yt-spec-text-primary);
-    margin-right: 24px;
-    font-size: 1.4rem;
-    line-height: 2rem;
-}
+    .sf-menu-item > .sf-svg {
+        margin-right: 16px;
+        stroke: var(--yt-spec-text-primary) !important;
+        width: 24px;
+        height: 24px;
+    }
+
+    .sf-menu-item > .sf-text {
+        color: var(--yt-spec-text-primary);
+        margin-right: 24px;
+        font-size: 1.4rem;
+        line-height: 2rem;
+    }

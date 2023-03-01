@@ -238,8 +238,13 @@
 
 .control > img {
     width: 15px;
-    margin-left: 5px;
+    margin-left: 10px;
 }
+
+.control > button {
+    margin-left: 10px;
+}
+
 .control {
     padding-right: 30px;
 }

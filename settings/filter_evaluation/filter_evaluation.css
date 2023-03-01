@@ -19,12 +19,20 @@
         color: white;
     }
 
+    .evaluation-filter-box {
+        background-color: #505050;
+    }
+
+    .evaluation-example-box {
+        background-color: #505050;
+    }
+
     #evaluation-header {
-        background-color: #555555;
+        background-color: #5E5E5E;
     }
 
     .row {
-        background-color: #555555;
+        background-color: #5E5E5E;
     }
 
     .match {
@@ -39,6 +47,14 @@
 @media (prefers-color-scheme: light) {
     .evaluation-window {
         background-color: #ffffff;
+    }
+
+    .evaluation-filter-box {
+        background-color: #F5F5F5;
+    }
+
+    .evaluation-example-box {
+        background-color: #F5F5F5;
     }
 
     #evaluation-header {
@@ -68,27 +84,40 @@
     padding: 10px;
 }
 
-.evaluation-box {
+.evaluation-filter-box {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    padding: 8px;
+}
+
+    .evaluation-filter-box .input {
+        text-align: center;
+    }
+
+.filter-container {
+    height: 50px;
+}
+
+.evaluation-example-box {
     position: relative;
     display: flex;
     flex-direction: column;
     flex: auto;
+    border-radius: 10px;
+    padding: 8px
 }
 
-.evaluation-box .input {
-    text-align: center;
-    justify-content: center;
-}
-
-.evaluation-box > .filter-container {
-    flex: none;
-    height: 50px;
-    margin-bottom: 30px;
-}
+    .evaluation-example-box .input {
+        text-align: center;
+        justify-content: center;
+    }
 
 .row {
     border-radius: 10px;
-    height: 50px;
+    height: 35px;
     padding: 8px;
 }
 
