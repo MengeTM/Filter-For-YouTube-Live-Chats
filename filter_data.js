@@ -60,11 +60,12 @@ class TextElement {
         // Formats string
         this.element.addEventListener("change", () => {
             this.updateStrings();
+
+            this.element.value = this.strings.join("; ");
         });
+
         this.element.addEventListener("input", () => {
-            if (!this.formatArray) {
-                this.updateStrings();
-            }
+            this.updateStrings();
         });
     }
 
@@ -103,7 +104,6 @@ class TextElement {
 
         if (this.formatArray) {
             this.strings = this.split(value);
-            this.element.value = this.strings.join("; ");
         } else {
             this.strings = [value];
         }

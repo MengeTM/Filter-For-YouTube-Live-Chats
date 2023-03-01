@@ -30,8 +30,8 @@ class ChatBox {
         itemScroller.addEventListener("scroll", () => {
             // Force that scrolls down to bottom of chat-box, if user does not scroll strong enough
             // When at this area, chat - box will scroll automatically to bottom when new chat messages are added
-            if (this.itemScroller.scrollTop > this.itemScroller.scrollTopMax - 15) {
-                this.itemScroller.scrollTo(0, this.itemScroller.scrollTopMax);
+            if (this.itemScroller.scrollTop > this.scrollTopMax() - 15) {
+                this.itemScroller.scrollTo(0, this.scrollTopMax());
             }
         });
         contents.appendChild(itemScroller);
@@ -51,6 +51,13 @@ class ChatBox {
         }
     }
 
+    /**
+     * Maximum scrollTop, similar to Firefox scrollTopMax
+     */
+    scrollTopMax() {
+        return this.itemScroller.scrollHeight - this.itemScroller.clientHeight;
+    }
+
     /*
     * Adds YouTube live-chat message element to chat box
     */
@@ -60,12 +67,12 @@ class ChatBox {
             this.items.removeChild(this.items.firstChild);
         }
 
-        let scrollTopMax = this.itemScroller.scrollTopMax;
+        let scrollTopMax = this.scrollTopMax();
         this.items.appendChild(message);
 
         // When at the bottom area, scrolls down chat box to newest message
         if (this.itemScroller.scrollTop > scrollTopMax - 15) {
-            this.itemScroller.scrollTo(0, this.itemScroller.scrollTopMax);
+            this.itemScroller.scrollTo(0, this.scrollTopMax());
         }
     }
 }

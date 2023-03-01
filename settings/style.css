@@ -133,6 +133,7 @@
 .body {
     position: relative;
     flex: auto;
+    min-height: 100px;
     border-radius: 5px;
 }
 

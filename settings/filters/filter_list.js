@@ -59,7 +59,7 @@ class _FilterBox {
     copy() {
         let data = parseJSON(this.data.json());
         let filter = new _FilterBox(this.filter, data);
-        filter.setExpertMode(this.filter.experMode);
+        filter.setExpertMode(this.filter.filterList.expertMode);
 
         return filter;
     }
@@ -177,9 +177,8 @@ class Filter {
         this.filterElement.addEventListener("dragenter", (event) => {
             event.stopPropagation();
 
-            let filter = document.getElementById(event.dataTransfer.getData("filter"));
-            if (filter !== null && this.filterElement !== filter) {
-                this.swapFilter(filter);
+            if (this.filterElement !== event.target) {
+                this.swapFilter(event.target);
             }
         });
 
@@ -191,14 +190,16 @@ class Filter {
         // Does nothing
         this.filterElement.addEventListener("drop", (event) => {
             console.log("drop", event);
+
+            let filter = document.getElementById(event.dataTransfer.getData("filter"));
+            if (filter !== null && this.filterElement !== filter) {
+                this.swapFilter(filter);
+            }
         });
 
         // Ends dragging by removing class
         this.filterElement.addEventListener("dragend", (event) => {
-            let filter = document.getElementById(event.dataTransfer.getData("filter"));
-            if (filter !== null) {
-                filter.classList.remove("dragging");
-            }
+            event.target.classList.remove("dragging");
         });
     }
 
@@ -330,6 +331,7 @@ class Filter {
 
         // Icon button for evaluating filter
         let btnEvaluate = document.createElement("button");
+        btnEvaluate.classList.add("expert");
         btnEvaluate.textContent = i18n("evaluateFilter");
         btnEvaluate.title = i18n("evaluateFilter");
         btnEvaluate.addEventListener("click", () => {
@@ -345,7 +347,7 @@ class FilterList {
             filtersElement = document.createElement("div");
         }
 
-        this.expertMode = true;
+        this.expertMode = false;
 
         // Element for adding filter elements
         this.filters = filtersElement;

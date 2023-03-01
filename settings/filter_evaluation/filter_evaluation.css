@@ -58,11 +58,11 @@
     }
 
     #evaluation-header {
-        background-color: #EFEFEF;
+        background-color: #EBEBEB;
     }
 
     .row {
-        background-color: #EFEFEF;
+        background-color: #EBEBEB;
     }
 
     .match {
@@ -82,6 +82,11 @@
     width: 80%;
     height: 80%;
     padding: 10px;
+    overflow-y: auto;
+}
+
+h3 {
+    margin: 0px 0px 10px 0px;
 }
 
 .evaluation-filter-box {
@@ -89,7 +94,7 @@
     flex-direction: column;
     flex: none;
     border-radius: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     padding: 8px;
 }
 
@@ -141,6 +146,7 @@
     border-radius: 3px;
     position: relative;
     flex: auto;
+    min-height: 100px;
 }
 
 .evaluation-scroll {

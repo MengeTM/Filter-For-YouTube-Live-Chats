@@ -101,6 +101,7 @@ class Setting {
     update() {
         document.querySelector("#size").value = this.size;
         document.querySelector("#enable_highlight").checked = this.enableHighlight;
+        document.querySelector("#enable_expert_mode").checked = this.expertMode;
         this.filterList.setExpertMode(this.expertMode);
     }
 }

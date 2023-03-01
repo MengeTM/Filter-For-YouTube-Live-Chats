@@ -110,8 +110,6 @@ class YouTubeStreamFilter {
     loadFilters() {
 
         sync_get(["filters"], (result) => {
-            this.size = result.size || 30;
-            this.enableHighlight = result.enableHighlight;
             this.filters = result.filters || [{
                 name: "Hololive EN",
                 type: "highlight",
