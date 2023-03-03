@@ -273,8 +273,13 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-    #settings input {
+    #settings input[type=number], #settings input[type=text] {
         max-width: 55px;
+        padding: 3px;
+    }
+
+    #settings input[type=button] {
+        padding: 5px 20px 5px 20px;
     }
 
 #settings > div {

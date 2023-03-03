@@ -31,7 +31,35 @@
     "message": "Player Untertitel",
     "description": "Settings: Filter enable YouTube player overlay"
   },
-  "overlayAlign": {
+  "btnOverlaySettings": {
+    "message": "Untertitel Style",
+    "description": "Settings: Button open YouTube player overlay settings"
+  },
+  "fontSize": {
+    "message": "Schriftgröße",
+    "description": "Settings: Font size overlay"
+  },
+  "fontColor": {
+    "message": "Schriftfarbe",
+    "description": "Settings: Font color overlay"
+  },
+  "fontOpacity": {
+    "message": "Schrift-Transparenz",
+    "description": "Settings: Font opacity overlay"
+  },
+  "backgroundColor": {
+    "message": "Hintergrund-Farbe",
+    "description": "Settings: Background color overlay"
+  },
+  "backgroundOpacity": {
+    "message": "Hintergrund-Transparenz",
+    "description": "Settings: Background opacity overlay"
+  },
+  "fontFamily": {
+    "message": "Schriftart",
+    "description": "Settings: Font family overlay"
+  },
+  "align": {
     "message": "Untertitel Anordnung",
     "description": "Settings: Option alignment of overlay"
   },
@@ -47,6 +75,38 @@
     "message": "Anzeigedauer Untertitel",
     "description": "Settings: Option duration overlay"
   },
+  "white": {
+    "message": "weiß",
+    "description": "Settings: Select white"
+  },
+  "yellow": {
+    "message": "gelb",
+    "description": "Settings: Select yellow"
+  },
+  "green": {
+    "message": "grün",
+    "description": "Settings: Select green"
+  },
+  "cyan": {
+    "message": "cyan",
+    "description": "Settings: Select cyan"
+  },
+  "blue": {
+    "message": "blau",
+    "description": "Settings: Select blue"
+  },
+  "magenta": {
+    "message": "magenta",
+    "description": "Settings: Select magenta"
+  },
+  "red": {
+    "message": "rot",
+    "description": "Settings: Select red"
+  },
+  "black": {
+    "message": "schwarz",
+    "description": "Settings: Select black"
+  },
   "newFilter": {
     "message": "Neue Filter Regel",
     "description": "Settings: add new filter"
@@ -54,6 +114,10 @@
   "highlight": {
     "message": "hervorheben",
     "description": "Settings: select option for highlighting messages"
+  },
+  "captions": {
+    "message": "als Untertitel anzeigen",
+    "description": "Settings: Select option for YouTube player overlay"
   },
   "delete": {
     "message": "löschen",
@@ -219,9 +283,9 @@
     "message": "Aktiviert das Player Overlay zur Anzeige von YouTube Live-Chat Nachrichten als Untertitel",
     "description": "Settings: Title enable overlay"
   },
-  "titleEnableOverlayFilter": {
-    "message": "YouTube Live-Chat Nachrichten, welche diesen Filter matchen, werden mit dem YouTube Player Overlay angezeigt",
-    "description": "Settings: Title filter settings enable overlay"
+  "titleBtnOverlaySettings": {
+    "message": "Öffnet Fenster zum Einstellen des Untertitel Styles für YouTube Player",
+    "description": "Settings: Title button overlay style settings"
   },
   "titleOverlayAlign": {
     "message": "Ausrichtung der Untertitel",
@@ -260,7 +324,7 @@
     "description": "Settings: Title of no match string"
   },
   "titleBtnExit": {
-    "message": "Schließt die Filter Regel Validation und speichert die Filter Regel",
+    "message": "Schließt das Fenster und speichert Einstellungen",
     "description": "Settings: Title of exit button"
   },
   "titleEnableHighlightBox": {

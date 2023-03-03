@@ -1,24 +1,4 @@
-.background {
-    position: absolute;
-    display: flex;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    align-items: center;
-    justify-content: center;
-    background-color: #00000099;
-    color-scheme: dark light;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-}
-
 @media (prefers-color-scheme: dark) {
-    .evaluation-window {
-        background-color: #383838;
-        color: white;
-    }
-
     .evaluation-filter-box {
         background-color: #505050;
     }
@@ -45,10 +25,6 @@
 }
 
 @media (prefers-color-scheme: light) {
-    .evaluation-window {
-        background-color: #ffffff;
-    }
-
     .evaluation-filter-box {
         background-color: #F5F5F5;
     }
@@ -72,17 +48,6 @@
     .no-match {
         color: #bb3322;
     }
-}
-
-.evaluation-window {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    width: 80%;
-    height: 80%;
-    padding: 10px;
-    overflow-y: auto;
 }
 
 h3 {
@@ -166,18 +131,4 @@ h3 {
 
 .evaluation-element ~ .evaluation-element {
     margin-left: 8px;
-}
-
-.evaluation-control {
-    padding: 8px;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.evaluation-control button {
-    padding: 8px;
-}
-
-.hidden {
-    display: none;
 }

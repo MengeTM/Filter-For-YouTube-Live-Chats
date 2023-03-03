@@ -1,0 +1,42 @@
+@media (prefers-color-scheme: dark) {
+    .overlay-settings-box {
+        background-color: #505050;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .overlay-settings-box {
+        background-color: #F5F5F5;
+    }
+}
+
+.overlay-settings-box {
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.overlay-setting {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    height: 30px;
+    width: 100%;
+}
+
+    .overlay-setting ~ .overlay-setting {
+        margin-top: 15px;
+    }
+
+    .overlay-setting > span {
+        align-items: flex-start;
+        
+        margin-right: 5px;
+    }
+
+    .overlay-setting > select {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+    }

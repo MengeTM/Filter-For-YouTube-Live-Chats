@@ -24,15 +24,39 @@
     "description": "Size of the live-chat box setting."
   },
   "enableOverlay": {
-    "message": "Enable player captions",
+    "message": "Enable player ",
     "description": "Settings: Option enable YouTube player overlay"
   },
-  "enableOverlayFilter": {
-    "message": "Player captions",
-    "description": "Settings: Filter enable YouTube player overlay"
+  "btnOverlaySettings": {
+    "message": "Caption style",
+    "description": "Settings: Button open YouTube player overlay settings"
   },
-  "overlayAlign": {
-    "message": "Captions alignment",
+  "fontSize": {
+    "message": "Font size",
+    "description": "Settings: Font size overlay"
+  },
+  "fontColor": {
+    "message": "Font color",
+    "description": "Settings: Font color overlay"
+  },
+  "fontOpacity": {
+    "message": "Font opacity",
+    "description": "Settings: Font opacity overlay"
+  },
+  "backgroundColor": {
+    "message": "Background color",
+    "description": "Settings: Background color overlay"
+  },
+  "backgroundOpacity": {
+    "message": "Background opacity",
+    "description": "Settings: Background opacity overlay"
+  },
+  "fontFamily": {
+    "message": "Font family",
+    "description": "Settings: Font family overlay"
+  },
+  "align": {
+    "message": "Subtitles alignment",
     "description": "Settings: Option alignment of overlay"
   },
   "overlayAlignLeft": {
@@ -44,8 +68,40 @@
     "description": "Settings: Select option center"
   },
   "overlayDuration": {
-    "message": "Duration captions",
+    "message": "Duration subtitles",
     "description": "Settings: Option duration overlay"
+  },
+  "white": {
+    "message": "white",
+    "description": "Settings: Select white"
+  },
+  "yellow": {
+    "message": "yellow",
+    "description": "Settings: Select yellow"
+  },
+  "green": {
+    "message": "green",
+    "description": "Settings: Select green"
+  },
+  "cyan": {
+    "message": "cyan",
+    "description": "Settings: Select cyan"
+  },
+  "blue": {
+    "message": "blue",
+    "description": "Settings: Select blue"
+  },
+  "magenta": {
+    "message": "magenta",
+    "description": "Settings: Select magenta"
+  },
+  "red": {
+    "message": "red",
+    "description": "Settings: Select red"
+  },
+  "black": {
+    "message": "black",
+    "description": "Settings: Select black"
   },
   "newFilter": {
     "message": "New filter rule",
@@ -53,11 +109,15 @@
   },
   "highlight": {
     "message": "highlight",
-    "description": "Settings: select option for highlighting messages"
+    "description": "Settings: Select option for highlighting messages"
+  },
+  "captions": {
+    "message": "display as subtitles",
+    "description": "Settings: Select option for YouTube player overlay"
   },
   "delete": {
     "message": "delete",
-    "description": "Settings: select option for deleting messages"
+    "description": "Settings: Select option for deleting messages"
   },
   "startsWith": {
     "message": "starts with",
@@ -216,19 +276,19 @@
     "description": "Settings: Select number of filter elements"
   },
   "titleEnableOverlay": {
-    "message": "Enables player overlay for displaying YouTube live-chat messages as captions",
+    "message": "Enables player overlay for displaying YouTube live-chat messages as subtitles",
     "description": "Settings: Title enable overlay"
   },
-  "titleEnableOverlayFilter": {
-    "message": "YouTube live-chat messages matching this filter are displayed with YouTube player overlay",
-    "description": "Settings: Title filter settings enable overlay"
+  "titleBtnOverlaySettings": {
+    "message": "Opens window for setting subtitles style for the YouTube player",
+    "description": "Settings: Title button overlay style settings"
   },
   "titleOverlayAlign": {
-    "message": "Alignment of captions",
+    "message": "Alignment of subtitles",
     "description": "Settings: Title overlay align"
   },
   "titleEnableOverlayDuration": {
-    "message": "Shows captions for a set duration",
+    "message": "Shows subtitles for a set duration",
     "description": "Settings: Title enable overlay duration"
   },
   "titleOverlayDuration": {
@@ -260,7 +320,7 @@
     "description": "Settings: Title of no match string"
   },
   "titleBtnExit": {
-    "message": "Exits filter rule validation and saves filter rule",
+    "message": "Exits window and saves settings",
     "description": "Settings: Title of exit button"
   },
   "titleEnableHighlightBox": {

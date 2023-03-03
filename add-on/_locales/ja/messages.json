@@ -27,11 +27,35 @@
     "message": "プレーヤーの字幕",
     "description": "Settings: Option enable YouTube player overlay"
   },
-  "enableOverlayFilter": {
-    "message": "プレーヤーの字幕",
-    "description": "Settings: Filter enable YouTube player overlay"
+  "btnOverlaySettings": {
+    "message": "字幕のスタイル",
+    "description": "Settings: Button open YouTube player overlay settings"
   },
-  "overlayAlign": {
+  "fontSize": {
+    "message": "フォントサイズ",
+    "description": "Settings: Font size overlay"
+  },
+  "fontColor": {
+    "message": "フォントの色",
+    "description": "Settings: Font color overlay"
+  },
+  "fontOpacity": {
+    "message": "フォントの不透明度",
+    "description": "Settings: Font opacity overlay"
+  },
+  "backgroundColor": {
+    "message": "背景色",
+    "description": "Settings: Background color overlay"
+  },
+  "backgroundOpacity": {
+    "message": "背景の不透明度",
+    "description": "Settings: Background opacity overlay"
+  },
+  "fontFamily": {
+    "message": "フォントファミリー",
+    "description": "Settings: Font family overlay"
+  },
+  "align": {
     "message": "字幕の配置",
     "description": "Settings: Option alignment of overlay"
   },
@@ -47,17 +71,53 @@
     "message": "字幕視聴時間",
     "description": "Settings: Option duration overlay"
   },
+  "white": {
+    "message": "白色",
+    "description": "Settings: Select white"
+  },
+  "yellow": {
+    "message": "黄色",
+    "description": "Settings: Select yellow"
+  },
+  "green": {
+    "message": "緑色",
+    "description": "Settings: Select green"
+  },
+  "cyan": {
+    "message": "シアン色",
+    "description": "Settings: Select cyan"
+  },
+  "blue": {
+    "message": "青色",
+    "description": "Settings: Select blue"
+  },
+  "magenta": {
+    "message": "赤紫色",
+    "description": "Settings: Select magenta"
+  },
+  "red": {
+    "message": "赤色",
+    "description": "Settings: Select red"
+  },
+  "black": {
+    "message": "黒色",
+    "description": "Settings: Select black"
+  },
   "newFilter": {
     "message": "新しいフィルター ルール",
     "description": "Settings: add new filter"
   },
   "highlight": {
     "message": "ハイライトします",
-    "description": "Settings: select option for highlighting messages"
+    "description": "Settings: Select option for highlighting messages"
+  },
+  "captions": {
+    "message": "字幕として表示",
+    "description": "Settings: Select option for YouTube player overlay"
   },
   "delete": {
     "message": "削除します",
-    "description": "Settings: select option for deleting messages"
+    "description": "Settings: Select option for deleting messages"
   },
   "startsWith": {
     "message": "で始まります",
@@ -219,9 +279,9 @@
     "message": "YouTube ライブチャット メッセージを字幕として表示するためのプレーヤー オーバーレイを有効にします",
     "description": "Settings: Title enable overlay"
   },
-  "titleEnableOverlayFilter": {
-    "message": "YouTube ライブチャット メッセージがこのフィルター ルールに一致すると、YouTube プレーヤー オーバーレイに表示されます",
-    "description": "Settings: Title filter settings enable overlay"
+  "titleBtnOverlaySettings": {
+    "message": "YouTube プレーヤーの字幕スタイルを設定するためのウィンドウを開きます",
+    "description": "Settings: Title button overlay style settings"
   },
   "titleOverlayAlign": {
     "message": "字幕の配置",
@@ -260,7 +320,7 @@
     "description": "Settings: Title of no match string"
   },
   "titleBtnExit": {
-    "message": "フィルタールール検証をを閉じてフィルタールールをセーブします",
+    "message": "ウィンドウを閉じて設定をセーブします",
     "description": "Settings: Title of exit button"
   },
   "titleEnableHighlightBox": {

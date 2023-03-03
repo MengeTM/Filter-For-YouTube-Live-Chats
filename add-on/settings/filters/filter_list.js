@@ -135,7 +135,6 @@ class Filter {
                 case "1":
                     json = {
                         name: "",
-                        overlay: false,
                         type: "highlight",
                         data: new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some")),
                         enable: true
@@ -145,7 +144,6 @@ class Filter {
                 case "2":
                     json = {
                         name: "",
-                        overlay: false,
                         type: "highlight",
                         data: new LogicalBinary("and", new StringRegex("includes", new StringOption("author"), new TextElement([]), new LogicalArray("some")), new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some"))),
                         enable: true
@@ -233,7 +231,6 @@ class Filter {
     json() {
         return {
             name: this.filterData.name,
-            overlay: this.filterData.overlay,
             type: this.filterData.type,
             data: this.filterBox.data.json(),
             enable: this.filterData.enable
@@ -264,13 +261,6 @@ class Filter {
         }
     }
 
-    /**
-     * Enables enable overlay
-     */
-    setEnableOverlay(enable) { 
-        this.enableOverlay.disabled = !enable;
-    }
-
     /* 
      * Adds HTML element with data input elements
      */
@@ -295,7 +285,7 @@ class Filter {
         mainElement.appendChild(this.filterNameElement.element);
 
         // Select for filter action
-        this.filterActionElement = new BaseSelect(this.filterData.type, ["highlight", "delete"], i18n(["highlight", "delete"]));
+        this.filterActionElement = new BaseSelect(this.filterData.type, ["highlight", "captions", "delete"], i18n(["highlight", "captions", "delete"]));
         this.filterActionElement.element.classList.add("filter-type");
         this.filterActionElement.element.classList.add("input");
         this.filterActionElement.element.title = i18n("titleSelectAction");
@@ -336,22 +326,6 @@ class Filter {
         controlElement.classList.add("control");
         this.filterElement.appendChild(controlElement);
 
-        // Checkbox for enabling caption overlay
-        let overlay = document.createElement("div");
-        overlay.title = i18n("titleEnableOverlayFilter");
-        this.enableOverlay = document.createElement("input");
-        this.enableOverlay.type = "checkbox";
-        this.enableOverlay.checked = this.filterData.overlay;
-        this.enableOverlay.addEventListener("change", () => {
-            this.filterData.overlay = this.enableOverlay.checked;
-            this.save();
-        });
-        overlay.appendChild(this.enableOverlay);
-        let overlaySpan = document.createElement("span");
-        overlaySpan.textContent = i18n("enableOverlayFilter");
-        overlay.appendChild(overlaySpan);
-        controlElement.appendChild(overlay);
-
         // Flex
         let flex = document.createElement("div");
         flex.classList.add("flex-auto");
@@ -389,7 +363,6 @@ class FilterList {
         }
 
         this.expertMode = false;
-        this.enableOverlay = true;
 
         // Element for adding filter elements
         this.filters = filtersElement;
@@ -413,7 +386,6 @@ class FilterList {
         filter.filterList = this;
 
         filter.setExpertMode(this.expertMode);
-        filter.setEnableOverlay(this.enableOverlay);
 
         this.filters.appendChild(filter.filterElement);
         filter.filterElement.id = `filter_${this.next_id}`;
@@ -442,17 +414,6 @@ class FilterList {
         let expertElements = this.filters.querySelectorAll(".expert");
         for (let element of expertElements) {
             element.hidden = !expert;
-        }
-    }
-
-    /**
-     * Enables enable overlay
-     */
-    setEnableOverlay(enable) {
-        this.enableOverlay = enable;
-
-        for (let filter of this.filters.childNodes) {
-            filter.filter.setEnableOverlay(enable);
         }
     }
 

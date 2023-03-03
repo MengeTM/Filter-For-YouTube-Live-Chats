@@ -1,0 +1,57 @@
+@media (prefers-color-scheme: dark) {
+    .window {
+        background-color: #383838;
+        color: white;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .window {
+        background-color: #ffffff;
+    }
+}
+
+.background {
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #00000099;
+    color-scheme: dark light;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+.window {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.window > .contents {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+}
+
+.window > .controls {
+    flex: none;
+    padding: 8px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+    .window > .controls > button {
+        padding: 8px;
+    }

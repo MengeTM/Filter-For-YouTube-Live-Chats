@@ -69,8 +69,9 @@ yt-live-chat-item-list-renderer+#separator+div {
 
 .sf-overlay-dragging {
     border-style: solid;
-    border-color: rgba(0, 0, 0, 100);
+    border-color: #00000090;
     border-width: 1px;
+    background-color: #BB905090;
 }
 
 .sf-overlay-left {

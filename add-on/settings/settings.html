@@ -5,13 +5,18 @@
     <link rel="icon" href="../youtube_stream_filter.svg" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="switch/toggle_switch.css" />
+    <link rel="stylesheet" href="window/window.css"/>
+    <link rel="stylesheet" href="overlay_settings/overlay_settings.css"/>
     <link rel="stylesheet" href="filter_evaluation/filter_evaluation.css" />
     <script src="select_box.js"></script>
     <script src="switch/toggle_switch.js"></script>
     <script src="../i18n.js"></script>
     <script src="../storage.js"></script>
     <script src="../filter_data.js"></script>
+    <script src="../xml.js"></script>
+    <script src="window/window.js"></script>
     <script src="filter_evaluation/filter_evaluation.js"></script>
+    <script src="overlay_settings/overlay_settings.js"></script>
     <script src="filters/filter_list.js"></script>
 </head>
 
@@ -62,11 +67,7 @@
                     </span>
 
                     <span class="item">
-                        <span class="i18n" data-id="overlayAlign"></span>:&nbsp;
-                        <select id="overlay_align" class="i18n" title-id="titleOverlayAlign">
-                            <option selected="selected" value="left" class="i18n" data-id="overlayAlignLeft"></option>
-                            <option value="center" class="i18n" data-id="overlayAlignCenter"></option>
-                        </select>
+                        <input type="button" class="i18n" id="btn_overlay_settings" data-id="btnOverlaySettings" title-id="titleBtnOverlaySettings" />
                     </span>
 
                     <span class="item">

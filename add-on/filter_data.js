@@ -122,13 +122,11 @@ class TextElement {
  */
 class BaseSelect extends SelectBox {
     constructor(name, options, textList) {
-        // List of value, text for generating options
-        let selectOptions = [];
-        for (let i = 0; i < options.length; i++) {
-            selectOptions.push({ value: options[i], text: textList === undefined ? options[i] : textList[i] });
+        if (textList === undefined) {
+            textList = options;
         }
 
-        super(name, selectOptions);
+        super(options, textList, name);
 
         // HTML select element
         this.element.classList.add("input");

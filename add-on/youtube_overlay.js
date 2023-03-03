@@ -1,10 +1,35 @@
 ﻿class YouTubeOverlay {
     duration = null;  // Duration in ms showing a new message
-    align = null;  // Alignment of message
+    style = null;  // JSON overlay style
 
     disabled = false;  // Disables overlay
 
     translatorTags = false;  // Displays not the [Language] translator tags
+
+
+
+    // Styles color
+    styleColor = {
+        "white": [255, 255, 255],
+        "yellow": [255, 255, 0],
+        "green": [0, 255, 0],
+        "cyan": [0, 255, 255],
+        "blue": [0, 0, 255],
+        "magenta": [255, 0, 255],
+        "red": [255, 0, 0],
+        "black": [8, 8, 8],
+    };
+
+    // Styles font family
+    styleFontFamily = {
+        "m_sans-serif": '"Deja Vu Sans Mono", "Lucida Console", Monaco, Consolas, "PT Mono", monospace',
+        "p_sans-serif": '"YouTube Noto", Roboto, "Arial Unicode Ms", Arial, Helvetica, Verdana, "PT Sans Caption", sans-serif',
+        "m_sans": '"Courier New", Courier, "Nimbus Mono L", "Cutive Mono", monospace',
+        "p_sans": '"Times New Roman", Times, Georgia, Cambria, "PT Serif Caption", serif',
+        "casual": '"Comic Sans MS", Impact, Handlee, fantasy',
+        "cursive": '"Monotype Corsiva", "URW Chancery L", "Apple Chancery", "Dancing Script", cursive',
+        "small_capitals": '"Arial Unicode Ms", Arial, Helvetica, Verdana, "Marcellus SC", sans-serif',
+    };
 
     constructor(duration = null, align = null) {
         this.duration = duration;
@@ -35,21 +60,27 @@
 
         this.player.appendChild(this.overlay);
 
-        this.update();
-
-        this.disable(false);
+        this.loadOptions();
 
         // YouTube live-chat messages
         chrome.runtime.onMessage.addListener((message) => {
-            if (message.type == "overlay") {
-                let overlayMessage = this.parseOverlayMessage(message, this.align);
-                this.showMessage(overlayMessage, this.duration);
+            switch (message.type) {
+                case "overlay":
+                    if (this.style !== undefined) {
+                        let overlayMessage = this.parseOverlayMessage(message, this.align);
+                        this.showMessage(overlayMessage, this.duration);
+                    }
+                    break;
+                case "update_overlay":
+                    this.loadOptions();
+                    break;
             }
         });
 
         // Starts dragging the overlay element
         this.overlayText.addEventListener("mousedown", (event) => {
             this.overlayText.classList.add("sf-overlay-dragging");
+            this.overlay.classList.add("sf-overlay-dragging");
 
             // Position overlay
             this.left = this.overlay.offsetLeft;
@@ -86,23 +117,65 @@
         this.mousearea.addEventListener("mouseup", (event) => {
             this.player.removeChild(this.mousearea);
             this.overlayText.classList.remove("sf-overlay-dragging");
+            this.overlay.classList.remove("sf-overlay-dragging");
         });
 
         // Stopps dragging the overlay element
         this.mousearea.addEventListener("mouseleave", (event) => {
             this.player.removeChild(this.mousearea);
             this.overlayText.classList.remove("sf-overlay-dragging");
+            this.overlay.classList.remove("sf-overlay-dragging");
+        });
+    }
+
+    /**
+     * Loads options for YouTube overlay
+     */
+    loadOptions() {
+        sync_get(["enableOverlay", "overlayStyle", "enableOverlayDuration", "overlayDuration"], (result) => {
+            let enableOverlay = result.enableOverlay;
+            let overlayStyle = result.overlayStyle || {
+                "fontSize": "1",
+                "fontColor": "white",
+                "fontOpacity": "1",
+                "backgroundColor": "black",
+                "backgroundOpacity": "0.25",
+                "fontFamily": "p_sans-serif",
+                "align": "center"
+            };
+            let enableOverlayDuration = result.enableOverlayDuration;
+            let overlayDuration = result.overlayDuration || 5;
+
+            if (enableOverlay === undefined) {
+                enableOverlay = false;
+            }
+
+            if (enableOverlayDuration === undefined) {
+                enableOverlayDuration = true;
+            }
+
+            // Disable overlayDuration
+            if (!enableOverlayDuration) {
+                overlayDuration = null;
+            } else {
+                overlayDuration *= 1000;
+            }
+
+            // Sets overlay settings
+            this.setStyle(overlayStyle);
+            this.setDuration(overlayDuration);
+            this.disable(!enableOverlay)
         });
     }
 
     /**
      * Updates text element
      */
-    update() {
+    updateSize() {
         this.playerWidth = this.video.style.width.replace("px", "");
         this.playerHeight = this.video.style.height.replace("px", "");
 
-        this.fontSize = this.playerHeight * 0.05 + "px";
+        this.fontSize = this.style["fontSize"] * this.playerHeight * 0.05 + "px";
         this.width = this.playerWidth * 0.65 + "px";
 
         this.overlay.style.width = this.width;
@@ -126,13 +199,13 @@
     }
 
     /**
-     * Sets overlay align
-     * @param align Overlay align [null | "left" | "center"]
+     * Sets style of the overlay
+     * @param style JSON object with HTML styles
      */
-    setAlign(align) {
-        this.align = align;
+    setStyle(style) {
+        this.style = style;
 
-        switch (align) {
+        switch (style["align"]) {
             case null:
             case "left":
                 this.overlayText.style.textAlign = "left";
@@ -140,6 +213,23 @@
             case "center":
                 this.overlayText.style.textAlign = "center";
                 break
+        }
+
+        let element = this.overlayText.firstElementChild;
+
+        this.updateSize();
+        this.applyStyle(element);
+    }
+
+    /**
+     * Applies style for overlay text and background
+     * @param element HTMLElement for text
+     */
+    applyStyle(element) {
+        if (element !== null && this.style !== null) {
+            element.style.color = `rgba(${this.styleColor[this.style["fontColor"]].join(", ")}, ${this.style["fontOpacity"]})`;
+            element.style.background = `rgba(${this.styleColor[this.style["backgroundColor"]].join(", ")}, ${this.style["backgroundOpacity"]})`;
+            element.style.fontFamily = this.styleFontFamily[this.style["fontFamily"]];
         }
     }
 
@@ -151,6 +241,8 @@
     parseOverlayMessage(message, align="left") {
         let node = document.createElement("span");
         node.classList.add("sf-overlay-text");
+
+        this.applyStyle(node);
 
         for (let obj of message.rawMessage) {
             let text;
@@ -244,7 +336,7 @@
     videoobserver = new MutationObserver((items) => {
         for (let item of items) {
             if (item.attributeName == "style") {
-                this.update();
+                this.updateSize();
             }
         }
     });

@@ -71,35 +71,39 @@ class YouTubeStreamFilter {
                 // Matches author and message of chat message
                 let data = { author: authorName, message: message };
                 let match = false;  // Does not apply other filters when already matched
+                let deleted = false;  // Deletes node
                 for (let filter of this.filters) {
                     if (filter.enable) {
                         switch (filter.type) {
                             case "highlight":
-                                if (!match && filter.data.evaluate(data)) {
+                                if (!match && this.enableHighlight && filter.data.evaluate(data)) {
                                     console.log("highlight", message);
 
                                     // Adds chat message to highlight chat 
-                                    if (this.enableHighlight) {
-                                        this.highlightBox.addMessage(node);
-                                    }
+                                    this.highlightBox.addMessage(node);
+
+                                    match = true;
+                                }
+                                break;
+                            case "captions":
+                                if (this.enableOverlay && filter.data.evaluate(data)) {
+                                    console.log("captions", message);
 
                                     // Shows message as YouTube caption overlay
-                                    if (this.enableOverlay && filter.overlay) {
-                                        chrome.runtime.sendMessage({ type: "overlay", author: authorName, message: message, rawMessage: rawMessage });
-                                    }
-                                    match = true;
+                                    chrome.runtime.sendMessage({ type: "overlay", author: authorName, message: message, rawMessage: rawMessage });
                                 }
                                 break;
                             case "delete":
                                 if (!match && filter.data.evaluate(data)) {
 
                                     node.parentNode.removeChild(node);
-                                    match = true;
+
+                                    deleted = true;
                                 }
                                 break;
                         }
 
-                        if (match) {
+                        if (deleted) {
                             break;
                         }
                     }
@@ -112,32 +116,11 @@ class YouTubeStreamFilter {
      * Loads options for YouTube overlay
      */
     loadOverlayOptions() {
-        sync_get(["enableOverlay", "overlayAlign", "enableOverlayDuration", "overlayDuration"], (result) => {
+        sync_get(["enableOverlay"], (result) => {
             this.enableOverlay = result.enableOverlay;
-            let overlayAlign = result.overlayAlign || "right";
-            let enableOverlayDuration = result.enableOverlayDuration;
-            let overlayDuration = result.overlayDuration || 5;
 
             if (this.enableOverlay === undefined) {
                 this.enableOverlay = false;
-            }
-
-            if (enableOverlayDuration === undefined) {
-                enableOverlayDuration = true;
-            }
-
-            // Disable overlayDuration
-            if (!enableOverlayDuration) {
-                overlayDuration = null;
-            } else {
-                overlayDuration *= 1000;
-            }
-
-            // Sets overlay settings
-            if (this.overlay !== undefined) {
-                this.overlay.setAlign(overlayAlign);
-                this.overlay.setDuration(overlayDuration);
-                this.overlay.disable(!this.enableOverlay);
             }
         });
     }
@@ -174,7 +157,6 @@ class YouTubeStreamFilter {
         sync_get(["filters"], (result) => {
             this.filters = result.filters || [{
                 name: "Hololive EN",
-                overlay: true,
                 type: "highlight",
                 data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")).json(),
                 enable: true
@@ -269,16 +251,6 @@ class YouTubeStreamFilter {
             });
 
             this.overlay = new YouTubeOverlay();
-
-            chrome.runtime.onMessage.addListener((message) => {
-                switch (message.type) {
-                    case "update_overlay":
-                        this.loadOverlayOptions();
-                        break;
-                }
-            });
-
-            this.loadOverlayOptions();
         }
     }
 

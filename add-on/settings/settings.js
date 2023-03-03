@@ -21,6 +21,9 @@ class Setting {
         // Manages filter data and filter elements
         this.filterList = new FilterList(document.querySelector("#filters"));
 
+        // Settings window for player overlay
+        this.overlaySettings = new OverlaySettings();
+
         // Settings page title
         document.title = i18n("titleSettingsPage");
     }
@@ -102,12 +105,6 @@ class Setting {
             this.updateOverlay();
         });
 
-        document.querySelector("#overlay_align").addEventListener("change", () => {
-            this.overlayAlign = document.querySelector("#overlay_align").value;
-            sync_set({ overlayAlign: this.overlayAlign });
-            this.updateOverlay();
-        });
-
         document.querySelector("#enable_overlay_duration").addEventListener("change", () => {
             this.enableOverlayDuration = document.querySelector("#enable_overlay_duration").checked;
             document.querySelector("#overlay_duration").disabled = !this.enableOverlayDuration;
@@ -129,6 +126,11 @@ class Setting {
             this.filterList.addFilter(filter);
 
             return false;
+        });
+
+        // Shows overlay settings
+        document.querySelector("#btn_overlay_settings").addEventListener("click", () => {
+            this.overlaySettings.show();
         });
 
         // Toggles and saves expert mode
@@ -161,13 +163,11 @@ class Setting {
         document.querySelector("#size").value = this.size;
         document.querySelector("#enable_highlight").checked = this.enableHighlight;
         document.querySelector("#enable_overlay").checked = this.enableOverlay;
-        document.querySelector("#overlay_align").value = this.overlayAlign;
         document.querySelector("#enable_overlay_duration").checked = this.enableOverlayDuration;
         document.querySelector("#overlay_duration").value = this.overlayDuration;
         document.querySelector("#overlay_duration").disabled = !this.enableOverlayDuration;
         document.querySelector("#enable_expert_mode").checked = this.expertMode;
         this.filterList.setExpertMode(this.expertMode);
-        this.filterList.setEnableOverlay(this.enableOverlay);
     }
 }
 
