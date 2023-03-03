@@ -119,7 +119,7 @@ class YouTubeStreamFilter {
             let overlayDuration = result.overlayDuration || 5;
 
             if (this.enableOverlay === undefined) {
-                this.enableOverlay = true;
+                this.enableOverlay = false;
             }
 
             if (enableOverlayDuration === undefined) {

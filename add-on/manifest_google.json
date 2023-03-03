@@ -14,7 +14,7 @@
     "128": "youtube_stream_filter.png"
   },
 
-  "host_permission": [ "*://www.youtube.com/*" ],
+  "host_permissions": [ "*://www.youtube.com/*" ],
 
   "options_ui": {
     "page": "settings/settings.html",
@@ -43,6 +43,6 @@
     }
   ],
 
-  "permissions": [ "storage", "tabs" ]
+  "permissions": [ "storage" ]
 
 }

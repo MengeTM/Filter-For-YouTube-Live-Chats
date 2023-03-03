@@ -40,6 +40,6 @@
     }
   ],
 
-  "permissions": [ "storage" ]
+  "permissions": [ "storage", "*://www.youtube.com/*" ]
 
 }
