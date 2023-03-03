@@ -8,7 +8,7 @@
     "description": "Description of the extension."
   },
   "settingsFilters": {
-    "message": "YouTube™ ライブチャットのフィルタ アドオンの設定",
+    "message": "フィルター設定",
     "description": "Filter settings for live-chat."
   },
   "filterTitle": {
@@ -220,7 +220,7 @@
     "description": "Settings: Title enable overlay"
   },
   "titleEnableOverlayFilter": {
-    "message": "このフィルタに一致する YouTube ライブチャット メッセージは、YouTube プレーヤー オーバーレイとともに表示されます",
+    "message": "YouTube ライブチャット メッセージがこのフィルター ルールに一致すると、YouTube プレーヤー オーバーレイに表示されます",
     "description": "Settings: Title filter settings enable overlay"
   },
   "titleOverlayAlign": {
@@ -228,11 +228,11 @@
     "description": "Settings: Title overlay align"
   },
   "titleEnableOverlayDuration": {
-    "message": "設定時間後に字幕を非表示にします",
+    "message": "字幕の表示時間を有効にします",
     "description": "Settings: Title enable overlay duration"
   },
   "titleOverlayDuration": {
-    "message": "時間 秒単位",
+    "message": "時間 (秒)",
     "description": "Settings: Title overlay duration"
   },
   "titleNewFilter": {
@@ -272,7 +272,7 @@
     "description": "Sittings: Title of highlight box size"
   },
   "titleSettingsPage": {
-    "message": "YouTube™ ライブチャットのフィルタ アドオンの設定",
+    "message": "フィルター設定",
     "description": "Tab title of settings page"
   },
   "menuSettingsPage": {

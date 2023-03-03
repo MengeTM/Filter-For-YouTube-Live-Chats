@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
-  "version": "0.1.2",
+  "version": "0.1.5",
 
   "homepage_url": "https://github.com/MengeTM/Filter-For-YouTube-Live-Chats",
 
@@ -10,8 +10,7 @@
 
   "browser_specific_settings": {
     "gecko": {
-      "strict_min_version": "57.0",
-      "id": "youtube_stream_filter@example.com"
+      "strict_min_version": "57.0"
     }
   },
 

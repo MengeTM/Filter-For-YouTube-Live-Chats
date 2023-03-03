@@ -8,7 +8,7 @@
     "description": "Description of the extension."
   },
   "settingsFilters": {
-    "message": "Einstellungen von Filter für YouTube™ Live-Chats",
+    "message": "Filter Einstellungen",
     "description": "Filter settings for live-chat."
   },
   "settingsBoxSize": {
@@ -272,7 +272,7 @@
     "description": "Sittings: Title of highlight box size"
   },
   "titleSettingsPage": {
-    "message": "Einstellungen von Filter für YouTube™ Live-Chat",
+    "message": "Filter Einstellungen",
     "description": "Tab title of settings page"
   },
   "menuSettingsPage": {
