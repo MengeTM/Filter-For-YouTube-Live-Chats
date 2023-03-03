@@ -23,6 +23,10 @@
         background-color: #353535;
     }
 
+        .settings-box > div ~ div {
+            border-color: #2F2F2F;
+        }
+
     .header, .body {
         background-color: #555555;
     }
@@ -53,6 +57,10 @@
         background-color: #E0E0E0;
     }
 
+        .settings-box > div ~ div {
+            border-color: #EFEFEF;
+        }
+
     .header, .body {
         background-color: #EFEFEF;
     }
@@ -76,10 +84,7 @@
 
 .settings-box {
     border-radius: 5px;
-    display: flex;
-    flex-direction: column;
     flex: none;
-    align-items: flex-start;
     padding: 5px;
 }
 
@@ -114,23 +119,23 @@
     margin-bottom: 15px;
 }
 
-.header {
+#filters-box > .header {
     border-radius: 5px;
     padding: 10px 70px 10px 10px;
     margin-bottom: 10px;
     font-weight: bold;
 }
 
-.header > span {
+#filters-box >.header > span {
     padding-left: 5px;
 }
 
-.header, .main {
+#filters-box > .header, .main {
     display: grid;
     grid-template-columns: 1fr 1fr 5fr auto;
 }
 
-.body {
+#filters-box > .body {
     position: relative;
     flex: auto;
     min-height: 100px;
@@ -146,7 +151,7 @@
     overflow-x: hidden;
     position: absolute;
     top: 5px;
-    bottom: 5px;
+    bottom: 50px;
     left: 5px;
     right: 5px;
 }
@@ -233,7 +238,7 @@
 
 .filter > .control {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     padding: 3px 15px 3px 3px;
 }
 
@@ -246,10 +251,40 @@
     margin-left: 10px;
 }
 
-.control {
-    padding-right: 30px;
+.control > .flex-auto {
+    flex: auto;
 }
 
 .dragging {
     opacity: 30%;
 }
+
+#filters-box > .body > .controls {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#settings {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+    #settings input {
+        max-width: 55px;
+    }
+
+#settings > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px 10px 0px 10px;
+}
+
+    #settings > div ~ div {
+        border-left-style: solid;
+        border-width: 1px;
+    }

@@ -20,6 +20,7 @@ yt-live-chat-item-list-renderer+#separator+div {
     border-bottom-style: solid;
     border-bottom-width: 5px;
     border-color: var(--yt-spec-10-percent-layer);
+    cursor: row-resize;
 }
 
 .sf-separator-mouse {
@@ -28,12 +29,72 @@ yt-live-chat-item-list-renderer+#separator+div {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    z-index: 1;
+    z-index: 85;
+    cursor: row-resize;
 }
 
 .sf-hidden {
     display: none !important;
 }
+
+.sf-overlay {
+    position: absolute;
+    bottom: 2%;
+    left: 21.2%;
+    overflow: hidden;
+    z-index: 50;
+}
+
+.sf-overlay-mouse {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 85;
+    cursor: grabbing;
+}
+
+.sf-overlay-text-sider {
+    transition: margin-bottom 0.25s cubic-bezier(0,0,0.2,1);
+}
+
+.sf-overlay-autohide {
+    margin-bottom: 61px;
+}
+
+.sf-overlay-drag {
+    cursor: grab;
+}
+
+.sf-overlay-dragging {
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 100);
+    border-width: 1px;
+}
+
+.sf-overlay-left {
+    text-align: left;
+}
+
+.sf-overlay-center {
+    text-align: center;
+}
+
+.sf-overlay-text {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.25);
+    font-family: "YouTube Noto", Roboto, "Arial Unicode Ms", Arial, Helvetica, Verdana, "PT Sans Caption", sans-serif;
+    line-height: normal;
+    white-space: pre-wrap;
+    user-select: none;
+    padding: 0em 0.25em 0em 0.25em;
+    background-color: rgba(8, 8, 8, 0.75);
+}
+
+    .sf-overlay-text > img {
+        opacity: 0.25;
+    }
 
 .sf-menu-item-element {
     position: relative;

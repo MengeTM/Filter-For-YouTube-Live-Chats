@@ -23,6 +23,30 @@
     "message": "Beispiel YouTube Live-Chat Nachrichten",
     "description": "Settings: Title evaluation"
   },
+  "enableOverlay": {
+    "message": "Aktiviere Player Untertitel",
+    "description": "Settings: Option enable YouTube player overlay"
+  },
+  "enableOverlayFilter": {
+    "message": "Player Untertitel",
+    "description": "Settings: Filter enable YouTube player overlay"
+  },
+  "overlayAlign": {
+    "message": "Untertitel Anordnung",
+    "description": "Settings: Option alignment of overlay"
+  },
+  "overlayAlignLeft": {
+    "message": "links",
+    "description": "Settings: Select option left"
+  },
+  "overlayAlignCenter": {
+    "message": "mittig",
+    "description": "Settings: Select option center"
+  },
+  "overlayDuration": {
+    "message": "Anzeigedauer Untertitel",
+    "description": "Settings: Option duration overlay"
+  },
   "newFilter": {
     "message": "Neue Filter Regel",
     "description": "Settings: add new filter"
@@ -190,6 +214,26 @@
   "titleSelectNumberFilter": {
     "message": "Anzahl Matching-Regeln für neuen Filter",
     "description": "Settings: Select number of filter elements"
+  },
+  "titleEnableOverlay": {
+    "message": "Aktiviert das Player Overlay zur Anzeige von YouTube Live-Chat Nachrichten als Untertitel",
+    "description": "Settings: Title enable overlay"
+  },
+  "titleEnableOverlayFilter": {
+    "message": "YouTube Live-Chat Nachrichten, welche diesen Filter matchen, werden mit dem YouTube Player Overlay angezeigt",
+    "description": "Settings: Title filter settings enable overlay"
+  },
+  "titleOverlayAlign": {
+    "message": "Ausrichtung der Untertitel",
+    "description": "Settings: Title overlay align"
+  },
+  "titleEnableOverlayDuration": {
+    "message": "Zeigt Untertitel für eine gesetzte Zeitspanne",
+    "description": "Settings: Title enable overlay duration"
+  },
+  "titleOverlayDuration": {
+    "message": "Zeitspanne in Sekunden",
+    "description": "Settings: Title overlay duration"
   },
   "titleNewFilter": {
     "message": "Fügt eine neue Filter Regel hinzu",

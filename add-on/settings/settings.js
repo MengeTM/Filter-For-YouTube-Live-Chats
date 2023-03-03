@@ -1,10 +1,22 @@
 class Setting {
     constructor() {
         // Settings
+
+        // Highlight chat-box
         this.size = null;  // Size of highlight chat-box
         this.enableHighlight = null;  // Enables highlight chat-box
-        this.expertMode = null;  // Enables expert select options for selection
-        this.filters = null;  // List of JSON filter data
+
+        // Overlay
+        this.enableOverlay = null;  // Enables caption overlay
+        this.overlayAlign = null;  // Sets text align of ovelay
+        this.enableOverlayDuration = null;  // Enables overlay duration
+        this.overlayDuration = null;  // Duration of showing overlay messages
+
+        // Enables expert select options for selection
+        this.expertMode = null;
+
+        // List of JSON filter data
+        this.filters = null;
 
         // Manages filter data and filter elements
         this.filterList = new FilterList(document.querySelector("#filters"));
@@ -18,20 +30,32 @@ class Setting {
      */
     restoreOptions() {
 
-        sync_get(["size", "enable_highlight", "expertMode", "filters"], (result) => {
+        sync_get(["size", "enable_highlight", "expertMode", "filters", "enableOverlay", "overlayAlign", "enableOverlayDuration", "overlayDuration"], (result) => {
             this.size = result.size || 30;
             this.enableHighlight = result.enableHighlight;
+            this.enableOverlay = result.enableOverlay;
+            this.overlayAlign = result.overlayAlign || "left";
+            this.enableOverlayDuration = result.enableOverlayDuration;
+            this.overlayDuration = result.overlayDuration || 5;
             this.expertMode = result.expertMode;
             this.filters = result.filters || [{
                 name: "Hololive EN",
+                overlay: true,
                 type: "highlight",
-                data_type: "1",
                 data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")).json(),
                 enable: true
             }];
 
             if (this.enableHighlight === undefined) {
                 this.enableHighlight = true;
+            }
+
+            if (this.enableOverlay === undefined) {
+                this.enableOverlay = false;
+            }
+
+            if (this.enableOverlayDuration === undefined) {
+                this.enableOverlayDuration = true;            
             }
 
             if (this.expertMode === undefined) {
@@ -45,6 +69,13 @@ class Setting {
 
             this.update();
         });
+    }
+
+    /**
+     * Sends message for updating settings
+     */
+    updateOverlay() {
+        chrome.runtime.sendMessage({ type: "update_overlay" });
     }
 
     /*
@@ -61,7 +92,35 @@ class Setting {
         // Saves enable highlight chat-box settings
         document.querySelector("#enable_highlight").addEventListener("change", () => {
             this.enableHighlight = document.querySelector("#enable_highlight").checked;
-            sync_set({ "enableHighlight": this.enableHighlight });
+            sync_set({ enableHighlight: this.enableHighlight });
+        });
+
+        document.querySelector("#enable_overlay").addEventListener("change", () => {
+            this.enableOverlay = document.querySelector("#enable_overlay").checked;
+            this.filterList.setEnableOverlay(this.enableOverlay);
+            sync_set({ enableOverlay: this.enableOverlay });
+            this.updateOverlay();
+        });
+
+        document.querySelector("#overlay_align").addEventListener("change", () => {
+            this.overlayAlign = document.querySelector("#overlay_align").value;
+            sync_set({ overlayAlign: this.overlayAlign });
+            this.updateOverlay();
+        });
+
+        document.querySelector("#enable_overlay_duration").addEventListener("change", () => {
+            this.enableOverlayDuration = document.querySelector("#enable_overlay_duration").checked;
+            document.querySelector("#overlay_duration").disabled = !this.enableOverlayDuration;
+            sync_set({ enableOverlayDuration: this.enableOverlayDuration });
+            this.updateOverlay();
+        });
+
+        document.querySelector("#overlay_duration").addEventListener("change", () => {
+            this.overlayDuration = document.querySelector("#overlay_duration").value;
+            this.overlayDuration = Math.max(0.5, this.overlayDuration);
+            sync_set({ overlayDuration: this.overlayDuration });
+            this.updateOverlay();
+            this.update();
         });
 
         // Adds and saves new filter rule
@@ -101,8 +160,14 @@ class Setting {
     update() {
         document.querySelector("#size").value = this.size;
         document.querySelector("#enable_highlight").checked = this.enableHighlight;
+        document.querySelector("#enable_overlay").checked = this.enableOverlay;
+        document.querySelector("#overlay_align").value = this.overlayAlign;
+        document.querySelector("#enable_overlay_duration").checked = this.enableOverlayDuration;
+        document.querySelector("#overlay_duration").value = this.overlayDuration;
+        document.querySelector("#overlay_duration").disabled = !this.enableOverlayDuration;
         document.querySelector("#enable_expert_mode").checked = this.expertMode;
         this.filterList.setExpertMode(this.expertMode);
+        this.filterList.setEnableOverlay(this.enableOverlay);
     }
 }
 

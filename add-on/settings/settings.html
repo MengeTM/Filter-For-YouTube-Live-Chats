@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="../youtube_stream_filter.svg" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="switch/toggle_switch.css" />
+    <link rel="stylesheet" href="filter_evaluation/filter_evaluation.css" />
+    <script src="select_box.js"></script>
+    <script src="switch/toggle_switch.js"></script>
+    <script src="../i18n.js"></script>
+    <script src="../storage.js"></script>
+    <script src="../filter_data.js"></script>
+    <script src="filter_evaluation/filter_evaluation.js"></script>
+    <script src="filters/filter_list.js"></script>
+</head>
+
+    <body>
+        <div class="box">
+            <h2 class="i18n" data-id="settingsFilters"></h2>
+            <div id="filters-box">
+                <div class="header">
+                    <span class="i18n" data-id="filterName"></span>
+                    <span class="i18n" data-id="filterAction"></span>
+                    <span class="i18n" data-id="filterRule"></span>
+                </div>
+                <div class="body">
+                    <div id="filters"></div>
+                    <div class="controls">
+                        <select id="select_new_filter" class="i18n" title-id="titleSelectNumberFilter" value="1" required="required">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+
+                        <input type="button" id="btn_add_filter" class="i18n" data-id="newFilter" title-id="titleNewFilter" name="Add filter" value="Add filter" />
+                    </div>
+                </div>
+            </div>
+            <div id="settings" class="settings-box">
+                <div>
+                    <span class="item">
+                        <label class="switch">
+                            <input type="checkbox" id="enable_highlight" />
+                            <span class="slider round i18n" title-id="titleEnableHighlightBox"></span>
+                        </label>
+                        <span class="i18n" data-id="enableHighlight"></span>
+                    </span>
+
+                    <span class="item">
+                        <span class="i18n" data-id="settingsBoxSize"></span>:&nbsp;
+                        <input type="number" id="size" class="i18n" title-id="titleHighlightBoxSize" min="0" max="100" />&nbsp;%
+                    </span>
+                </div>
+
+                <div>
+                    <span class="item">
+                        <label class="switch">
+                            <input type="checkbox" id="enable_overlay" />
+                            <span class="slider round i18n" , title-id="titleEnableOverlay"></span>
+                        </label>
+                        <span class="i18n" data-id="enableOverlay"></span>
+                    </span>
+
+                    <span class="item">
+                        <span class="i18n" data-id="overlayAlign"></span>:&nbsp;
+                        <select id="overlay_align" class="i18n" title-id="titleOverlayAlign" value="left">
+                            <option value="left" class="i18n" data-id="overlayAlignLeft"></option>
+                            <option value="center" class="i18n" data-id="overlayAlignCenter"></option>
+                        </select>
+                    </span>
+
+                    <span class="item">
+                        <label class="switch">
+                            <input type="checkbox" id="enable_overlay_duration" />
+                            <span class="slider round i18n" title-id="titleEnableOverlayDuration"></span>
+                        </label>
+                        <span class="i18n" data-id="overlayDuration"></span>:&nbsp;
+                        <input type="number" class="i18n" title-id="titleOverlayDuration" step="1" min="1" id="overlay_duration" />&nbsp;s
+                    </span>
+                </div>
+
+                <div>
+                    <span class="item">
+                        <label class="switch">
+                            <input type="checkbox" id="enable_expert_mode" />
+                            <span class="slider round i18n" title-id="titleExpertMode"></span>
+                        </label>
+                        <span class="i18n" data-id="expertMode"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script src="settings.js"></script>
+    </body>
+</html>

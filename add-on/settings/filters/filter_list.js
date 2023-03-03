@@ -135,6 +135,7 @@ class Filter {
                 case "1":
                     json = {
                         name: "",
+                        overlay: false,
                         type: "highlight",
                         data: new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some")),
                         enable: true
@@ -144,6 +145,7 @@ class Filter {
                 case "2":
                     json = {
                         name: "",
+                        overlay: false,
                         type: "highlight",
                         data: new LogicalBinary("and", new StringRegex("includes", new StringOption("author"), new TextElement([]), new LogicalArray("some")), new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some"))),
                         enable: true
@@ -231,6 +233,7 @@ class Filter {
     json() {
         return {
             name: this.filterData.name,
+            overlay: this.filterData.overlay,
             type: this.filterData.type,
             data: this.filterBox.data.json(),
             enable: this.filterData.enable
@@ -249,6 +252,23 @@ class Filter {
      */
     deleteFilter () {
         this.filterList.deleteFilter(this);
+    }
+
+    /**
+     * Selects expert elements by class and enables or disables them
+     */
+    setExpertMode(expert) {
+        let expertElements = this.filterElement.querySelectorAll(".expert");
+        for (let element of expertElements) {
+            element.hidden = !expert;
+        }
+    }
+
+    /**
+     * Enables enable overlay
+     */
+    setEnableOverlay(enable) { 
+        this.enableOverlay.disabled = !enable;
     }
 
     /* 
@@ -316,6 +336,37 @@ class Filter {
         controlElement.classList.add("control");
         this.filterElement.appendChild(controlElement);
 
+        // Checkbox for enabling caption overlay
+        let overlay = document.createElement("div");
+        overlay.title = i18n("titleEnableOverlayFilter");
+        this.enableOverlay = document.createElement("input");
+        this.enableOverlay.type = "checkbox";
+        this.enableOverlay.checked = this.filterData.overlay;
+        this.enableOverlay.addEventListener("change", () => {
+            this.filterData.overlay = this.enableOverlay.checked;
+            this.save();
+        });
+        overlay.appendChild(this.enableOverlay);
+        let overlaySpan = document.createElement("span");
+        overlaySpan.textContent = i18n("enableOverlayFilter");
+        overlay.appendChild(overlaySpan);
+        controlElement.appendChild(overlay);
+
+        // Flex
+        let flex = document.createElement("div");
+        flex.classList.add("flex-auto");
+        controlElement.appendChild(flex);
+
+        // Icon button for evaluating filter
+        let btnEvaluate = document.createElement("button");
+        btnEvaluate.classList.add("expert");
+        btnEvaluate.textContent = i18n("evaluateFilter");
+        btnEvaluate.title = i18n("evaluateFilter");
+        btnEvaluate.addEventListener("click", () => {
+            this.filterList.filterEvaluation.showFilter(this.filterBox);
+        });
+        controlElement.appendChild(btnEvaluate);
+
         // Icon button for deleting filter
         let imgTrash = document.createElement("img");
         imgTrash.src = "filters/trash.svg";
@@ -328,16 +379,6 @@ class Filter {
         imgTrash.draggable = true;
         imgTrash.addEventListener("dragstart", (event) => { event.preventDefault(); event.stopPropagation(); });
         controlElement.appendChild(imgTrash);
-
-        // Icon button for evaluating filter
-        let btnEvaluate = document.createElement("button");
-        btnEvaluate.classList.add("expert");
-        btnEvaluate.textContent = i18n("evaluateFilter");
-        btnEvaluate.title = i18n("evaluateFilter");
-        btnEvaluate.addEventListener("click", () => {
-            this.filterList.filterEvaluation.showFilter(this.filterBox);
-        });
-        controlElement.appendChild(btnEvaluate);
     }
 }
 
@@ -348,6 +389,7 @@ class FilterList {
         }
 
         this.expertMode = false;
+        this.enableOverlay = true;
 
         // Element for adding filter elements
         this.filters = filtersElement;
@@ -369,6 +411,9 @@ class FilterList {
         }
 
         filter.filterList = this;
+
+        filter.setExpertMode(this.expertMode);
+        filter.setEnableOverlay(this.enableOverlay);
 
         this.filters.appendChild(filter.filterElement);
         filter.filterElement.id = `filter_${this.next_id}`;
@@ -400,6 +445,17 @@ class FilterList {
         }
     }
 
+    /**
+     * Enables enable overlay
+     */
+    setEnableOverlay(enable) {
+        this.enableOverlay = enable;
+
+        for (let filter of this.filters.childNodes) {
+            filter.filter.setEnableOverlay(enable);
+        }
+    }
+
     /*
      * Saves all Filter elements as JSON
      */
@@ -411,6 +467,6 @@ class FilterList {
 
         sync_set({ filters: filters });
 
-        chrome.runtime.sendMessage({ type: "update" });
+        chrome.runtime.sendMessage({ type: "update_filters" });
     }
 }

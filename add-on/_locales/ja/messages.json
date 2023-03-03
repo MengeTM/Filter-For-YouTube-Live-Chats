@@ -1,0 +1,286 @@
+{
+  "extensionName": {
+    "message": "YouTube™ ライブチャット用フィルター アドオン",
+    "description": "Name of extension."
+  },
+  "extensionDescription": {
+    "message": "このアドオンは、YouTube ライブ ストリームからのチャット メッセージをフィルタリングします。 チャット メッセージを別のチャット ボックスに表示して強調表示するか、削除します。",
+    "description": "Description of the extension."
+  },
+  "settingsFilters": {
+    "message": "YouTube™ ライブチャットのフィルタ アドオンの設定",
+    "description": "Filter settings for live-chat."
+  },
+  "filterTitle": {
+    "message": "フィルタ ルール",
+    "description": "Settings: Title filter"
+  },
+  "evaluationTitle": {
+    "message": "YouTube ライブチャット メッセージの例",
+    "description": "Settings: Title evaluation"
+  },
+  "settingsBoxSize": {
+    "message": "チャットボックスのサイズ",
+    "description": "Size of the live-chat box setting."
+  },
+  "enableOverlay": {
+    "message": "プレーヤーの字幕",
+    "description": "Settings: Option enable YouTube player overlay"
+  },
+  "enableOverlayFilter": {
+    "message": "プレーヤーの字幕",
+    "description": "Settings: Filter enable YouTube player overlay"
+  },
+  "overlayAlign": {
+    "message": "字幕の配置",
+    "description": "Settings: Option alignment of overlay"
+  },
+  "overlayAlignLeft": {
+    "message": "左",
+    "description": "Settings: Select option left"
+  },
+  "overlayAlignCenter": {
+    "message": "真中",
+    "description": "Settings: Select option center"
+  },
+  "overlayDuration": {
+    "message": "字幕視聴時間",
+    "description": "Settings: Option duration overlay"
+  },
+  "newFilter": {
+    "message": "新しいフィルター ルール",
+    "description": "Settings: add new filter"
+  },
+  "highlight": {
+    "message": "ハイライトします",
+    "description": "Settings: select option for highlighting messages"
+  },
+  "delete": {
+    "message": "削除します",
+    "description": "Settings: select option for deleting messages"
+  },
+  "startsWith": {
+    "message": "で始まります",
+    "description": "Settings: select option for matching string starting with"
+  },
+  "endsWith": {
+    "message": "で終わります",
+    "description": "Settings: select option for matching string ending with"
+  },
+  "includes": {
+    "message": "が含まれています",
+    "description": "Settings: select option for matching string including"
+  },
+  "is": {
+    "message": "同じです",
+    "description": "Settings: select option for matching string being the same as"
+  },
+  "regexp": {
+    "message": "正規表現に一致します",
+    "description": "Settings: select option for matching string Regular Expression"
+  },
+  "some": {
+    "message": "の一部",
+    "description": "Settings: select option for matching some"
+  },
+  "every": {
+    "message": "のすべて",
+    "description": "Settings: select option for matching every"
+  },
+  "none": {
+    "message": "のどれでもない",
+    "description": "Settings: select option for matching none"
+  },
+  "and": {
+    "message": "AND",
+    "description": "Settings: select option for logical and"
+  },
+  "or": {
+    "message": "OR",
+    "description": "Settings: select option for logical or"
+  },
+  "not": {
+    "message": "NOT",
+    "description": "Settings: select option for logical not"
+  },
+  "author": {
+    "message": "著者さん",
+    "description": "Settings: select option for author string"
+  },
+  "message": {
+    "message": "メッセージ",
+    "description": "Settings: select option for message string"
+  },
+  "if": {
+    "message": "場合",
+    "description": "Settings: When of When string matches"
+  },
+  "filterName": {
+    "message": "フィルター名",
+    "description": "Settings: Filter name text field"
+  },
+  "filterAction": {
+    "message": "フィルタ アクション",
+    "description": "Settings: Name of column filter action"
+  },
+  "filterRule": {
+    "message": "フィルター一致ルール",
+    "description": "Settings: Name of column filter rules"
+  },
+  "enableHighlight": {
+    "message": "ハイライトチャットボックスを有効にします",
+    "description": "Settings: Slider for enabling highlight chat-box"
+  },
+  "expertMode": {
+    "message": "エキスパートモード",
+    "description": "Settings: Checkbox for enabling expert mode"
+  },
+  "evaluateFilter": {
+    "message": "フィルタ ルールの検証",
+    "description": "Settings: Title of filter rule evaluation"
+  },
+  "match": {
+    "message": "フィルタ ルールの一致",
+    "description": "Settings: Title filter rule match"
+  },
+  "doesMatch": {
+    "message": "一致します",
+    "description": "Settings: Match of filter rule"
+  },
+  "noMatch": {
+    "message": "一致していません",
+    "description": "Settings: No Matchg of filter rule"
+  },
+  "btnExit": {
+    "message": "閉じます",
+    "description": "Settings: Button exit"
+  },
+  "placeholderRegexp": {
+    "message": "正規表現",
+    "description": "Settings: Placeholder for regular expression text input"
+  },
+  "placeholderStringArray": {
+    "message": "「;」で区切られた検索文字列",
+    "description": "Settings: Placeholder for string array text input"
+  },
+  "placeholderAuthor": {
+    "message": "著者文字列",
+    "description": "Settings: Placeholder for author"
+  },
+  "placeholderMessage": {
+    "message": "チャット メッセージ文字列",
+    "description": "Settings: Placeholder for message"
+  },
+  "titleFilterName": {
+    "message": "フィルター名",
+    "description": "Settings: Title of filterName text box"
+  },
+  "titleSelectAction": {
+    "message": "フィルター ルールが一致した場合に続くこと",
+    "description": "Settings: Title of filter action select"
+  },
+  "titleSelectAuthor": {
+    "message": "著者またはチャット メッセージ内で一致する場合",
+    "description": "Settings: Title of author select"
+  },
+  "titleSelectAlgo": {
+    "message": "文字列を一致させる方法",
+    "description": "Settings: Title of algorithm select"
+  },
+  "titleSelectArray": {
+    "message": "複数の検索文字列が入力された場合、これは、複数、すべて、またはまったく一致しないかどうかを設定します。",
+    "description": "Settings: Title of array select"
+  },
+  "titleTextSearchRegex": {
+    "message": "一致させる正規表現。 正規表現を 1 つ入力します (ヘルプについては、https://regexone.com/ を参照してください)。",
+    "description": "Settings: Title of search text when regex"
+  },
+  "titleTextSearchStrings": {
+    "message": "一致させる文字列。 「;」で区切られた 1 つ以上の検索文字列を入力してください。",
+    "description": "Settings: Title of search text when strings"
+  },
+  "titleDeleteFilter": {
+    "message": "フィルタを削除します",
+    "description": "Settings: Title of deleting filter"
+  },
+  "deleteFilterMessage": {
+    "message": "「$1」という名前のフィルタを削除してもよろしいですか",
+    "description": "Settings: Confirmation message when deleting filter"
+  },
+  "titleSwitchEnableFilter": {
+    "message": "このフィルタを有効または無効にします",
+    "description": "Settings: Title enable or disable filter"
+  },
+  "titleSelectNumberFilter": {
+    "message": "新しいフィルターの一致ルールの数",
+    "description": "Settings: Select number of filter elements"
+  },
+  "titleEnableOverlay": {
+    "message": "YouTube ライブチャット メッセージを字幕として表示するためのプレーヤー オーバーレイを有効にします",
+    "description": "Settings: Title enable overlay"
+  },
+  "titleEnableOverlayFilter": {
+    "message": "このフィルタに一致する YouTube ライブチャット メッセージは、YouTube プレーヤー オーバーレイとともに表示されます",
+    "description": "Settings: Title filter settings enable overlay"
+  },
+  "titleOverlayAlign": {
+    "message": "字幕の配置",
+    "description": "Settings: Title overlay align"
+  },
+  "titleEnableOverlayDuration": {
+    "message": "設定時間後に字幕を非表示にします",
+    "description": "Settings: Title enable overlay duration"
+  },
+  "titleOverlayDuration": {
+    "message": "時間 秒単位",
+    "description": "Settings: Title overlay duration"
+  },
+  "titleNewFilter": {
+    "message": "新しいフィルタ ルールを追加します",
+    "description": "Settings: Title button filter"
+  },
+  "titleExpertMode": {
+    "message": "マッチングに正規表現を使用するためのエキスパート モードを有効にします",
+    "description": "Settings: Title of switch expert mode"
+  },
+  "titleAuthorEvaluation": {
+    "message": "フィルタ ルールの検証のための YouTube ライブ チャット メッセージの著者名の例",
+    "description": "Settings: Title of author"
+  },
+  "titleMessageEvaluation": {
+    "message": "フィルタ ルールの検証のための YouTube ライブ チャット メッセージのチャット メッセージの例",
+    "description": "Settings: Title of message"
+  },
+  "titleDoesMatch": {
+    "message": "フィルタールールは著者文字列とチャットメッセジ文字例に一致します",
+    "description": "Settings: Title of match string"
+  },
+  "titleNoMatch": {
+    "message": "フィルタ ルールが著者文字列とチャット メッセージ文字列に一致しません",
+    "description": "Settings: Title of no match string"
+  },
+  "titleBtnExit": {
+    "message": "フィルタールール検証をを閉じてフィルタールールをセーブします",
+    "description": "Settings: Title of exit button"
+  },
+  "titleEnableHighlightBox": {
+    "message": "YouTube チャット ボックスの下にチャット メッセージを強調表示するためのチャット ボックスを表示します",
+    "description": "Settings: Title of switch highlight box"
+  },
+  "titleHighlightBoxSize": {
+    "message": "YouTube チャット ボックスに対するハイライト チャット ボックスのサイズ (パーセント)",
+    "description": "Sittings: Title of highlight box size"
+  },
+  "titleSettingsPage": {
+    "message": "YouTube™ ライブチャットのフィルタ アドオンの設定",
+    "description": "Tab title of settings page"
+  },
+  "menuSettingsPage": {
+    "message": "フィルタ設定",
+    "description": "YouTube menu item for opening filter settings"
+  },
+  "menuHideHighlight": {
+    "message": "チャットのハイライト",
+    "description": "YouTube menu item for disabling highlight chat-box"
+  }
+}

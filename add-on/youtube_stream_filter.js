@@ -6,6 +6,7 @@ class YouTubeStreamFilter {
         this.size = null;  // Size of chat-window
         this.enableHighlight = null;  // Enables highlight chat-box
         this.filters = null;  // Usernames for highlighting
+        this.showMessages = null; // Shows messages at the player
 
         // Html elements
         this.highlightBox = null;  // Live-chat box for highlighting chat messages
@@ -15,23 +16,36 @@ class YouTubeStreamFilter {
         this.newMessageQueue = [];
     }
 
-    /*
-     * Merges messages of a YouTube chat message element and replaces emoji-images with text alts
+    /**
+     * Parses YouTube live-chat message element into either a string or a list of strings
+     * @param message YouTube live-chat message element
+     * @param merge Merges message texts and alt-texts of icons into a string, else returns list of message texts and icon urls
      */
-    mergeMessage(message) {
-        let stringMessage = "";
-        let string;
+    parseMessage(message, merge=true) {
+        let strings = [];
         for (let node of message.childNodes) {
             if (node instanceof HTMLImageElement) {
-                string = node.alt;
+                // YouTube live-chat icon
+                if (merge) {
+                    strings.push(node.alt);
+                } else {
+                    strings.push({ src: node.src });
+                }
             } else {
-                string = node.textContent;
+                // Text
+                if (merge) {
+                    strings.push(node.textContent);
+                } else {
+                    strings.push({ text: node.textContent });
+                }
             }
-
-            stringMessage += string;
         }
 
-        return stringMessage;
+        if (merge) {
+            return strings.join("");
+        } else {
+            return strings;
+        }
     }
 
     /*
@@ -42,7 +56,6 @@ class YouTubeStreamFilter {
             // Added message elements for matching
             for (let node of item.addedNodes) {
                 this.newMessageQueue.push(node);
-                node.hidden = true;
             }
         }
 
@@ -51,7 +64,9 @@ class YouTubeStreamFilter {
             for (let node = this.newMessageQueue.shift(); node !== undefined; node = this.newMessageQueue.shift()) {
                 let authorName = node.querySelector("#author-name").textContent;
 
-                let message = this.mergeMessage(node.querySelector("#content>#message"));
+                let messageElement = node.querySelector("#content>#message");
+                let message = this.parseMessage(messageElement, true);
+                let rawMessage = this.parseMessage(messageElement, false);
 
                 // Matches author and message of chat message
                 let data = { author: authorName, message: message };
@@ -60,12 +75,18 @@ class YouTubeStreamFilter {
                     if (filter.enable) {
                         switch (filter.type) {
                             case "highlight":
-                                if (this.enableHighlight && !match && filter.data.evaluate(data)) {
+                                if (!match && filter.data.evaluate(data)) {
                                     console.log("highlight", message);
-                                    node.hidden = false;
 
-                                    // Adds chat message to highlight chat box
-                                    this.highlightBox.addMessage(node);
+                                    // Adds chat message to highlight chat 
+                                    if (this.enableHighlight) {
+                                        this.highlightBox.addMessage(node);
+                                    }
+
+                                    // Shows message as YouTube caption overlay
+                                    if (this.enableOverlay && filter.overlay) {
+                                        chrome.runtime.sendMessage({ type: "overlay", author: authorName, message: message, rawMessage: rawMessage });
+                                    }
                                     match = true;
                                 }
                                 break;
@@ -77,25 +98,66 @@ class YouTubeStreamFilter {
                                 }
                                 break;
                         }
+
+                        if (match) {
+                            break;
+                        }
                     }
                 }
-
-                node.hidden = false;
             }
         }
     });
+
+    /**
+     * Loads options for YouTube overlay
+     */
+    loadOverlayOptions() {
+        sync_get(["enableOverlay", "overlayAlign", "enableOverlayDuration", "overlayDuration"], (result) => {
+            this.enableOverlay = result.enableOverlay;
+            let overlayAlign = result.overlayAlign || "right";
+            let enableOverlayDuration = result.enableOverlayDuration;
+            let overlayDuration = result.overlayDuration || 5;
+
+            if (this.enableOverlay === undefined) {
+                this.enableOverlay = true;
+            }
+
+            if (enableOverlayDuration === undefined) {
+                enableOverlayDuration = true;
+            }
+
+            // Disable overlayDuration
+            if (!enableOverlayDuration) {
+                overlayDuration = null;
+            } else {
+                overlayDuration *= 1000;
+            }
+
+            // Sets overlay settings
+            if (this.overlay !== undefined) {
+                this.overlay.setAlign(overlayAlign);
+                this.overlay.setDuration(overlayDuration);
+                this.overlay.disable(!this.enableOverlay);
+            }
+        });
+    }
 
     /*
      * Loads add-on settings
      */
     loadOptions() {
 
-        sync_get(["size", "enableHighlight"], (result) => {
+        sync_get(["size", "enableHighlight", "enableOverlay"], (result) => {
             this.size = result.size || 30;
             this.enableHighlight = result.enableHighlight;
+            this.enableOverlay = result.enableOverlay;
 
             if (this.enableHighlight === undefined) {
                 this.enableHighlight = true;
+            }
+
+            if (this.enableOverlay === undefined) {
+                this.enableOverlay = true;
             }
 
             this.setHighlightBox();
@@ -112,8 +174,8 @@ class YouTubeStreamFilter {
         sync_get(["filters"], (result) => {
             this.filters = result.filters || [{
                 name: "Hololive EN",
+                overlay: true,
                 type: "highlight",
-                data_type: "1",
                 data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")).json(),
                 enable: true
             }];
@@ -171,9 +233,12 @@ class YouTubeStreamFilter {
                             this.highlightBox.clear();
                         }
                         break;
-                    case "update":
+                    case "update_filters":
                         console.log("update");
                         this.loadFilters();
+                        break;
+                    case "update_overlay":
+                        this.loadOverlayOptions();
                         break;
                 }
             });
@@ -202,6 +267,18 @@ class YouTubeStreamFilter {
             document.getElementsByClassName("video-stream")[0].addEventListener("seeking", () => {
                 chrome.runtime.sendMessage({ "type": "replay" });
             });
+
+            this.overlay = new YouTubeOverlay();
+
+            chrome.runtime.onMessage.addListener((message) => {
+                switch (message.type) {
+                    case "update_overlay":
+                        this.loadOverlayOptions();
+                        break;
+                }
+            });
+
+            this.loadOverlayOptions();
         }
     }
 
