@@ -339,6 +339,10 @@
     "message": "Adds a new filter rule",
     "description": "Settings: Title button filter"
   },
+  "titleSelectFilterType": {
+    "message": "Type of new filter rule",
+    "description": "Settings: Select filter type"
+  },
   "titleExpertMode": {
     "message": "Enables expert mode for using regular expressions for matching",
     "description": "Settings: Title of switch expert mode"

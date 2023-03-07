@@ -11,10 +11,6 @@
     "message": "Filter Einstellungen",
     "description": "Filter settings for live-chat."
   },
-  "settingsBoxSize": {
-    "message": "Chat-Box Größe",
-    "description": "Size of the live-chat box setting."
-  },
   "filterTitle": {
     "message": "Filter Regel",
     "description": "Settings: Title filter"
@@ -23,13 +19,13 @@
     "message": "Beispiel YouTube Live-Chat Nachrichten",
     "description": "Settings: Title evaluation"
   },
+  "settingsBoxSize": {
+    "message": "Chat-Box Größe",
+    "description": "Size of the live-chat box setting."
+  },
   "enableOverlay": {
     "message": "Aktiviere Player Untertitel",
     "description": "Settings: Option enable YouTube player overlay"
-  },
-  "enableOverlayFilter": {
-    "message": "Player Untertitel",
-    "description": "Settings: Filter enable YouTube player overlay"
   },
   "btnOverlaySettings": {
     "message": "Untertitel Style",
@@ -111,10 +107,6 @@
     "message": "Neue Filter Regel",
     "description": "Settings: add new filter"
   },
-  "highlight": {
-    "message": "hervorheben",
-    "description": "Settings: select option for highlighting messages"
-  },
   "en": {
     "message": "Englisch",
     "description": "Settings: language English"
@@ -158,6 +150,10 @@
   "subtitles": {
     "message": "als Untertitel anzeigen",
     "description": "Settings: Select option for YouTube player overlay"
+  },
+  "highlight": {
+    "message": "hervorheben",
+    "description": "Settings: select option for highlighting messages"
   },
   "delete": {
     "message": "löschen",

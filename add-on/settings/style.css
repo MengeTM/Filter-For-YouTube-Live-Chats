@@ -28,23 +28,23 @@
         }
 
     .header, .body {
-        background-color: #555555;
+        background-color: #3F3F3F;
     }
 
     .filter, .filter > .control {
-        border-color: #153350;
+        border-color: #202020;
     }
 
         .filter > .main {
-            background-color: #1e3e59;
+            background-color: #2f2f2f;
         }
 
         .filter > .control {
-            background-color: #153350;
+            background-color: #202020;
         }
 
     .main > .filter-container {
-        border-left-color: #153350;
+        border-left-color: #202020;
     }
 }
 
