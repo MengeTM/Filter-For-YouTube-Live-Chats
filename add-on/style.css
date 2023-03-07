@@ -79,6 +79,12 @@ yt-live-chat-item-list-renderer+#separator+div {
     padding: 0em 0.25em 0em 0.25em;
 }
 
+    .sf-overlay-text img {
+        height: 2em;
+        margin: 0em 0.1em 0em 0.1em;
+        vertical-align: middle;
+    }
+
 .sf-menu-item-element {
     position: relative;
 }

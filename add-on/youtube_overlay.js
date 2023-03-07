@@ -180,10 +180,6 @@
         let element = this.overlayText.firstElementChild;
         if (element !== null) {
             element.style.fontSize = this.fontSize;
-
-            for (let img of element.querySelectorAll("img")) {
-                img.style.height = this.fontSize;
-            }
         }
     }
 
@@ -260,8 +256,8 @@
             if (obj.src !== undefined) {
                 // Img element
                 element = document.createElement("img");
-                element.src = obj.src;
-                element.style.height = this.fontSize;
+                // Better image resolution
+                element.src = obj.src.replace(/=w\d+-h\d+/, "=w128-h128");
                 element.style.opacity = this.style["fontOpacity"];
 
                 element.draggable = true;
