@@ -115,7 +115,47 @@
     "message": "hervorheben",
     "description": "Settings: select option for highlighting messages"
   },
-  "captions": {
+  "en": {
+    "message": "Englisch",
+    "description": "Settings: language English"
+  },
+  "de": {
+    "message": "Deutsch",
+    "description": "Settings: language German"
+  },
+  "ja": {
+    "message": "Japanisch",
+    "description": "Settings: language Japanese"
+  },
+  "id": {
+    "message": "Indonesisch",
+    "description": "Settings: language Indonesian"
+  },
+  "es": {
+    "message": "Spanisch",
+    "description": "Settings: language Spanish"
+  },
+  "fr": {
+    "message": "Französisch",
+    "description": "Settings: language French"
+  },
+  "translatorLanguage": {
+    "message": "Übersetzer Sprache",
+    "description": "Settings: Filter translator language"
+  },
+  "filterTranslation": {
+    "message": "Übersetzungs Untertitel",
+    "description": "Settings: Filter option translation"
+  },
+  "filter1": {
+    "message": "Eine Filter Regel",
+    "description": "Settings: Filter option one filter rule"
+  },
+  "filter2": {
+    "message": "Zwei Filter Regeln",
+    "description": "Settings: Filter option two filter rules"
+  },
+  "subtitles": {
     "message": "als Untertitel anzeigen",
     "description": "Settings: Select option for YouTube player overlay"
   },
@@ -275,10 +315,6 @@
     "message": "Aktiviert oder deaktiviert den Filter",
     "description": "Settings: Title enable or disable filter"
   },
-  "titleSelectNumberFilter": {
-    "message": "Anzahl Matching-Regeln für neuen Filter",
-    "description": "Settings: Select number of filter elements"
-  },
   "titleEnableOverlay": {
     "message": "Aktiviert das Player Overlay zur Anzeige von YouTube Live-Chat Nachrichten als Untertitel",
     "description": "Settings: Title enable overlay"
@@ -302,6 +338,14 @@
   "titleNewFilter": {
     "message": "Fügt eine neue Filter Regel hinzu",
     "description": "Settings: Title button filter"
+  },
+  "titleSelectLanguage": {
+    "message": "Übersetzer Sprache von YouTube Live-Chat Nachrichten",
+    "description": "Settings: Title select language"
+  },
+  "titleSelectFilterType": {
+    "message": "Filter Regel Typ",
+    "description": "Settings: Select filter type"
   },
   "titleExpertMode": {
     "message": "Aktiviert den Experten Modus und Regular Expressions für Matching",

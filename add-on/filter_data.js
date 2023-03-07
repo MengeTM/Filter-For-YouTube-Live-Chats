@@ -13,6 +13,8 @@ function parseJSON(json) {
         } else {
             // Input object
             switch (json["type"]) {
+                case "Language":
+                    return new Language(json["name"]);
                 case "TextElement":
                     return new TextElement(json["strings"], json["format_array"]);
                 case "LogicalB":
@@ -61,7 +63,7 @@ class TextElement {
         this.element.addEventListener("change", () => {
             this.updateStrings();
 
-            this.element.value = this.strings.join("; ");
+            // this.element.value = this.strings.join("; ");
         });
 
         this.element.addEventListener("input", () => {
@@ -166,6 +168,40 @@ class BaseSelect extends SelectBox {
      */
     toString() {
 
+    }
+}
+
+/*
+ * Matches language translations
+ */
+class Language extends BaseSelect {
+    constructor(name) {
+        super(name, ["en", "de", "ja", "id", "es", "fr"], i18n(["en", "de", "ja", "id", "es", "fr"]));
+
+        this.element.title = i18n("titleSelectLanguage");
+    }
+
+    /*
+     * JSON data from HTML element
+     */
+    json() {
+        return { type: "Language", name: this.element.value };
+    }
+
+    /*
+     * Evaluates if message is a language translation
+     */
+    evaluate(data) {
+        let string = data["message"];
+
+        return string.toLocaleLowerCase().includes(`[${this.name}]`);
+    }
+
+    /*
+     * String
+     */
+    toString() {
+        return `Language ${this.name}`;
     }
 }
 

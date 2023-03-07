@@ -43,9 +43,8 @@ class Setting {
             this.expertMode = result.expertMode;
             this.filters = result.filters || [{
                 name: "Hololive EN",
-                overlay: true,
-                type: "highlight",
-                data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")).json(),
+                type: "subtitles",
+                data: new Language("en").json(),
                 enable: true
             }];
 
@@ -100,7 +99,6 @@ class Setting {
 
         document.querySelector("#enable_overlay").addEventListener("change", () => {
             this.enableOverlay = document.querySelector("#enable_overlay").checked;
-            this.filterList.setEnableOverlay(this.enableOverlay);
             sync_set({ enableOverlay: this.enableOverlay });
             this.updateOverlay();
         });

@@ -108,6 +108,7 @@
 
 #btn_add_filter {
     margin-top: 5px;
+    margin-right: 5px;
     padding: 5px;
 }
 
@@ -175,6 +176,17 @@
 .filter > .main {
     height: 50px;
     padding: 5px 15px 5px 5px;
+}
+
+.text-input {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex: none;
+    padding: 0px 5px 0px 5px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    height: auto;
 }
 
 .input {

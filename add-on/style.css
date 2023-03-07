@@ -68,34 +68,16 @@ yt-live-chat-item-list-renderer+#separator+div {
 }
 
 .sf-overlay-dragging {
-    border-style: solid;
-    border-color: #00000090;
-    border-width: 1px;
     background-color: #BB905090;
-}
-
-.sf-overlay-left {
-    text-align: left;
-}
-
-.sf-overlay-center {
-    text-align: center;
 }
 
 .sf-overlay-text {
     display: inline-block;
-    color: rgba(255, 255, 255, 0.25);
-    font-family: "YouTube Noto", Roboto, "Arial Unicode Ms", Arial, Helvetica, Verdana, "PT Sans Caption", sans-serif;
     line-height: normal;
     white-space: pre-wrap;
     user-select: none;
     padding: 0em 0.25em 0em 0.25em;
-    background-color: rgba(8, 8, 8, 0.75);
 }
-
-    .sf-overlay-text > img {
-        opacity: 0.25;
-    }
 
 .sf-menu-item-element {
     position: relative;

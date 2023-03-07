@@ -24,11 +24,11 @@
     "description": "Size of the live-chat box setting."
   },
   "enableOverlay": {
-    "message": "Enable player ",
+    "message": "Enable player subtitles",
     "description": "Settings: Option enable YouTube player overlay"
   },
   "btnOverlaySettings": {
-    "message": "Caption style",
+    "message": "Subtitle style",
     "description": "Settings: Button open YouTube player overlay settings"
   },
   "fontSize": {
@@ -107,11 +107,51 @@
     "message": "New filter rule",
     "description": "Settings: add new filter"
   },
+  "en": {
+    "message": "English",
+    "description": "Settings: language English"
+  },
+  "de": {
+    "message": "German",
+    "description": "Settings: language German"
+  },
+  "ja": {
+    "message": "Japanese",
+    "description": "Settings: language Japanese"
+  },
+  "id": {
+    "message": "Indonesian",
+    "description": "Settings: language Indonesian"
+  },
+  "es": {
+    "message": "Spanish",
+    "description": "Settings: language Spanish"
+  },
+  "fr": {
+    "message": "French",
+    "description": "Settings: language French"
+  },
+  "translatorLanguage": {
+    "message": "Translator language",
+    "description": "Settings: Filter translator language"
+  },
+  "filterTranslation": {
+    "message": "Translation subtitles",
+    "description": "Settings: Filter option translation"
+  },
+  "filter1": {
+    "message": "One filter rule",
+    "description": "Settings: Filter option one filter rule"
+  },
+  "filter2": {
+    "message": "Two filter rules",
+    "description": "Settings: Filter option two filter rules"
+  },
   "highlight": {
     "message": "highlight",
     "description": "Settings: Select option for highlighting messages"
   },
-  "captions": {
+  "subtitles": {
     "message": "display as subtitles",
     "description": "Settings: Select option for YouTube player overlay"
   },
@@ -271,10 +311,6 @@
     "message": "Enables or disables this filter",
     "description": "Settings: Title enable or disable filter"
   },
-  "titleSelectNumberFilter": {
-    "message": "Number of matching-rules for new filters",
-    "description": "Settings: Select number of filter elements"
-  },
   "titleEnableOverlay": {
     "message": "Enables player overlay for displaying YouTube live-chat messages as subtitles",
     "description": "Settings: Title enable overlay"
@@ -294,6 +330,10 @@
   "titleOverlayDuration": {
     "message": "Time duration in seconds",
     "description": "Settings: Title overlay duration"
+  },
+  "titleSelectLanguage": {
+    "message": "Translator language of a YouTube live-chat message",
+    "description": "Settings: Title select language"
   },
   "titleNewFilter": {
     "message": "Adds a new filter rule",

@@ -31,10 +31,7 @@
         "small_capitals": '"Arial Unicode Ms", Arial, Helvetica, Verdana, "Marcellus SC", sans-serif',
     };
 
-    constructor(duration = null, align = null) {
-        this.duration = duration;
-        this.align = align;
-
+    constructor() {
         this.player = document.querySelector(".html5-video-player");  // YouTube player box
         this.video = this.player.querySelector(".html5-video-container > video"); // YouTube video
 
@@ -67,7 +64,7 @@
             switch (message.type) {
                 case "overlay":
                     if (this.style !== undefined) {
-                        let overlayMessage = this.parseOverlayMessage(message, this.align);
+                        let overlayMessage = this.parseOverlayMessage(message);
                         this.showMessage(overlayMessage, this.duration);
                     }
                     break;
@@ -109,8 +106,8 @@
             bottom = Math.max(0, Math.min(this.player.clientHeight - this.overlay.clientHeight, bottom));
 
             // Move overlay element
-            this.overlay.style.left = left / this.playerWidth * 100 + "%";
-            this.overlay.style.bottom = bottom / this.playerHeight * 100 + "%";
+            this.overlay.style.left = left / this.player.clientWidth * 100 + "%";
+            this.overlay.style.bottom = bottom / this.player.clientHeight * 100 + "%";
         });
 
         // Stopps dragging the overlay element
@@ -172,11 +169,11 @@
      * Updates text element
      */
     updateSize() {
-        this.playerWidth = this.video.style.width.replace("px", "");
-        this.playerHeight = this.video.style.height.replace("px", "");
+        this.videoWidth = this.video.style.width.replace("px", "");
+        this.videoHeight = this.video.style.height.replace("px", "");
 
-        this.fontSize = this.style["fontSize"] * this.playerHeight * 0.05 + "px";
-        this.width = this.playerWidth * 0.65 + "px";
+        this.fontSize = this.style["fontSize"] * this.videoHeight * 0.05 + "px";
+        this.width = this.videoWidth * 0.65 + "px";
 
         this.overlay.style.width = this.width;
 
@@ -230,6 +227,20 @@
             element.style.color = `rgba(${this.styleColor[this.style["fontColor"]].join(", ")}, ${this.style["fontOpacity"]})`;
             element.style.background = `rgba(${this.styleColor[this.style["backgroundColor"]].join(", ")}, ${this.style["backgroundOpacity"]})`;
             element.style.fontFamily = this.styleFontFamily[this.style["fontFamily"]];
+
+            switch (this.style["align"]) {
+                case null:
+                case "left":
+                    element.style.textAlign = "left";
+                    break;
+                case "center":
+                    element.style.textAlign = "center";
+                    break
+            }
+
+            for (let img of element.querySelectorAll("img")) {
+                img.style.opacity = this.style["fontOpacity"];
+            }
         }
     }
 
@@ -238,22 +249,23 @@
      * @param message JSON with YouTube live-chat author, message, and rawMessage
      * @param align Alignment of message [null, "left" | "center"], null represents "left"
      */
-    parseOverlayMessage(message, align="left") {
+    parseOverlayMessage(message) {
         let node = document.createElement("span");
         node.classList.add("sf-overlay-text");
 
         this.applyStyle(node);
 
         for (let obj of message.rawMessage) {
-            let text;
+            let element;
             if (obj.src !== undefined) {
                 // Img element
-                text = document.createElement("img");
-                text.src = obj.src;
-                text.style.height = this.fontSize;
+                element = document.createElement("img");
+                element.src = obj.src;
+                element.style.height = this.fontSize;
+                element.style.opacity = this.style["fontOpacity"];
 
-                text.draggable = true;
-                text.addEventListener("dragstart", (event) => {
+                element.draggable = true;
+                element.addEventListener("dragstart", (event) => {
                     event.preventDefault();
                 });
             } else {
@@ -262,19 +274,10 @@
                 if (!this.translatorTags) {
                     string = string.replace(/\[(TL)?\/?([A-Za-z]{2}|.語)\]/g, "");
                 }
-                text = document.createTextNode(string);
+                element = document.createTextNode(string);
             }
 
-            node.appendChild(text);
-        }
-        switch (align) {
-            case null:
-            case "left":
-                node.classList.add("sf-overlay-left");
-                break;
-            case "center":
-                node.classList.add("sf-overlay-center");
-                break;
+            node.appendChild(element);
         }
 
         node.style.fontSize = this.fontSize;

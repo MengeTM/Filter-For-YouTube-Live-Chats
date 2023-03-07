@@ -32,9 +32,10 @@
                 <div class="body">
                     <div id="filters"></div>
                     <div class="controls">
-                        <select id="select_new_filter" class="i18n" title-id="titleSelectNumberFilter" required="required">
-                            <option selected="selected" value="1">1</option>
-                            <option value="2">2</option>
+                        <select id="select_new_filter" class="i18n" title-id="titleSelectFilterType" required="required">
+                            <option class="i18n" data-id="filterTranslation" value="filter_translation" selected="selected"></option>
+                            <option class="i18n" data-id="filter1" value="filter_1"></option>
+                            <option class="i18n" data-id="filter2" value="filter_2"></option>
                         </select>
 
                         <input type="button" id="btn_add_filter" class="i18n" data-id="newFilter" title-id="titleNewFilter" name="Add filter" value="Add filter" />
@@ -67,16 +68,16 @@
                     </span>
 
                     <span class="item">
-                        <input type="button" class="i18n" id="btn_overlay_settings" data-id="btnOverlaySettings" title-id="titleBtnOverlaySettings" />
-                    </span>
-
-                    <span class="item">
                         <label class="switch">
                             <input type="checkbox" id="enable_overlay_duration" />
                             <span class="slider round i18n" title-id="titleEnableOverlayDuration"></span>
                         </label>
                         <span class="i18n" data-id="overlayDuration"></span>:&nbsp;
                         <input type="number" class="i18n" title-id="titleOverlayDuration" step="1" min="1" id="overlay_duration" />&nbsp;s
+                    </span>
+
+                    <span class="item">
+                        <input type="button" class="i18n" id="btn_overlay_settings" data-id="btnOverlaySettings" title-id="titleBtnOverlaySettings" />
                     </span>
                 </div>
 

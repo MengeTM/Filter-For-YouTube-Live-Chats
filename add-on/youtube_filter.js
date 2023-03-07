@@ -1,4 +1,4 @@
-class YouTubeStreamFilter {
+class YouTubeFilter {
     menu = null;
 
     constructor() {
@@ -14,6 +14,54 @@ class YouTubeStreamFilter {
 
         // List of chat-messages for matching
         this.newMessageQueue = [];
+
+        this.loadOptions();
+        this.loadFilters();
+
+        let app = document.querySelector("yt-live-chat-app");
+
+        // YouTube chat-box
+        let box = document.querySelector("#chat>#item-list>#live-chat-item-list-panel");
+        box = box.querySelector("#contents");
+        let items = box.querySelector("#item-scroller>#item-offset>#items");
+
+        // Background page messages
+        chrome.runtime.onMessage.addListener((message) => {
+            switch (message.type) {
+                case "replay":
+                    // Removes highlighted messages when video is seeking
+                    if (this.highlightBox !== null) {
+                        this.highlightBox.clear();
+                    }
+                    break;
+                case "update_filters":
+                    console.log("update");
+                    this.loadFilters();
+                    break;
+                case "update_overlay":
+                    this.loadOverlayOptions();
+                    break;
+            }
+        });
+           
+        // Starts messages observer
+        this.chatobserver.observe(items, { attributes: false, childList: true, subtree: false });
+
+        this.menu = new Menu(app);
+
+        // Menu item for opening settings page
+        let menuItemSettings = new MenuItem(i18n("menuSettingsPage"), chrome.runtime.getURL("menu_item/menu.svg"));
+        menuItemSettings.addEventListener("mousedown", () => {
+            chrome.runtime.sendMessage({ type: "settings" });
+        });
+        this.menu.addMenuItem(menuItemSettings);
+
+        // Menu item for toggling highlight chat-box
+        let menuItemFilter = new MenuItem(i18n("menuHideHighlight"), chrome.runtime.getURL("menu_item/enable_highlight.svg"));
+        menuItemFilter.addEventListener("mousedown", () => {
+            this.toggleHighlightBox();
+        });
+        this.menu.addMenuItem(menuItemFilter);
     }
 
     /**
@@ -85,9 +133,9 @@ class YouTubeStreamFilter {
                                     match = true;
                                 }
                                 break;
-                            case "captions":
+                            case "subtitles":
                                 if (this.enableOverlay && filter.data.evaluate(data)) {
-                                    console.log("captions", message);
+                                    console.log("subtitles", message);
 
                                     // Shows message as YouTube caption overlay
                                     chrome.runtime.sendMessage({ type: "overlay", author: authorName, message: message, rawMessage: rawMessage });
@@ -157,8 +205,8 @@ class YouTubeStreamFilter {
         sync_get(["filters"], (result) => {
             this.filters = result.filters || [{
                 name: "Hololive EN",
-                type: "highlight",
-                data: new StringRegex("includes", new StringOption("message"), new TextElement(["[EN]"]), new LogicalArray("some")).json(),
+                type: "subtitles",
+                data: new Language("en").json(),
                 enable: true
             }];
 
@@ -192,69 +240,6 @@ class YouTubeStreamFilter {
     }
 
     /*
-     * Starts add-on
-     */
-    start() {
-        if (document.getElementById("player") === null) {  // YouTube live-chat iFrame
-            this.loadOptions();
-            this.loadFilters();
-
-            let app = document.querySelector("yt-live-chat-app");
-
-            // YouTube chat-box
-            let box = document.querySelector("#chat>#item-list>#live-chat-item-list-panel");
-            box = box.querySelector("#contents");
-            let items = box.querySelector("#item-scroller>#item-offset>#items");
-
-            // Background page messages
-            chrome.runtime.onMessage.addListener((message) => {
-                switch (message.type) {
-                    case "replay":
-                        // Removes highlighted messages when video is seeking
-                        if (this.highlightBox !== null) {
-                            this.highlightBox.clear();
-                        }
-                        break;
-                    case "update_filters":
-                        console.log("update");
-                        this.loadFilters();
-                        break;
-                    case "update_overlay":
-                        this.loadOverlayOptions();
-                        break;
-                }
-            });
-           
-            // Starts messages observer
-            this.chatobserver.observe(items, { attributes: false, childList: true, subtree: false });
-
-            this.menu = new Menu(app);
-
-            // Menu item for opening settings page
-            let menuItemSettings = new MenuItem(i18n("menuSettingsPage"), chrome.runtime.getURL("menu_item/menu.svg"));
-            menuItemSettings.addEventListener("mousedown", () => {
-                chrome.runtime.sendMessage({ type: "settings" });
-            });
-            this.menu.addMenuItem(menuItemSettings);
-
-            // Menu item for toggling highlight chat-box
-            let menuItemFilter = new MenuItem(i18n("menuHideHighlight"), chrome.runtime.getURL("menu_item/enable_highlight.svg"));
-            menuItemFilter.addEventListener("mousedown", () => {
-                this.toggleHighlightBox();
-            });
-            this.menu.addMenuItem(menuItemFilter);
-
-        } else {  // YouTube player
-            // Sends message to background page if YouTube video seeking
-            document.getElementsByClassName("video-stream")[0].addEventListener("seeking", () => {
-                chrome.runtime.sendMessage({ "type": "replay" });
-            });
-
-            this.overlay = new YouTubeOverlay();
-        }
-    }
-
-    /*
      * Makes and appends highlighted chat messages box and the separator element
      */
     setHighlightBox() {
@@ -271,6 +256,3 @@ class YouTubeStreamFilter {
     }
 
 }
-
-let youtubeStreamFilter = new YouTubeStreamFilter();
-youtubeStreamFilter.start();

@@ -1,4 +1,4 @@
-class _FilterBox {
+class FilterRule {
     constructor(filter, data) {
         // Element container
         this.element = document.createElement("div");
@@ -30,7 +30,7 @@ class _FilterBox {
      */
     getText(string) {
         let node = document.createElement("div");
-        node.classList.add("input");
+        node.classList.add("text-input");
 
         let text = document.createTextNode(string);
         node.appendChild(text);
@@ -58,7 +58,7 @@ class _FilterBox {
      */
     copy() {
         let data = parseJSON(this.data.json());
-        let filter = new _FilterBox(this.filter, data);
+        let filter = new FilterRule(this.filter, data);
         filter.setExpertMode(this.filter.filterList.expertMode);
 
         return filter;
@@ -82,8 +82,13 @@ class _FilterBox {
     /*
      * Formats JSON tree of html elements into a list of html elements
      */
-    parseData (data) {
-        if (data instanceof LogicalBinary) {
+    parseData(data) {
+        if (data instanceof Language) {
+            return [
+                this.getText(`${i18n("translatorLanguage")}: `),
+                data.element
+            ];
+        } else if (data instanceof LogicalBinary) {
             // Logical and
             let array = this.parseData(data.a);
             array.push(this.getText(i18n("and")));
@@ -131,8 +136,17 @@ class Filter {
         // Empty filter rules if no filter json data
         if (typeof json == "string") {
             switch (json) {
+                case "filter_translation":
+                    // Language translation
+                    json = {
+                        name: "Translations - EN",
+                        type: "subtitles",
+                        data: new Language("en"),
+                        enable: true
+                    }
+                    break;
                 // One logical block
-                case "1":
+                case "filter_1":
                     json = {
                         name: "",
                         type: "highlight",
@@ -141,7 +155,7 @@ class Filter {
                     };
                     break;
                 // Two logical blocks with logical and
-                case "2":
+                case "filter_2":
                     json = {
                         name: "",
                         type: "highlight",
@@ -285,7 +299,7 @@ class Filter {
         mainElement.appendChild(this.filterNameElement.element);
 
         // Select for filter action
-        this.filterActionElement = new BaseSelect(this.filterData.type, ["highlight", "captions", "delete"], i18n(["highlight", "captions", "delete"]));
+        this.filterActionElement = new BaseSelect(this.filterData.type, ["highlight", "subtitles", "delete"], i18n(["highlight", "subtitles", "delete"]));
         this.filterActionElement.element.classList.add("filter-type");
         this.filterActionElement.element.classList.add("input");
         this.filterActionElement.element.title = i18n("titleSelectAction");
@@ -297,7 +311,7 @@ class Filter {
         mainElement.appendChild(this.filterActionElement.element);
 
         // Scrollable box with match settings for filter
-        this.filterBox = new _FilterBox(this, this.filterData.data);
+        this.filterBox = new FilterRule(this, this.filterData.data);
         this.filterBox.addEventListener("change", () => {
             this.save();
         });
