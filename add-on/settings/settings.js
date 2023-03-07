@@ -33,36 +33,14 @@ class Setting {
      */
     restoreOptions() {
 
-        sync_get(["size", "enable_highlight", "expertMode", "filters", "enableOverlay", "overlayAlign", "enableOverlayDuration", "overlayDuration"], (result) => {
-            this.size = result.size || 30;
+        sync_get(["size", "enableHighlight", "expertMode", "filters", "enableOverlay", "enableOverlayDuration", "overlayDuration"], (result) => {
+            this.size = result.size;
             this.enableHighlight = result.enableHighlight;
             this.enableOverlay = result.enableOverlay;
-            this.overlayAlign = result.overlayAlign || "left";
             this.enableOverlayDuration = result.enableOverlayDuration;
-            this.overlayDuration = result.overlayDuration || 5;
+            this.overlayDuration = result.overlayDuration;
             this.expertMode = result.expertMode;
-            this.filters = result.filters || [{
-                name: "Hololive EN",
-                type: "subtitles",
-                data: new Language("en").json(),
-                enable: true
-            }];
-
-            if (this.enableHighlight === undefined) {
-                this.enableHighlight = true;
-            }
-
-            if (this.enableOverlay === undefined) {
-                this.enableOverlay = false;
-            }
-
-            if (this.enableOverlayDuration === undefined) {
-                this.enableOverlayDuration = true;            
-            }
-
-            if (this.expertMode === undefined) {
-                this.expertMode = false;
-            }
+            this.filters = result.filters;
 
             // Filter elements from JSON data, adds filter elements to filter manager
             for (let filter of this.filters) {

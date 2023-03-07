@@ -166,10 +166,6 @@ class YouTubeFilter {
     loadOverlayOptions() {
         sync_get(["enableOverlay"], (result) => {
             this.enableOverlay = result.enableOverlay;
-
-            if (this.enableOverlay === undefined) {
-                this.enableOverlay = false;
-            }
         });
     }
 
@@ -179,17 +175,9 @@ class YouTubeFilter {
     loadOptions() {
 
         sync_get(["size", "enableHighlight", "enableOverlay"], (result) => {
-            this.size = result.size || 30;
+            this.size = result.size;
             this.enableHighlight = result.enableHighlight;
             this.enableOverlay = result.enableOverlay;
-
-            if (this.enableHighlight === undefined) {
-                this.enableHighlight = true;
-            }
-
-            if (this.enableOverlay === undefined) {
-                this.enableOverlay = true;
-            }
 
             this.setHighlightBox();
 
@@ -203,12 +191,7 @@ class YouTubeFilter {
     loadFilters() {
 
         sync_get(["filters"], (result) => {
-            this.filters = result.filters || [{
-                name: "Hololive EN",
-                type: "subtitles",
-                data: new Language("en").json(),
-                enable: true
-            }];
+            this.filters = result.filters;
 
             // Parses Filter data for logical evaluation and string matching
             this.filters = parseJSON(this.filters);

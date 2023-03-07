@@ -28,15 +28,7 @@ class OverlaySettings extends PopUpWindow {
      */
     loadOptions() {
         sync_get(["overlayStyle"], (result) => {
-            this.overlayStyle = result.overlayStyle || {
-                "fontSize": "1",
-                "fontColor": "white",
-                "fontOpacity": "1",
-                "backgroundColor": "black",
-                "backgroundOpacity": "0.25",
-                "fontFamily": "p_sans-serif",
-                "align": "center"
-            };
+            this.overlayStyle = result.overlayStyle;
 
             this.update();
         });

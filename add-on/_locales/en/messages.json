@@ -4,7 +4,7 @@
     "description": "Name of extension."
   },
   "extensionDescription": {
-    "message": "This add-on filters chat-messages from YouTube live streams. It either highlights chat-messages by displaying them in a separate chat-box, or deletes them.",
+    "message": "Highlights, shows as subtitles, or deletes YouTube live-chat messages",
     "description": "Description of the extension."
   },
   "settingsFilters": {

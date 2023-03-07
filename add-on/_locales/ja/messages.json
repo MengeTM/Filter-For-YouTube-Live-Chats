@@ -4,7 +4,7 @@
     "description": "Name of extension."
   },
   "extensionDescription": {
-    "message": "このアドオンは、YouTube ライブ ストリームからのチャット メッセージをフィルタリングします。 チャット メッセージを別のチャット ボックスに表示して強調表示するか、削除します。",
+    "message": "YouTube ライブチャット メッセージは、強調表示されるか、字幕として表示されるか、削除されます",
     "description": "Description of the extension."
   },
   "settingsFilters": {

@@ -131,25 +131,9 @@
     loadOptions() {
         sync_get(["enableOverlay", "overlayStyle", "enableOverlayDuration", "overlayDuration"], (result) => {
             let enableOverlay = result.enableOverlay;
-            let overlayStyle = result.overlayStyle || {
-                "fontSize": "1",
-                "fontColor": "white",
-                "fontOpacity": "1",
-                "backgroundColor": "black",
-                "backgroundOpacity": "0.25",
-                "fontFamily": "p_sans-serif",
-                "align": "center"
-            };
+            let overlayStyle = result.overlayStyle;
             let enableOverlayDuration = result.enableOverlayDuration;
-            let overlayDuration = result.overlayDuration || 5;
-
-            if (enableOverlay === undefined) {
-                enableOverlay = false;
-            }
-
-            if (enableOverlayDuration === undefined) {
-                enableOverlayDuration = true;
-            }
+            let overlayDuration = result.overlayDuration;
 
             // Disable overlayDuration
             if (!enableOverlayDuration) {
