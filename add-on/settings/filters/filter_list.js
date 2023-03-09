@@ -83,9 +83,14 @@ class FilterRule {
      * Formats JSON tree of html elements into a list of html elements
      */
     parseData(data) {
-        if (data instanceof Language) {
+        if (data instanceof TranslationLanguage) {
             return [
                 this.getText(`${i18n("translatorLanguage")}: `),
+                data.element
+            ];
+        } else if (data instanceof Language) {
+            return [
+                this.getText(`${i18n("language")}: `),
                 data.element
             ];
         } else if (data instanceof LogicalBinary) {
@@ -141,9 +146,18 @@ class Filter {
                     json = {
                         name: "Translations - EN",
                         type: "subtitles",
+                        data: new TranslationLanguage("en"),
+                        enable: true
+                    };
+                    break;
+                case "filter_language":
+                    // Language
+                    json = {
+                        name: "Language - EN",
+                        type: "highlight",
                         data: new Language("en"),
                         enable: true
-                    }
+                    };
                     break;
                 // One logical block
                 case "filter_1":

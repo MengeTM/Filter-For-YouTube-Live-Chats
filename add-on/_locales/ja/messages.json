@@ -132,12 +132,20 @@
     "description": "Settings: language French"
   },
   "translatorLanguage": {
-    "message": "翻訳言語",
+    "message": "翻訳者メッセージ",
     "description": "Settings: Filter translator language"
   },
   "filterTranslation": {
-    "message": "翻訳字幕",
+    "message": "翻訳者メッセージ",
     "description": "Settings: Filter option translation"
+  },
+  "language": {
+    "message": "メッセージ言語",
+    "description": "Settings: Filter language"
+  },
+  "filterLanguage": {
+    "message": "メッセージ言語",
+    "description": "Settings: Filter option language"
   },
   "filter1": {
     "message": "フィルター ルール (1)",
@@ -332,6 +340,10 @@
     "description": "Settings: Title overlay duration"
   },
   "titleSelectLanguage": {
+    "message": "YouTube ライブチャット翻訳者メッセージの言語 (例: 日本語の翻訳をハイライトするため)",
+    "description": "Settings: Title select language"
+  },
+  "titleSelectTranslationLanguage": {
     "message": "YouTube ライブチャット メッセージの翻訳言語",
     "description": "Settings: Title select language"
   },

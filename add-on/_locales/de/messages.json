@@ -132,12 +132,20 @@
     "description": "Settings: language French"
   },
   "translatorLanguage": {
-    "message": "Übersetzer Sprache",
+    "message": "Übersetzer Nachricht",
     "description": "Settings: Filter translator language"
   },
   "filterTranslation": {
-    "message": "Übersetzungs Untertitel",
+    "message": "Übersetzer Nachricht",
     "description": "Settings: Filter option translation"
+  },
+  "language": {
+    "message": "Sprache der Nachricht",
+    "description": "Settings: Filter language"
+  },
+  "filterLanguage": {
+    "message": "Sprache der Nachricht",
+    "description": "Settings: Filter option language"
   },
   "filter1": {
     "message": "Eine Filter Regel",
@@ -335,8 +343,12 @@
     "message": "Fügt eine neue Filter Regel hinzu",
     "description": "Settings: Title button filter"
   },
+  "titleSelectTranslationLanguage": {
+    "message": "Sprache der YouTube Live-Chat Übersetzer Nachrichten, z.B. zum Hervorheben von Deutschen Übersetzungen",
+    "description": "Settings: Title select language"
+  },
   "titleSelectLanguage": {
-    "message": "Übersetzer Sprache von YouTube Live-Chat Nachrichten",
+    "message": "Sprache der YouTube Live-Chat Nachrichten, z.B. zum Selektieren von Nachrichten mit Deutschen Buchstaben",
     "description": "Settings: Title select language"
   },
   "titleSelectFilterType": {

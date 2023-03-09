@@ -118,7 +118,7 @@ class YouTubeFilter {
                     let rawMessage = this.parseMessage(messageElement, false);
 
                     // Matches author and message of chat message
-                    let data = { author: authorName, message: message };
+                    let data = { author: authorName, message: message, rawMessage: rawMessage };
                     let match = false;  // Does not apply other filters when already matched
                     let deleted = false;  // Deletes node
                     for (let filter of this.filters) {

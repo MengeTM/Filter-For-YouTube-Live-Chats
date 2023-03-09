@@ -132,12 +132,20 @@
     "description": "Settings: language French"
   },
   "translatorLanguage": {
-    "message": "Translator language",
+    "message": "Translator message",
     "description": "Settings: Filter translator language"
   },
   "filterTranslation": {
-    "message": "Translation subtitles",
+    "message": "translator message",
     "description": "Settings: Filter option translation"
+  },
+  "language": {
+    "message": "Message language",
+    "description": "Settings: Filter language"
+  },
+  "filterLanguage": {
+    "message": "message language",
+    "description": "Settings: Filter option language"
   },
   "filter1": {
     "message": "One filter rule",
@@ -331,8 +339,12 @@
     "message": "Time duration in seconds",
     "description": "Settings: Title overlay duration"
   },
+  "titleSelectTranslationLanguage": {
+    "message": "Language of YouTube live-chat messages by translators e.g. for highlighting translations in English",
+    "description": "Settings: Title select translator language"
+  },
   "titleSelectLanguage": {
-    "message": "Translator language of a YouTube live-chat message",
+    "message": "Language of YouTube live-chat messages for selecting e.g. only messages with English characters",
     "description": "Settings: Title select language"
   },
   "titleNewFilter": {

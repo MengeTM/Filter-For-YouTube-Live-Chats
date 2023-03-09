@@ -30,7 +30,7 @@ function sync_get(array, callback) {
                     result.filters = result.filters || [{
                         name: "Hololive EN",
                         type: "subtitles",
-                        data: new Language("en").json(),
+                        data: new TranslationLanguage("en").json(),
                         enable: true
                     },
                     {
