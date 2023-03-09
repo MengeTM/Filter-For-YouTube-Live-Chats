@@ -15,27 +15,24 @@ The main features of the add-on are:
     <li>Visual design close to YouTube's live-chat and video player design, aiming to not change the look of the YouTube website</li>
 </ul>
 
+Experimental:
+<ul>
+    <li>Filter messages regarding characters of languages. E.g. show only YouTube Live-chat messages written with English characters. This works only English vs. Japanese or German vs. Japanese, not for German vs. English</li>
+</ul>
+
 If there are features or improvements for this add-on you'd like to suggest, please go to the GitHub page of this add-on https://github.com/MengeTM/Filter-For-YouTube-Live-Chats/issues for writing an Issue, or please leave a review for this add-on. I would really appreciate feedback and ideas, for how to further improve this add-on ^_^.
 
 More detailed description of add-on features:
 
 For highlighting chat-messages, the YouTube live-chat is separated vertically into two live-chats. The upper one is the original one, while the lower one displays chat-messages you may filter for. The sizes of the chat-boxes are adjustable via dragging the separator line between the chat-boxes up or down. The highlight chat-box is removable via the settings page and the YouTube live-chat drop-down menu.
 
-The settings are preset to highlight common chat-based English translations of Japanese Hololive streams (at least the ones I watch). Furthermore, it is possible to view chat-messages as subtitles for the YouTube video player. If the subtitle chat-message is a translator chat-message, e.g. starting with [EN] for English, the translator tag [EN] is not displayed for a more immersive viewing experience. The style of the subtitle Font and Background is furthermore cusomizable via the settings page.
+The settings are preset to highlight common chat-based English translations of Japanese Hololive streams (at least the ones I watch). Furthermore, it is possible to view chat-messages as subtitles for the YouTube video player. If the subtitle chat-message is a translator chat-message, e.g. starting with [EN] for English, the translator tag [EN] is not displayed for a more immersive viewing experience. The style of the subtitle Font and Background is furthermore customizable via the settings page.
 
 The add-on settings-page allows to add either simple translator filter rules for showing e.g. Hololive translator messages, or to add customizable filter-rules. The customizable filter rules search either the author-name or the message of a chat-message for search-texts. When a filter rule matches a chat-message, it will be either highlighted, shown as YouTube player subtitles, or deleted, where filter rules higher up in the filter rule list are applied first. The filter rules are draggable up or down the list for adjusting their priorities. Regular Expressions are available for filter rules when enabling the expert mode. The expert mode further enables a window for validating if your filter rule matches example YouTube live-chat authors and messages, which is especially useful if you are not sure if your customized filter rule will match YouTube messages.
 
 ## Installation
-Before installing the add-on, rename either "manifes_mozilla.json" for Mozilla Firefox, or "manifest_goofle.json" for Google Chrome in "manifes.json".
+Before installing the add-on, rename either "manifest_mozilla.json" for Mozilla Firefox, or "manifest_google.json" for Google Chrome in "manifest.json".
 ### Mozilla Firefox
-For using the storage API make sure, that for manifest.json the "id" is set with an e-mail address:
-
-"browser_specific_settings": {
-    "gecko": {
-        "id": "youtube_stream_filter@example.com"
-    }
-}
-
 1. Open Firefox Browser
 2. Open page "about:debugging"
 3. Click "This Firefox"
