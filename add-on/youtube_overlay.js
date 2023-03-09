@@ -33,7 +33,9 @@
 
     constructor() {
         this.player = document.querySelector(".html5-video-player");  // YouTube player box
-        this.video = this.player.querySelector(".html5-video-container > video"); // YouTube video
+        this.video = document.querySelector(".html5-video-container > video"); // YouTube video
+
+        console.log(this.player);
 
         // Area for mouse events and dragging
         this.mousearea = document.createElement("div");
@@ -56,8 +58,8 @@
         this.textSlider.appendChild(this.overlayText);
 
         if (this.player === null) {
-            let player = document.querySelector("ytd-player > #container");
-            this.youtubeobserver.observe(player, { attributes: false, childList: true, subtree: false });
+            let app = document.querySelector("ytd-app > #content #page-manager");
+            this.youtubeobserver.observe(app, { attributes: false, childList: true, subtree: false });
         } else {
             this.loaded();
         }
@@ -136,6 +138,9 @@
 
         this.video.addEventListener("seeking", () => {
             this.overlay.classList.add("sf-hidden");
+
+            // Sends message to background page if YouTube video seeking
+            chrome.runtime.sendMessage({ type: "replay" });
         });
 
         this.loadOptions();
@@ -335,9 +340,14 @@
     youtubeobserver = new MutationObserver((items) => {
         for (let item of items) {
             for (let node of item.addedNodes) {
-                if (node.nodeName.toLowerCase() == "video") {
+                if (node.nodeName.toLowerCase() == "ytd-watch-flexy") {
+                    let player = node.querySelector("ytd-player > #container");
+
+                    this.youtubeobserver.disconnect();
+                    this.youtubeobserver.observe(player, { attributes: false, childList: true, subtree: false });
+                } else if (node.classList.contains("html5-video-player")) {
                     this.player = document.querySelector(".html5-video-player");
-                    this.video = node;
+                    this.video = document.querySelector(".html5-video-container > video");
 
                     this.loaded();
 
@@ -370,8 +380,6 @@
                 } else {
                     this.textSlider.classList.add("sf-overlay-autohide");
                 }
-            } else if (item.attributeName == "height") {
-                this.fontSize = this.player.clientHeight / 0.0025;
             }
         }
     });
