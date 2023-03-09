@@ -7,6 +7,9 @@ class ChatBox {
             node.classList.add("yt-live-chat-item-list-renderer");
         }
 
+        // YouTube live-chat items
+        this.youtubeItems = document.querySelector("yt-live-chat-renderer #chat-messages > #contents #chat yt-live-chat-item-list-renderer #item-scroller #items");
+
         // Renderer for chat messages
         let renderer = document.createElement("div");
         renderer.id = "live-chat-item-list-panel";
@@ -47,7 +50,7 @@ class ChatBox {
 
     clear() {
         while (this.items.firstElementChild !== null) {
-            this.items.removeChild(this.items.firstElementChild);
+            this.deleteMessage(this.items.firstElementChild);
         }
     }
 
@@ -58,13 +61,24 @@ class ChatBox {
         return this.itemScroller.scrollHeight - this.itemScroller.clientHeight;
     }
 
+    /**
+     * Deletes YouTube live-chat message by adding it to YouTube live-chat items
+     * @param message YouTube live-chat message
+     */
+    deleteMessage(message) {
+        message.hidden = true;
+        message.deleted = true;
+
+        this.youtubeItems.prepend(message);
+    }
+
     /*
     * Adds YouTube live-chat message element to chat box
     */
     addMessage(message) {
         // Removes oldest highlighted message if 100 messages
         if (this.items.childNodes.length > 100) {
-            this.items.removeChild(this.items.firstChild);
+            this.deleteMessage(this.items.firstElementChild);
         }
 
         let scrollTopMax = this.scrollTopMax();

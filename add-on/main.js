@@ -1,4 +1,4 @@
-if (document.getElementById("player") === null) {  // YouTube live-chat iFrame
+if (document.querySelector("ytd-app") === null) {  // YouTube live-chat iFrame
     var youtubeFilter = new YouTubeFilter();
 } else {  // YouTube player
     // Sends message to background page if YouTube video seeking

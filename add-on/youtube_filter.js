@@ -112,47 +112,48 @@ class YouTubeFilter {
             for (let node = this.newMessageQueue.shift(); node !== undefined; node = this.newMessageQueue.shift()) {
                 let authorName = node.querySelector("#author-name").textContent;
 
-                let messageElement = node.querySelector("#content>#message");
-                let message = this.parseMessage(messageElement, true);
-                let rawMessage = this.parseMessage(messageElement, false);
+                if (!node.deleted) {
+                    let messageElement = node.querySelector("#content>#message");
+                    let message = this.parseMessage(messageElement, true);
+                    let rawMessage = this.parseMessage(messageElement, false);
 
-                // Matches author and message of chat message
-                let data = { author: authorName, message: message };
-                let match = false;  // Does not apply other filters when already matched
-                let deleted = false;  // Deletes node
-                for (let filter of this.filters) {
-                    if (filter.enable) {
-                        switch (filter.type) {
-                            case "highlight":
-                                if (!match && this.enableHighlight && filter.data.evaluate(data)) {
-                                    console.log("highlight", message);
+                    // Matches author and message of chat message
+                    let data = { author: authorName, message: message };
+                    let match = false;  // Does not apply other filters when already matched
+                    let deleted = false;  // Deletes node
+                    for (let filter of this.filters) {
+                        if (filter.enable) {
+                            switch (filter.type) {
+                                case "highlight":
+                                    if (!match && this.enableHighlight && filter.data.evaluate(data)) {
+                                        console.log("highlight", message);
 
-                                    // Adds chat message to highlight chat 
-                                    this.highlightBox.addMessage(node);
+                                        // Adds chat message to highlight chat 
+                                        this.highlightBox.addMessage(node);
 
-                                    match = true;
-                                }
+                                        match = true;
+                                    }
+                                    break;
+                                case "subtitles":
+                                    if (this.enableOverlay && filter.data.evaluate(data)) {
+                                        console.log("subtitles", message);
+
+                                        // Shows message as YouTube caption overlay
+                                        chrome.runtime.sendMessage({ type: "overlay", author: authorName, message: message, rawMessage: rawMessage });
+                                    }
+                                    break;
+                                case "delete":
+                                    if (!match && filter.data.evaluate(data)) {
+                                        node.hiddden = true;
+
+                                        deleted = true;
+                                    }
+                                    break;
+                            }
+
+                            if (deleted) {
                                 break;
-                            case "subtitles":
-                                if (this.enableOverlay && filter.data.evaluate(data)) {
-                                    console.log("subtitles", message);
-
-                                    // Shows message as YouTube caption overlay
-                                    chrome.runtime.sendMessage({ type: "overlay", author: authorName, message: message, rawMessage: rawMessage });
-                                }
-                                break;
-                            case "delete":
-                                if (!match && filter.data.evaluate(data)) {
-
-                                    node.parentNode.removeChild(node);
-
-                                    deleted = true;
-                                }
-                                break;
-                        }
-
-                        if (deleted) {
-                            break;
+                            }
                         }
                     }
                 }

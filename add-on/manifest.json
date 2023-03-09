@@ -2,11 +2,15 @@
 
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
-  "version": "0.1.10",
+  "version": "0.1.11",
 
   "homepage_url": "https://github.com/MengeTM/Filter-For-YouTube-Live-Chats",
 
   "default_locale": "en",
+
+  "web_accessible_resources": [
+    "menu_item/enable_highlight.svg", "menu_item/menu.svg"
+  ],
 
   "browser_specific_settings": {
     "gecko": {

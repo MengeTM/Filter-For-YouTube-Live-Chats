@@ -55,9 +55,12 @@
         this.overlayText.tabIndex = 0;
         this.textSlider.appendChild(this.overlayText);
 
-        this.player.appendChild(this.overlay);
-
-        this.loadOptions();
+        if (this.player === null) {
+            let player = document.querySelector("ytd-player > #container");
+            this.youtubeobserver.observe(player, { attributes: false, childList: true, subtree: false });
+        } else {
+            this.loaded();
+        }
 
         // YouTube live-chat messages
         chrome.runtime.onMessage.addListener((message) => {
@@ -123,6 +126,19 @@
             this.overlayText.classList.remove("sf-overlay-dragging");
             this.overlay.classList.remove("sf-overlay-dragging");
         });
+    }
+
+    /**
+     * Video loaded
+     */
+    loaded() {
+        this.player.appendChild(this.overlay);
+
+        this.video.addEventListener("seeking", () => {
+            this.overlay.classList.add("sf-hidden");
+        });
+
+        this.loadOptions();
     }
 
     /**
@@ -312,6 +328,24 @@
             this.videoobserver.observe(this.video, { attributes: true, childList: false, substree: false });
         }
     }
+
+    /**
+     * Observes YouTube for added video element
+     */
+    youtubeobserver = new MutationObserver((items) => {
+        for (let item of items) {
+            for (let node of item.addedNodes) {
+                if (node.nodeName.toLowerCase() == "video") {
+                    this.player = document.querySelector(".html5-video-player");
+                    this.video = node;
+
+                    this.loaded();
+
+                    this.youtubeobserver.disconnect();
+                }
+            }
+        }
+    });
 
     /**
      * Observes YouTube video and resizes font size
