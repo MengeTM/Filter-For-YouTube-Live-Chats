@@ -1,12 +1,16 @@
-/*
+/**
  * Sets json-data of storage
+ * @param json JSON data
+ * @param callback Function when set data
  */
 function sync_set(json, callback) {
 	chrome.storage.local.set(json, callback);
 }
 
-/*
+/**
  * Gets json-data of storage
+ * @param array Array of id strings for getting
+ * @param callback Function when got data
  */
 function sync_get(array, callback) {
     chrome.storage.local.get(array, (result) => {

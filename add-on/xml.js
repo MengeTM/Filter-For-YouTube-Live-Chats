@@ -1,3 +1,8 @@
+/**
+ * Parses XML file
+ * @param url URL of xml file
+ * @param loaded Function where parameter is parsed XML document
+ */
 function parseXML(url, loaded) {
     let xhr = new XMLHttpRequest();
 

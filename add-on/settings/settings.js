@@ -28,7 +28,7 @@ class Setting {
         document.title = i18n("titleSettingsPage");
     }
 
-    /*
+    /**
      * Loads settings
      */
     restoreOptions() {
@@ -58,7 +58,7 @@ class Setting {
         chrome.runtime.sendMessage({ type: "update_overlay" });
     }
 
-    /*
+    /**
      * Starts settings listener
      */
     start() {
@@ -132,7 +132,7 @@ class Setting {
         this.restoreOptions();
     }
 
-    /*
+    /**
      * Updates html input elements with settings
      */
     update() {

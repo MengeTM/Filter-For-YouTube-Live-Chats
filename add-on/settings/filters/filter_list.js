@@ -16,8 +16,10 @@ class FilterRule {
         this.update();
     }
 
-    /*
+    /**
      * Adds an event listener to all elements
+     * @param type EventListener type
+     * @param listener function
      */
     addEventListener(type, listener) {
         for (let element of this.elementList) {
@@ -25,8 +27,9 @@ class FilterRule {
         }
     }
 
-    /* 
+    /** 
      * Makes a HTML text node
+     * @param string Text string
      */
     getText(string) {
         let node = document.createElement("div");
@@ -38,7 +41,7 @@ class FilterRule {
         return node;
     }
 
-    /* 
+    /** 
      * Adds HTML input elements from a list, adds listener for saving when input is updated
      */
     update() {
@@ -53,7 +56,7 @@ class FilterRule {
         }
     }
 
-    /*
+    /**
      * Copies elements and data of this element
      */
     copy() {
@@ -68,8 +71,9 @@ class FilterRule {
         this.filter.save();
     }
 
-    /*
+    /**
      * Sets Expert mode for all select options
+     * @param expert ExpertMode
      */
     setExpertMode(expert) {
         // Selects expert elements by class and enables or disables them
@@ -79,8 +83,9 @@ class FilterRule {
         }
     }
 
-    /*
+    /**
      * Formats JSON tree of html elements into a list of html elements
+     * @param data JSON data of filter_data
      */
     parseData(data) {
         if (data instanceof TranslationLanguage) {
@@ -231,8 +236,9 @@ class Filter {
         });
     }
 
-    /*
-     * Swaps position of Filter element with this Filter element 
+    /**
+     * Swaps position of Filter element with this Filter element
+     * @param filterElement HTML filterElement of Filter object
      */
     swapFilter(filterElement) {
         let element = document.createElement("div");
@@ -242,8 +248,9 @@ class Filter {
         this.filterList.filters.replaceChild(this.filterElement, element);
     }
 
-    /*
+    /**
      * Sets listener for text elements, needed for enabling selecting text, when the element is draggable
+     * @param element HTMLInputElement
      */
     addDragListener(element) {
         // Mozilla error, needed for text input to function when dragging
@@ -253,7 +260,7 @@ class Filter {
         }
     }
 
-    /*
+    /**
      * JSON data from the HTML elements data 
      */
     json() {
@@ -265,14 +272,14 @@ class Filter {
         };
     }
 
-    /*
+    /**
      * Saves the FilterList and this Filter
      */
     save() {
         this.filterList.save();
     }
 
-    /*
+    /**
      * Deletes Filter from FilterList and saves FilterList
      */
     deleteFilter () {
@@ -281,6 +288,7 @@ class Filter {
 
     /**
      * Selects expert elements by class and enables or disables them
+     * @param expert ExpertMode
      */
     setExpertMode(expert) {
         let expertElements = this.filterElement.querySelectorAll(".expert");
@@ -289,7 +297,7 @@ class Filter {
         }
     }
 
-    /* 
+    /** 
      * Adds HTML element with data input elements
      */
     addMain() {
@@ -345,7 +353,7 @@ class Filter {
         enableElement.appendChild(this.switch.element);
     }
 
-    /* 
+    /** 
      * Adds HTML element for interacting with filter
      */
     addControl() {
@@ -403,8 +411,9 @@ class FilterList {
         this.filterEvaluation = new FilterEvaluation();
     }
 
-    /*
+    /**
      * Adds Filter element and sets reference and id
+     * @param filter Filter
      */
     addFilter(filter) {
         if (filter.filterList !== null) {
@@ -422,8 +431,9 @@ class FilterList {
         this.save();
     }
 
-    /*
+    /**
      * Deletes Filter element
+     * @param filter Filter
      */
     deleteFilter(filter) {
         this.filters.removeChild(filter.filterElement);
@@ -432,8 +442,9 @@ class FilterList {
         this.save();
     }
 
-    /*
+    /**
      * Sets expert mode for all Filter elements
+     * @param expert ExpertMode
      */
     setExpertMode(expert) {
         this.expertMode = expert;
@@ -445,7 +456,7 @@ class FilterList {
         }
     }
 
-    /*
+    /**
      * Saves all Filter elements as JSON
      */
     save() {

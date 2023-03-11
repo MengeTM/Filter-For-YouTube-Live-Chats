@@ -21,35 +21,6 @@ class Separator {
         this.height = null;  // height both chat-boxes
         this.startHeight = null;  // height box_bottom
 
-        /*
-         * Starts dragging separator
-         */
-        this.startDragging = function (y) {
-            // Set start variables
-            this.startY = y;
-            this.height = this.box_top.offsetHeight + this.box_bottom.offsetHeight;
-            this.startHeight = this.box_bottom.offsetHeight;
-
-            // Append mouseElement for getting mousemove and mouseup events
-            this.box_bottom.parentNode.appendChild(this.mouseElement);
-        }
-
-        /*
-         * Stops dragging separator
-         */
-        this.stopDragging = function (y) {
-            // Stop dragging by removing mouseElement
-            this.box_bottom.parentNode.removeChild(this.mouseElement);
-
-            // Set new height of box_bottom and save height
-            let size = this.getSize(y - this.startY);
-            this.updateSize(size);
-            sync_set({ size: size });
-
-            this.startY = null;
-            this.startHeight = null;
-        }
-
         // Add event listeners
 
         this.separatorElement.addEventListener("mousedown", (event) => {
@@ -82,10 +53,42 @@ class Separator {
         });
     }
 
-    /*
-     * Gets flex size of box_bottom when moving mouse dY pixel
+    /**
+     * Starts dragging separator
+     * @param y Y-pixel when start dragging separator
      */
-    getSize = function (dY) {
+    startDragging(y) {
+        // Set start variables
+        this.startY = y;
+        this.height = this.box_top.offsetHeight + this.box_bottom.offsetHeight;
+        this.startHeight = this.box_bottom.offsetHeight;
+
+        // Append mouseElement for getting mousemove and mouseup events
+        this.box_bottom.parentNode.appendChild(this.mouseElement);
+    }
+
+    /*
+     * Stops dragging separator
+     * @param y Y-pixel when stop dragging separator
+     */
+    stopDragging(y) {
+        // Stop dragging by removing mouseElement
+        this.box_bottom.parentNode.removeChild(this.mouseElement);
+
+        // Set new height of box_bottom and save height
+        let size = this.getSize(y - this.startY);
+        this.updateSize(size);
+        sync_set({ size: size });
+
+        this.startY = null;
+        this.startHeight = null;
+    }
+
+    /**
+     * Gets flex size of box_bottom when moving mouse dY pixel
+     * @param dY Y-pixel distance separator
+     */
+    getSize(dY) {
         let size = (this.startHeight - dY) / this.height * 100;
 
         size = Math.round(size);
@@ -93,10 +96,11 @@ class Separator {
         return size;
     }
 
-    /*
+    /**
      * Updates height of box_top and box_bottom
+     * @param size Size of box_bottom [0..1]
      */
-    updateSize = function (size) {
+    updateSize(size) {
         size = size / 100;
 
         this.box_top.style.flex = 1 - size;

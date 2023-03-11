@@ -1,5 +1,6 @@
-/*
+/**
  * Replaces placeholders of html with _locale strings
+ * @param element HTMLElement
  */
 function i18n_replace(element) { 
     element.querySelectorAll(".i18n").forEach(function (node) {
@@ -16,8 +17,10 @@ function i18n_replace(element) {
     });
 }
 
-/*
+/**
  * Locale Message from list or id
+ * @param id ID of locale message
+ * @param options (Optional) List of locale message options
  */
 function i18n(id, options = []) {
     if (Array.isArray(id)) {

@@ -170,7 +170,7 @@ class YouTubeFilter {
         });
     }
 
-    /*
+    /**
      * Loads add-on settings
      */
     loadOptions() {
@@ -199,8 +199,9 @@ class YouTubeFilter {
         });
     }
 
-    /*
-     * Toggles highlight chat-box and separator functionallity and visibillity
+    /**
+     * Toggles highlight chat-box and separator functionality and visibillity
+     * @param highlight (Optional) Highlights chat-box and separator, else toggles chat-box and separator 
      */
     toggleHighlightBox(highlight) {
         if (this.highlightBox !== null) {

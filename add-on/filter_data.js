@@ -1,6 +1,7 @@
-﻿/*
-* Parses JSON data of a Filter to HTML elements
-*/
+﻿/**
+ * Parses JSON data of a Filter to HTML elements
+ * @param json JSON data, or Array of JSON data of filter_data
+ */
 function parseJSON(json) {
     try {
         if (json.length !== undefined) {
@@ -73,16 +74,18 @@ class TextElement {
         });
     }
 
-    /*
-     * Sets text
+    /**
+     * Sets TextElement attributes
+     * @param textElement TextElement
      */
     set(textElement) {
         this.strings = textElement.strings;
         this.element.value = this.strings.join("; ");
     } 
 
-    /*
+    /**
      * Sets whether strings are formatted as lists or as strings
+     * @param formatArray Formats strings as Array, else as string
      */
     setArray(formatArray) {
         this.formatArray = formatArray;
@@ -90,8 +93,9 @@ class TextElement {
         this.updateStrings();
     }
 
-    /*
+    /**
      * Formats a string separated by ";" into an Array and deletes empty elements
+     * @param string String that should be formatted as an Array
      */
     split(string) {
         let stringList = string.trim().split(new RegExp("[ ]*;[ ]*"));
@@ -100,7 +104,7 @@ class TextElement {
         return stringList;
     }
 
-    /*
+    /**
      * Sets and formats the input string
      */
     updateStrings() {
@@ -113,7 +117,7 @@ class TextElement {
         }
     }
 
-    /*
+    /**
      * JSON data from text element
      */
     json() {
@@ -146,15 +150,16 @@ class BaseSelect extends SelectBox {
         this.name = name;
     }
 
-    /*
+    /**
      * JSON data from HTML element
      */
     json() {
 
     }
 
-    /*
-     * Sets value of the element
+    /**
+     * Sets attributes of BaseSelect from a BaseSelect
+     * @param baseSelect BaseSelect
      */
     set(baseSelect) {
         if (typeof baseSelect != typeof this) {
@@ -165,7 +170,7 @@ class BaseSelect extends SelectBox {
         this.element.value = baseSelect.element.value;
     }
 
-    /*
+    /**
      * String
      */
     toString() {
@@ -183,15 +188,16 @@ class TranslationLanguage extends BaseSelect {
         this.element.title = i18n("titleSelectTranslationLanguage");
     }
 
-    /*
+    /**
      * JSON data from HTML element
      */
     json() {
         return { type: "Language", name: this.element.value };
     }
 
-    /*
+    /**
      * Evaluates if message is a language translation
+     * @param data Object with author, message, and rawMessage data
      */
     evaluate(data) {
         let string = data["message"];
@@ -199,7 +205,7 @@ class TranslationLanguage extends BaseSelect {
         return string.toLocaleLowerCase().includes(`[${this.name}]`);
     }
 
-    /*
+    /**
      * String
      */
     toString() {
@@ -223,15 +229,16 @@ class Language extends BaseSelect {
         this.element.title = i18n("titleSelectLanguage");
     }
 
-    /*
+    /**
      * JSON data from HTML element
      */
     json() {
         return { type: "LanguageMessage", name: this.element.value };
     }
 
-    /*
+    /**
      * Evaluates if message is a language translation
+     * @param data Object with author, message, and rawMessage data
      */
     evaluate(data) {
         let strings = data["rawMessage"] || [{ text: data["message"] }];
@@ -247,7 +254,7 @@ class Language extends BaseSelect {
         return merge.toLocaleLowerCase().match(new RegExp(this.regexp[this.name], "u"));
     }
 
-    /*
+    /**
      * String
      */
     toString() {
@@ -268,15 +275,16 @@ class LogicalBinary extends BaseSelect {
         this.element.title = "If author AND message should match, or if message OR author should match";
     }
 
-    /*
+    /**
      * JSON data from HTML element
      */
     json() {
         return { type: "LogicalB", name: this.element.value, a: this.a.json(), b: this.b.json() };
     }
 
-    /*
-     * Sets value
+    /**
+     * Sets attributes of LogicalBinary
+     * @param element LogicalBinary
      */
     set(element) {
         super.set(element);
@@ -285,8 +293,9 @@ class LogicalBinary extends BaseSelect {
         this.b.set(element.b);
     }
 
-    /*
+    /**
      * Evaluates if data matches
+     * @param data Object with author, message, and rawMessage data
      */
     evaluate(data) {
         switch (this.name) {
@@ -297,7 +306,7 @@ class LogicalBinary extends BaseSelect {
         }
     }
 
-    /*
+    /**
      * Replaces data if data matches
      */
     replace(data) {
@@ -307,7 +316,7 @@ class LogicalBinary extends BaseSelect {
         return data;
     }
 
-    /*
+    /**
      * String
      */
     toString() {
@@ -325,15 +334,16 @@ class LogicalUnary extends BaseSelect {
         this.a = a;
     }
 
-    /*
+    /**
      * JSON data from HTML element
      */
     json() {
         return { type: "LogicalU", name: this.element.value, a: this.a.json() };
     }
 
-    /*
-     * Sets value
+    /**
+     * Sets attributes LogicalUnary
+     * @param element LogicalUnary
      */
     set(element) {
         super.set(element);
@@ -341,8 +351,9 @@ class LogicalUnary extends BaseSelect {
         this.a.set(element.a);
     }
 
-    /*
+    /**
      * Evaluates if data matches
+     * @param data Object with author, message, and rawMessage data
      */
     evaluate(data) {
         switch (this.name) { 
@@ -353,7 +364,7 @@ class LogicalUnary extends BaseSelect {
         }
     }
 
-    /*
+    /**
      * String
      */
     toString() {
@@ -364,7 +375,7 @@ class LogicalUnary extends BaseSelect {
         }
     }
 
-    /*
+    /**
      * Replaces data if data matches
      */
     replace(data) {
@@ -382,7 +393,7 @@ class StringOption extends BaseSelect {
         this.element.title = i18n("titleSelectAuthor");
     }
 
-    /*
+    /**
      * JSON data from HTML element
      */
     json() {
@@ -407,8 +418,9 @@ class LogicalArray extends BaseSelect {
         this.element.namedItem("none").classList.add("expert");
     }
 
-    /*
+    /**
      * Disables HTML select element and sets ""
+     * @param disabled Disables html select element
      */
     disable(disabled) {
         this.element.disabled = disabled;
@@ -420,21 +432,26 @@ class LogicalArray extends BaseSelect {
         }
     }
 
+    /**
+     * Sets attributes LogicalArray
+     * @param element LogicalArray
+     */
     set(element) {
         super.set(element);
 
         this.element.disabled = element.element.disabled;
     }
     
-    /*
+    /**
      * JSON data from HTML element
      */
     json() {
         return { type: "LogicalA", name: this.name };
     }
 
-    /*
+    /**
      * Evaluates list with boolean function fun
+     * @param data Object with author, message, and rawMessage data
      */
     evaluate(array, fun) {
         switch (this.name) {
@@ -447,7 +464,7 @@ class LogicalArray extends BaseSelect {
         }
     }
 
-    /*
+    /**
      * String
      */
     toString() {
@@ -483,8 +500,9 @@ class StringRegex extends BaseSelect {
         });
     }
 
-    /*
-     * Sets value
+    /**
+     * Sets attributes StringRegex
+     * @param element StringRegex
      */
     set(element) {
         super.set(element);
@@ -494,17 +512,18 @@ class StringRegex extends BaseSelect {
         this.bool.set(element.bool)
     }
 
-    /*
+    /**
      * JSON data from HTML element
      */
     json() {
         return { type: "StringRegex", name: this.element.value, key: this.key.json(), regexp: this.regexp.json(), bool: this.bool.json() };
     }
 
-    /*
+    /**
      * Evaluates if regexp.string matches data
      * String matching uses list of keys as input
      * RegExp matching uses string as input
+     * @param data Object with author, message, and rawMessage data
      */
     evaluate(data) { 
         let string = data[this.key.name];
@@ -523,7 +542,7 @@ class StringRegex extends BaseSelect {
         }
     }
 
-    /*
+    /**
      * Replaces data if data matches
      * String matching uses list of keys as input
      * RegExp matching uses string as input
@@ -554,7 +573,7 @@ class StringRegex extends BaseSelect {
         return data;
     }
 
-    /*
+    /**
      * Sets LogicalArray as disabled when RegExp is selected
      */
     setElements() {
@@ -571,7 +590,7 @@ class StringRegex extends BaseSelect {
         }
     }
 
-    /*
+    /**
      * String
      */
     toString() {
