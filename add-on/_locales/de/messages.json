@@ -188,7 +188,7 @@
     "description": "Settings: select option for matching string Regular Expression"
   },
   "some": {
-    "message": "irgendwas von",
+    "message": "mindestens eines von",
     "description": "Settings: select option for matching some"
   },
   "every": {
@@ -212,7 +212,7 @@
     "description": "Settings: select option for logical not"
   },
   "author": {
-    "message": "Author",
+    "message": "Autor",
     "description": "Settings: select option for author string"
   },
   "message": {
@@ -272,7 +272,7 @@
     "description": "Settings: Placeholder for string array text input"
   },
   "placeholderAuthor": {
-    "message": "Author",
+    "message": "Autor",
     "description": "Settings: Placeholder for author"
   },
   "placeholderMessage": {
@@ -288,7 +288,7 @@
     "description": "Settings: Title of filter action select"
   },
   "titleSelectAuthor": {
-    "message": "Suche im Author-Namen oder der Chat-Nachricht",
+    "message": "Suche im Autor-Namen oder der Chat-Nachricht",
     "description": "Settings: Title of author select"
   },
   "titleSelectAlgo": {
@@ -360,7 +360,7 @@
     "description": "Settings: Title of switch expert mode"
   },
   "titleAuthorEvaluation": {
-    "message": "Beispiel Author einer YouTube Live-Chat Nachricht zur Validierung der Filter Regel",
+    "message": "Beispiel Autor einer YouTube Live-Chat Nachricht zur Validierung der Filter Regel",
     "description": "Settings: Title of author"
   },
   "titleMessageEvaluation": {
@@ -368,11 +368,11 @@
     "description": "Settings: Title of message"
   },
   "titleDoesMatch": {
-    "message": "Match der Filter Regel zum Author und der Chat-Nachricht",
+    "message": "Match der Filter Regel zum Autor und der Chat-Nachricht",
     "description": "Settings: Title of match string"
   },
   "titleNoMatch": {
-    "message": "Kein Match der Filter Regel zum Author und der Chat-Nachricht",
+    "message": "Kein Match der Filter Regel zum Autor und der Chat-Nachricht",
     "description": "Settings: Title of no match string"
   },
   "titleBtnExit": {
