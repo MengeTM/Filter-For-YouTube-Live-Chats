@@ -1,6 +1,6 @@
 {
 
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "version": "0.1.12",
 
@@ -8,21 +8,13 @@
 
   "default_locale": "en",
 
-  "web_accessible_resources": [
-    "menu_item/enable_highlight.svg", "menu_item/menu.svg"
-  ],
-
-  "browser_specific_settings": {
-    "gecko": {
-      "strict_min_version": "57.0"
-    }
-  },
-
   "description": "__MSG_extensionDescription__",
 
   "icons": {
-    "128": "youtube_stream_filter.svg"
+    "128": "youtube_stream_filter.png"
   },
+
+  "host_permissions": [ "*://www.youtube.com/*" ],
 
   "options_ui": {
     "page": "settings/settings.html",
@@ -31,8 +23,15 @@
   },
 
   "background": {
-    "scripts": [ "background_page/background_script.js" ]
+    "service_worker": "background_page/background_script.js"
   },
+
+  "web_accessible_resources": [
+    {
+      "resources": [ "menu_item/menu.svg", "menu_item/enable_highlight.svg" ],
+      "matches": [ "*://www.youtube.com/*" ]
+    }
+  ],
 
   "content_scripts": [
     {
@@ -44,6 +43,6 @@
     }
   ],
 
-  "permissions": [ "storage", "*://www.youtube.com/*" ]
+  "permissions": [ "storage" ]
 
 }

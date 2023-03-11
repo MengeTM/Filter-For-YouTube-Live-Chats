@@ -67,9 +67,9 @@ h3 {
         text-align: center;
     }
 
-.filter-container {
-    height: 50px;
-}
+    .evaluation-filter-box > .filter-container {
+        height: 35px;
+    }
 
 .evaluation-example-box {
     position: relative;
