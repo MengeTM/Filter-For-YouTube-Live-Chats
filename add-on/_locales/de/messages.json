@@ -184,7 +184,7 @@
     "description": "Settings: select option for matching string being the same as"
   },
   "regexp": {
-    "message": "matches Regular Expression",
+    "message": "entspricht Regular Expression",
     "description": "Settings: select option for matching string Regular Expression"
   },
   "some": {

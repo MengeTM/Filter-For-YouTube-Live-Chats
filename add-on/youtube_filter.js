@@ -15,6 +15,8 @@ class YouTubeFilter {
         // List of chat-messages for matching
         this.newMessageQueue = [];
 
+        this.setHighlightBox();
+
         this.loadOptions();
         this.loadFilters();
 
@@ -35,8 +37,12 @@ class YouTubeFilter {
                     }
                     break;
                 case "update_filters":
-                    console.log("update");
+                    console.log("update filters");
                     this.loadFilters();
+                    break;
+                case "update_box":
+                    console.log("update box");
+                    this.loadOptions();
                     break;
                 case "update_overlay":
                     this.loadOverlayOptions();
@@ -110,9 +116,11 @@ class YouTubeFilter {
         if (this.filters !== null) {
             // Messages for matching
             for (let node = this.newMessageQueue.shift(); node !== undefined; node = this.newMessageQueue.shift()) {
-                let authorName = node.querySelector("#author-name").textContent;
+                let authorName = node.querySelector("#author-name");
 
-                if (!node.deleted) {
+                if (!node.deleted && authorName !== null) {
+                    authorName = authorName.textContent;
+
                     let messageElement = node.querySelector("#content>#message");
                     let message = this.parseMessage(messageElement, true);
                     let rawMessage = this.parseMessage(messageElement, false);
@@ -180,7 +188,7 @@ class YouTubeFilter {
             this.enableHighlight = result.enableHighlight;
             this.enableOverlay = result.enableOverlay;
 
-            this.setHighlightBox();
+            this.separator.updateSize(this.size);
 
             this.toggleHighlightBox(this.enableHighlight);
         });
@@ -237,7 +245,7 @@ class YouTubeFilter {
         contents.parentNode.parentNode.appendChild(this.separator.separatorElement);
         contents.parentNode.parentNode.appendChild(this.highlightBox.renderer);
 
-        this.separator.updateSize(this.size);
+        this.toggleHighlightBox(false);
     }
 
 }

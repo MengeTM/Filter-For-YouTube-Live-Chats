@@ -22,6 +22,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 }
             });
             break;
+        case "update_box":
+            chrome.tabs.query({ url: "*://www.youtube.com/*" }, (tabs) => {
+                for (let tab of tabs) {
+                    chrome.tabs.sendMessage(tab.id, { type: "update_box" });
+                }
+            });
+            break;
         case "update_overlay":
             chrome.tabs.query({ url: "*://www.youtube.com/*" }, (tabs) => {
                 for (let tab of tabs) {

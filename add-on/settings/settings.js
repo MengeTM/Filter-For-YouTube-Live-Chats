@@ -50,6 +50,12 @@ class Setting {
             this.update();
         });
     }
+     /**
+      * Sends message for updating chat box
+      */
+    updateChatBox() {
+        chrome.runtime.sendMessage({ type: "update_box" });
+    }
 
     /**
      * Sends message for updating settings
@@ -67,12 +73,14 @@ class Setting {
             this.size = document.querySelector("#size").value;
             this.size = Math.min(Math.max(this.size, 0), 100);
             sync_set({ size: this.size });
+            this.updateChatBox();
         });
 
         // Saves enable highlight chat-box settings
         document.querySelector("#enable_highlight").addEventListener("change", () => {
             this.enableHighlight = document.querySelector("#enable_highlight").checked;
             sync_set({ enableHighlight: this.enableHighlight });
+            this.updateChatBox();
         });
 
         document.querySelector("#enable_overlay").addEventListener("change", () => {
@@ -100,6 +108,8 @@ class Setting {
         document.querySelector("#btn_add_filter").addEventListener("click", () => {
             let filter = new Filter(document.querySelector("#select_new_filter").value);
             this.filterList.addFilter(filter);
+
+            this.filterList.save();
 
             return false;
         });

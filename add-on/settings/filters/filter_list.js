@@ -246,6 +246,8 @@ class Filter {
         this.filterList.filters.replaceChild(element, filterElement);
         this.filterList.filters.replaceChild(filterElement, this.filterElement);
         this.filterList.filters.replaceChild(this.filterElement, element);
+
+        this.save();
     }
 
     /**
@@ -427,8 +429,6 @@ class FilterList {
         this.filters.appendChild(filter.filterElement);
         filter.filterElement.id = `filter_${this.next_id}`;
         this.next_id += 1;
-
-        this.save();
     }
 
     /**
