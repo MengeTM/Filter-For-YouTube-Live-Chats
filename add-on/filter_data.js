@@ -3,40 +3,37 @@
  * @param json JSON data, or Array of JSON data of filter_data
  */
 function parseJSON(json) {
-    try {
-        if (json.length !== undefined) {
-            // List
-            for (let filter of json) {
-                filter.data = parseJSON(filter.data);
-            }
-
-            return json;
-        } else {
-            // Input object
-            switch (json["type"]) {
-                case "Language":
-                    return new TranslationLanguage(json["name"]);
-                case "LanguageMessage":
-                    return new Language(json["name"]);
-                case "TextElement":
-                    return new TextElement(json["strings"], json["format_array"]);
-                case "LogicalB":
-                    return new LogicalBinary(json["name"], parseJSON(json["a"]), parseJSON(json["b"]));
-                case "LogicalU":
-                    return new LogicalUnary(json["name"], parseJSON(json["a"]));
-                case "StringOption":
-                    return new StringOption(json["name"]);
-                case "StringRegex":
-                    return new StringRegex(json["name"], parseJSON(json["key"]), parseJSON(json["regexp"]), parseJSON(json["bool"]));
-                case "LogicalA":
-                    return new LogicalArray(json["name"]);
-                default:
-                    throw Error(`Error while evaluating, type="${json["type"]}" is not available`);
-            }
+    if (json.length !== undefined) {
+        // List
+        for (let filter of json) {
+            filter.data = parseJSON(filter.data);
         }
-    } catch (e) {
-        console.log(`Error while parsing JSON:\n\t${e}`);
-        return null;
+
+        return json;
+    } else {
+        // Input object
+        switch (json["type"]) {
+            case "Authors":
+                return new Authors(json["name"]);
+            case "Language":
+                return new TranslationLanguage(json["name"], parseJSON(json["authors"]), parseJSON(json["authorList"]));
+            case "LanguageMessage":
+                return new Language(json["name"]);
+            case "TextElement":
+                return new TextElement(json["strings"], json["format_array"]);
+            case "LogicalB":
+                return new LogicalBinary(json["name"], parseJSON(json["a"]), parseJSON(json["b"]));
+            case "LogicalU":
+                return new LogicalUnary(json["name"], parseJSON(json["a"]));
+            case "StringOption":
+                return new StringOption(json["name"]);
+            case "StringRegex":
+                return new StringRegex(json["name"], parseJSON(json["key"]), parseJSON(json["regexp"]), parseJSON(json["bool"]));
+            case "LogicalA":
+                return new LogicalArray(json["name"]);
+            default:
+                throw Error(`Error while evaluating, type="${json["type"]}" is not available`);
+        }
     }
 }
 
@@ -178,21 +175,66 @@ class BaseSelect extends SelectBox {
     }
 }
 
-/*
- * Matches language translations
- */
-class TranslationLanguage extends BaseSelect {
+class Authors extends BaseSelect {
     constructor(name) {
-        super(name, ["en", "de", "ja", "id", "es", "fr"], i18n(["en", "de", "ja", "id", "es", "fr"]));
+        super(name, ["all", "whitelist", "blacklist"], i18n(["allList", "whiteList", "blackList"]));
 
-        this.element.title = i18n("titleSelectTranslationLanguage");
+        this.element.title = i18n("titleSelectTranslationAuthor");
     }
 
     /**
      * JSON data from HTML element
      */
     json() {
-        return { type: "Language", name: this.element.value };
+        return { type: "Authors", name: this.element.value };
+    }
+
+    /**
+     * String
+     */
+    toString() {
+        return `Authors ${this.element.value}`;
+    }
+}
+
+/*
+ * Matches language translations
+ */
+class TranslationLanguage extends BaseSelect {
+    constructor(name, authors, authorList) {
+        super(name, ["en", "de", "ja", "id", "es", "fr"], i18n(["en", "de", "ja", "id", "es", "fr"]));
+
+        this.element.title = i18n("titleSelectTranslationLanguage");
+
+        this.authors = authors;
+        this.authorList = authorList;
+
+        this.authorList.element.placeholder = i18n("placeholderAuthorList");
+        this.authorList.element.title = i18n("titleTextAuthorList");
+
+        this.updateValue();
+
+        this.authors.element.addEventListener("change", () => {
+            this.updateValue();
+        });
+    }
+
+    /**
+     * Updates authorList
+     */
+    updateValue() {
+        if (this.authors.element.value == "all") {
+            this.authorList.element.disabled = true;
+        } else {
+            this.authorList.element.disabled = false;
+        }
+    }
+
+    /**
+     * JSON data from HTML element
+     */
+    json() {
+        return { type: "Language", name: this.element.value, authors: this.authors.json(), authorList: this.authorList.json() };
     }
 
     /**
@@ -202,7 +244,29 @@ class TranslationLanguage extends BaseSelect {
     evaluate(data) {
         let string = data["message"];
 
-        return string.toLocaleLowerCase().includes(`[${this.name}]`);
+        let author = data["author"].toLocaleLowerCase();
+
+        let authorTranslation = string.toLocaleLowerCase().includes(`[${this.name}]`);
+        switch (this.authors.element.value) {
+            case "all":
+                return authorTranslation;
+            case "whitelist":
+                return authorTranslation && this.authorList.strings.some((string) => { return string.toLocaleLowerCase() == author; });
+            case "blacklist":
+                return authorTranslation && !this.authorList.strings.some((string) => { return string.toLocaleLowerCase() == author; });
+        }
+    }
+
+    /**
+     * Sets attributes TranslationLanguage
+     * @param element TranslationLanguage
+     */
+    set(element) {
+        super.set(element);
+
+        this.authors.set(element.authors);
+        this.authorList.set(element.authorList);
+        this.updateValue();
     }
 
     /**
@@ -508,7 +572,7 @@ class StringRegex extends BaseSelect {
 
         this.key.set(element.key);
         this.regexp.set(element.regexp);
-        this.bool.set(element.bool)
+        this.bool.set(element.bool);
     }
 
     /**

@@ -131,13 +131,17 @@
     "message": "フランス語",
     "description": "Settings: language French"
   },
-  "latinCH": {
-    "message": "ラテン文字 (英語、ドイツ語)",
-    "description": "Settings: Language characters Latin"
+  "allList": {
+    "message": "すべての著者",
+    "description": "Settings: List all authors"
   },
-  "japaneseCH": {
-    "message": "日本語の文字",
-    "description": "Settings: Language characters Japanese"
+  "whiteList": {
+    "message": "ホワイトリスト著者",
+    "description": "Settings: Whitelist authors"
+  },
+  "blackList": {
+    "message": "ブラックリスト著者",
+    "description": "Settings: Blacklist authors"
   },
   "translatorLanguage": {
     "message": "翻訳者メッセージ",
@@ -146,6 +150,14 @@
   "filterTranslation": {
     "message": "翻訳者メッセージ",
     "description": "Settings: Filter option translation"
+  },
+  "latinCH": {
+    "message": "ラテン文字 (英語、ドイツ語)",
+    "description": "Settings: Language characters Latin"
+  },
+  "japaneseCH": {
+    "message": "日本語の文字",
+    "description": "Settings: Language characters Japanese"
   },
   "language": {
     "message": "メッセージ言語",
@@ -287,6 +299,10 @@
     "message": "チャット メッセージ文字列",
     "description": "Settings: Placeholder for message"
   },
+  "placeholderAuthorList": {
+    "message": "「;」で区切られた著者名",
+    "description": "Settings: Placeholder for stirng array author"
+  },
   "titleFilterName": {
     "message": "フィルター名",
     "description": "Settings: Title of filterName text box"
@@ -350,6 +366,14 @@
   "titleSelectLanguage": {
     "message": "YouTube ライブチャット翻訳者メッセージの言語 (例: 日本語の翻訳をハイライトするため)",
     "description": "Settings: Title select language"
+  },
+  "titleTranslationAuthor": {
+    "message": "すべての著者、ホワイトリストの著者、またはブラックリストにない著者の翻訳を表示します",
+    "description": "Settings: Title select author list"
+  },
+  "titleTextAuthorList": {
+    "message": "翻訳者のホワイトリストまたはブラックリストの著者名のリスト",
+    "description": "Settings: Title strings array author list"
   },
   "titleSelectTranslationLanguage": {
     "message": "YouTube ライブチャット メッセージの翻訳言語",

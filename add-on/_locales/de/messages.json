@@ -131,14 +131,6 @@
     "message": "Französisch",
     "description": "Settings: language French"
   },
-  "latinCH": {
-    "message": "Lateinische Buchstaben (Englisch, Deutsch)",
-    "description": "Settings: Language characters Latin"
-  },
-  "japaneseCH": {
-    "message": "Japanische Buchstaben",
-    "description": "Settings: Language characters Japanese"
-  },
   "translatorLanguage": {
     "message": "Übersetzer Nachricht",
     "description": "Settings: Filter translator language"
@@ -146,6 +138,26 @@
   "filterTranslation": {
     "message": "Übersetzer Nachricht",
     "description": "Settings: Filter option translation"
+  },
+  "allList": {
+    "message": "alle Autoren",
+    "description": "Settings: List all authors"
+  },
+  "whiteList": {
+    "message": "Autoren White-List",
+    "description": "Settings: Whitelist authors"
+  },
+  "blackList": {
+    "message": "Autoren Black-List",
+    "description": "Settings: Blacklist authors"
+  },
+  "latinCH": {
+    "message": "Lateinische Buchstaben (Englisch, Deutsch)",
+    "description": "Settings: Language characters Latin"
+  },
+  "japaneseCH": {
+    "message": "Japanische Buchstaben",
+    "description": "Settings: Language characters Japanese"
   },
   "language": {
     "message": "Sprache der Nachricht",
@@ -287,6 +299,10 @@
     "message": "Chat-Nachricht",
     "description": "Settings: Placeholder for message"
   },
+  "placeholderAuthorList": {
+    "message": "Author Namen separiert bei \"\"",
+    "description": "Settings: Placeholder for stirng array authors"
+  },
   "titleFilterName": {
     "message": "Name des Filters",
     "description": "Settings: Title of filterName text box"
@@ -350,6 +366,14 @@
   "titleNewFilter": {
     "message": "Fügt eine neue Filter Regel hinzu",
     "description": "Settings: Title button filter"
+  },
+  "titleTranslationAuthor": {
+    "message": "Zeigt Übersetzungen von allen Autoren, Autoren auf einer White-List, oder Autoren nicht auf einer Black-List",
+    "description": "Settings: Title select author list"
+  },
+  "titleTextAuthorList": {
+    "message": "Autor-Namen Whitelist oder Blacklist der Namen von Übersetzern",
+    "description": "Settings: Title strings array author list"
   },
   "titleSelectTranslationLanguage": {
     "message": "Sprache der YouTube Live-Chat Übersetzer Nachrichten, z.B. zum Hervorheben von Deutschen Übersetzungen",

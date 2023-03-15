@@ -70,6 +70,12 @@ class ChatBox {
         message.deleted = true;
 
         this.youtubeItems.prepend(message);
+        
+        try {
+            this.youtubeItems.removeChild(message.div);
+        } catch (e) {
+
+        }
     }
 
     /*

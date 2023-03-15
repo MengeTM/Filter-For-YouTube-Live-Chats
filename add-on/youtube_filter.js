@@ -238,12 +238,16 @@ class YouTubeFilter {
      */
     filterItems() {
         // Put elements back to items
-        while (this.highlightBox.items.firstElementChild !== null) {
+        let i = 0;
+        let max = this.highlightBox.items.childNodes.length;
+        while (this.highlightBox.items.firstElementChild !== null && i < max) {
+            i += 1;
+
             let element = this.highlightBox.items.firstElementChild;
             try {
                 this.items.replaceChild(element, element.div);
             } catch (e) {
-                this.highlightBox.items.remove(element);
+                this.highlightBox.items.removeChild(element);
             }
         }
 

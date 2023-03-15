@@ -91,7 +91,10 @@ class FilterRule {
         if (data instanceof TranslationLanguage) {
             return [
                 this.getText(`${i18n("translatorLanguage")}: `),
-                data.element
+                data.element,
+                this.getText(", "),
+                data.authors.element,
+                data.authorList.element
             ];
         } else if (data instanceof Language) {
             return [
@@ -151,7 +154,7 @@ class Filter {
                     json = {
                         name: "Translations - EN",
                         type: "subtitles",
-                        data: new TranslationLanguage("en"),
+                        data: new TranslationLanguage("en", new Authors("all"), new TextElement([])),
                         enable: true
                     };
                     break;

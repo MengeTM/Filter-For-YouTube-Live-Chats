@@ -131,13 +131,17 @@
     "message": "French",
     "description": "Settings: language French"
   },
-  "latinCH": {
-    "message": "Latin characters (English, German)",
-    "description": "Settings: Language characters Latin"
+  "allList": {
+    "message": "all authors",
+    "description": "Settings: List all authors"
   },
-  "japaneseCH": {
-    "message": "Japanese characters",
-    "description": "Settings: Language characters Japanese"
+  "whiteList": {
+    "message": "whitelist authors",
+    "description": "Settings: Whitelist authors"
+  },
+  "blackList": {
+    "message": "blacklist authors",
+    "description": "Settings: Blacklist authors"
   },
   "translatorLanguage": {
     "message": "Translator message",
@@ -146,6 +150,14 @@
   "filterTranslation": {
     "message": "translator message",
     "description": "Settings: Filter option translation"
+  },
+  "latinCH": {
+    "message": "Latin characters (English, German)",
+    "description": "Settings: Language characters Latin"
+  },
+  "japaneseCH": {
+    "message": "Japanese characters",
+    "description": "Settings: Language characters Japanese"
   },
   "language": {
     "message": "Message language",
@@ -287,6 +299,10 @@
     "message": "Chat-message",
     "description": "Settings: Placeholder for message"
   },
+  "placeholderAuthorList": {
+    "message": "Author names separated by \";\"",
+    "description": "Settings: Placeholder for string array authors"
+  },
   "titleFilterName": {
     "message": "Name of filter",
     "description": "Settings: Title of filterName text box"
@@ -346,6 +362,14 @@
   "titleOverlayDuration": {
     "message": "Time duration in seconds",
     "description": "Settings: Title overlay duration"
+  },
+  "titleSelectTranslationAuthor": {
+    "message": "Shows translations of all authors, authors of a whitelist or authors not on a blacklist",
+    "description": "Settings: Title select author list"
+  },
+  "titleTextAuthorList": {
+    "message": "List of author names for a whitelist or blacklist of translator authors",
+    "description": "Settings: Title strings array author list"
   },
   "titleSelectTranslationLanguage": {
     "message": "Language of YouTube live-chat messages by translators e.g. for highlighting translations in English",

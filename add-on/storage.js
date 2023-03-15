@@ -32,9 +32,9 @@ function sync_get(array, callback) {
                     break;
                 case "filters":
                     result.filters = result.filters || [{
-                        name: "Hololive EN",
+                        name: "Translations - EN",
                         type: "subtitles",
-                        data: new TranslationLanguage("en").json(),
+                        data: new TranslationLanguage("en", new Authors("all"), new TextElement([])),
                         enable: true
                     },
                     {
@@ -49,6 +49,9 @@ function sync_get(array, callback) {
                         if (filter.data.type == "LanguageMessage" && (filter.data.name == "en" || filter.data.name == "de")) {
                             filter.data.name = "latin";
                             sync_set({ filters: result.filters });
+                        } else if (filter.data.type == "Language" && filter.data.authors === undefined) {
+                            filter.data.authors = { type: "Authors", name: "all" };
+                            filter.data.authorList = { type: "TextElement", strings: [], format_array: true };
                         }
                     }
                     break;
