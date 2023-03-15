@@ -12,9 +12,6 @@ class YouTubeFilter {
         this.highlightBox = null;  // Live-chat box for highlighting chat messages
         this.separator = null;  // Separator between live-chat and highlighBox for adjusing height
 
-        // List of chat-messages for matching
-        this.newMessageQueue = [];
-
         this.setHighlightBox();
 
         this.loadOptions();
@@ -25,7 +22,7 @@ class YouTubeFilter {
         // YouTube chat-box
         let box = document.querySelector("#chat>#item-list>#live-chat-item-list-panel");
         box = box.querySelector("#contents");
-        let items = box.querySelector("#item-scroller>#item-offset>#items");
+        this.items = box.querySelector("#item-scroller>#item-offset>#items");
 
         // Background page messages
         chrome.runtime.onMessage.addListener((message) => {
@@ -51,7 +48,7 @@ class YouTubeFilter {
         });
            
         // Starts messages observer
-        this.chatobserver.observe(items, { attributes: false, childList: true, subtree: false });
+        this.chatobserver.observe(this.items, { attributes: false, childList: true, subtree: false });
 
         this.menu = new Menu(app);
 
@@ -102,6 +99,70 @@ class YouTubeFilter {
         }
     }
 
+    /**
+     * Applies filters to a HTMLElement
+     */
+    filter(element) {
+        let authorName = element.querySelector("#author-name");
+
+        if (!element.deleted && authorName !== null) {
+            authorName = authorName.textContent;
+
+            let messageElement = element.querySelector("#content>#message");
+            let message = this.parseMessage(messageElement, true);
+            let rawMessage = this.parseMessage(messageElement, false);
+
+            element.hidden = false;
+
+            // Matches author and message of chat message
+            let data = { author: authorName, message: message, rawMessage: rawMessage };
+            let match = false;  // Does not apply other filters when already matched
+            let deleted = false;  // Deletes node
+            for (let filter of this.filters) {
+                if (filter.enable) {
+                    switch (filter.type) {
+                        case "highlight":
+                            if (!match && this.enableHighlight && filter.data.evaluate(data)) {
+                                console.log("highlight", message);
+
+                                // Div replacing element, for putting element back to its position
+                                let div = document.createElement("div");
+                                div.inserted = true;
+                                element.div = div;
+
+                                this.items.replaceChild(div, element);
+
+                                // Adds chat message to highlight chat 
+                                this.highlightBox.addMessage(element);
+
+                                match = true;
+                            }
+                            break;
+                        case "subtitles":
+                            if (this.enableOverlay && filter.data.evaluate(data)) {
+                                console.log("subtitles", message);
+
+                                // Shows message as YouTube caption overlay
+                                chrome.runtime.sendMessage({ type: "overlay", author: authorName, message: message, rawMessage: rawMessage });
+                            }
+                            break;
+                        case "delete":
+                            if (!match && filter.data.evaluate(data)) {
+                                element.hiddden = true;
+
+                                deleted = true
+                            }
+                            break;
+                    }
+
+                    if (deleted) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     /*
      * Observer of YouTube live-chat messages 
      */
@@ -109,61 +170,9 @@ class YouTubeFilter {
         for (let item of itemList) {
             // Added message elements for matching
             for (let node of item.addedNodes) {
-                this.newMessageQueue.push(node);
-            }
-        }
-
-        if (this.filters !== null) {
-            // Messages for matching
-            for (let node = this.newMessageQueue.shift(); node !== undefined; node = this.newMessageQueue.shift()) {
-                let authorName = node.querySelector("#author-name");
-
-                if (!node.deleted && authorName !== null) {
-                    authorName = authorName.textContent;
-
-                    let messageElement = node.querySelector("#content>#message");
-                    let message = this.parseMessage(messageElement, true);
-                    let rawMessage = this.parseMessage(messageElement, false);
-
-                    // Matches author and message of chat message
-                    let data = { author: authorName, message: message, rawMessage: rawMessage };
-                    let match = false;  // Does not apply other filters when already matched
-                    let deleted = false;  // Deletes node
-                    for (let filter of this.filters) {
-                        if (filter.enable) {
-                            switch (filter.type) {
-                                case "highlight":
-                                    if (!match && this.enableHighlight && filter.data.evaluate(data)) {
-                                        console.log("highlight", message);
-
-                                        // Adds chat message to highlight chat 
-                                        this.highlightBox.addMessage(node);
-
-                                        match = true;
-                                    }
-                                    break;
-                                case "subtitles":
-                                    if (this.enableOverlay && filter.data.evaluate(data)) {
-                                        console.log("subtitles", message);
-
-                                        // Shows message as YouTube caption overlay
-                                        chrome.runtime.sendMessage({ type: "overlay", author: authorName, message: message, rawMessage: rawMessage });
-                                    }
-                                    break;
-                                case "delete":
-                                    if (!match && filter.data.evaluate(data)) {
-                                        node.hiddden = true;
-
-                                        deleted = true;
-                                    }
-                                    break;
-                            }
-
-                            if (deleted) {
-                                break;
-                            }
-                        }
-                    }
+                if (this.filters !== null && !node.inserted) {
+                    node.inserted = true;
+                    this.filter(node);
                 }
             }
         }
@@ -204,6 +213,21 @@ class YouTubeFilter {
 
             // Parses Filter data for logical evaluation and string matching
             this.filters = parseJSON(this.filters);
+
+            // Put elements back to items
+            while (this.highlightBox.items.firstElementChild !== null) {
+                let element = this.highlightBox.items.firstElementChild;
+                try {
+                    this.items.replaceChild(element, element.div);
+                } catch (e) {
+                    this.highlightBox.items.remove(element);
+                }
+            }
+
+            // Filter items elements
+            for (let element of this.items.childNodes) {
+                this.filter(element);
+            }
         });
     }
 
