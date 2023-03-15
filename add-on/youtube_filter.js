@@ -1,5 +1,5 @@
 class YouTubeFilter {
-    menu = null;
+    menu = null;  // YouTube menu
 
     constructor() {
         // Settings
@@ -8,9 +8,12 @@ class YouTubeFilter {
         this.filters = null;  // Usernames for highlighting
         this.showMessages = null; // Shows messages at the player
 
-        // Html elements
+        // HTML Elements
         this.highlightBox = null;  // Live-chat box for highlighting chat messages
         this.separator = null;  // Separator between live-chat and highlighBox for adjusing height
+
+        this.filtering = false;
+        this.requestFiltering = false;
 
         this.setHighlightBox();
 
@@ -214,21 +217,40 @@ class YouTubeFilter {
             // Parses Filter data for logical evaluation and string matching
             this.filters = parseJSON(this.filters);
 
-            // Put elements back to items
-            while (this.highlightBox.items.firstElementChild !== null) {
-                let element = this.highlightBox.items.firstElementChild;
-                try {
-                    this.items.replaceChild(element, element.div);
-                } catch (e) {
-                    this.highlightBox.items.remove(element);
-                }
-            }
+            // Synchronizes items filtering
+            this.requestFiltering = true;
+            if (!this.filtering) {
+                this.filtering = true;
 
-            // Filter items elements
-            for (let element of this.items.childNodes) {
-                this.filter(element);
+                while (this.requestFiltering) {
+                    this.requestFiltering = false;
+
+                    this.filterItems();
+                }
+
+                this.filtering = false;
             }
         });
+    }
+
+    /**
+     * Filters YouTube live-chat items
+     */
+    filterItems() {
+        // Put elements back to items
+        while (this.highlightBox.items.firstElementChild !== null) {
+            let element = this.highlightBox.items.firstElementChild;
+            try {
+                this.items.replaceChild(element, element.div);
+            } catch (e) {
+                this.highlightBox.items.remove(element);
+            }
+        }
+
+        // Filter items elements
+        for (let element of this.items.childNodes) {
+            this.filter(element);
+        }
     }
 
     /**

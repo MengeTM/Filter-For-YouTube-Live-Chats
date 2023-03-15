@@ -158,9 +158,9 @@ class Filter {
                 case "filter_language":
                     // Language
                     json = {
-                        name: "Language - EN",
+                        name: "Characters - Latin",
                         type: "highlight",
-                        data: new Language("en"),
+                        data: new Language("latin"),
                         enable: true
                     };
                     break;

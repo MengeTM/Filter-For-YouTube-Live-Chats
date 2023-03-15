@@ -44,7 +44,7 @@ function sync_get(array, callback) {
                         enable: true
                     }];
 
-                    // For users of v0.1.5
+                    // For users of v0.1.12
                     for (let filter of result.filters) {
                         if (filter.data.type == "LanguageMessage" && (filter.data.name == "en" || filter.data.name == "de")) {
                             filter.data.name = "latin";
