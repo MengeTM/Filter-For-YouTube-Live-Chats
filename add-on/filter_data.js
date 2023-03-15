@@ -218,13 +218,12 @@ class TranslationLanguage extends BaseSelect {
  */
 class Language extends BaseSelect {
     regexp = {
-        en: "^[\\u0000-\\u007F\\p{Emoji}\\p{P}\\p{S}]+$",
-        de: "^[\\u0000-\\u00FF\\p{Emoji}\\p{P}\\p{S}]+$",
+        latin: "^[\\u0000-\\u007F\\p{Emoji}\\p{P}\\p{S}]+$",
         ja: "^[\\u0000-\\u007F\\p{Emoji}\\p{P}\\p{S}一-龠ぁ-ゔァ-ヴａ-ｚＡ-Ｚ０-９ー々〆〤ヶ]*[一-龠ぁ-ゔァ-ヴａ-ｚＡ-Ｚ０-９ー々〆〤]+[\\u0000-\\u007F\\p{Emoji}\\p{P}\\p{S}一-龠ぁ-ゔァ-ヴａ-ｚＡ-Ｚ０-９ー々〆〤ヶ]*$"
     }
 
     constructor(name) {
-        super(name, ["en", "de", "ja"], i18n(["en", "de", "ja"]));
+        super(name, ["latin", "ja"], i18n(["latinCH", "japaneseCH"]));
 
         this.element.title = i18n("titleSelectLanguage");
     }

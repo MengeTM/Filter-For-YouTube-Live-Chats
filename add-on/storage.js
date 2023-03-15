@@ -46,8 +46,8 @@ function sync_get(array, callback) {
 
                     // For users of v0.1.5
                     for (let filter of result.filters) {
-                        if (filter.type == "captions") {
-                            filter.type = "subtitles";
+                        if (filter.data.type == "LanguageMessage" && (filter.data.name == "en" || filter.data.name == "de")) {
+                            filter.data.name = "latin";
                             sync_set({ filters: result.filters });
                         }
                     }

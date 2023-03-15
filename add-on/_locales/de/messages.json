@@ -131,6 +131,14 @@
     "message": "Französisch",
     "description": "Settings: language French"
   },
+  "latinCH": {
+    "message": "Lateinische Buchstaben (Englisch, Deutsch)",
+    "description": "Settings: Language characters Latin"
+  },
+  "japaneseCH": {
+    "message": "Japanische Buchstaben",
+    "description": "Settings: Language characters Japanese"
+  },
   "translatorLanguage": {
     "message": "Übersetzer Nachricht",
     "description": "Settings: Filter translator language"
