@@ -52,7 +52,9 @@ class FilterRule {
         for (let element of this.elementList) {
             this.element.appendChild(element);
 
-            this.filter.addDragListener(element);
+            if (this.filter !== null) {
+                this.filter.addDragListener(element);
+            }
         }
     }
 
@@ -62,13 +64,25 @@ class FilterRule {
     copy() {
         let data = parseJSON(this.data.json());
         let filter = new FilterRule(this.filter, data);
-        filter.setExpertMode(this.filter.filterList.expertMode);
+
+        if (this.filter !== null) {
+            filter.setExpertMode(this.filter.filterList.expertMode);
+        }
 
         return filter;
     }
 
+    /**
+     * JSON filter data
+     */
+    json() {
+        return this.data.json();
+    }
+
     save() {
-        this.filter.save();
+        if (this.filter !== null) {
+            this.filter.save();
+        }
     }
 
     /**
@@ -326,10 +340,9 @@ class Filter {
         mainElement.appendChild(this.filterNameElement.element);
 
         // Select for filter action
-        this.filterActionElement = new BaseSelect(this.filterData.type, ["highlight", "subtitles", "delete"], i18n(["highlight", "subtitles", "delete"]));
+        this.filterActionElement = new Action(this.filterData.type);
         this.filterActionElement.element.classList.add("filter-type");
         this.filterActionElement.element.classList.add("input");
-        this.filterActionElement.element.title = i18n("titleSelectAction");
         this.filterActionElement.element.addEventListener("change", () => {
             this.filterData.type = this.filterActionElement.element.value;
 

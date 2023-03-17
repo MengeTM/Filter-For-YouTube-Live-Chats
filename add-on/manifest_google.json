@@ -2,7 +2,7 @@
 
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
-  "version": "0.1.12",
+  "version": "0.1.15",
 
   "homepage_url": "https://github.com/MengeTM/Filter-For-YouTube-Live-Chats",
 
@@ -28,7 +28,7 @@
 
   "web_accessible_resources": [
     {
-      "resources": [ "menu_item/menu.svg", "menu_item/enable_highlight.svg" ],
+      "resources": [ "menu_item/menu.svg", "menu_item/enable_highlight.svg", "settings/filters/trash.svg", "dropdown_settings/dropdown_settings.html" ],
       "matches": [ "*://www.youtube.com/*" ]
     }
   ],
@@ -37,8 +37,8 @@
     {
       "matches": [ "*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*" ],
       "all_frames": true,
-      "js": [ "separator.js", "chatbox.js", "youtube_overlay.js", "menu_item/menu_item.js", "settings/select_box.js", "xml.js", "i18n.js", "storage.js", "filter_data.js", "youtube_filter.js", "main.js" ],
-      "css": [ "style.css" ],
+      "js": [ "separator.js", "chatbox.js", "settings/switch/toggle_switch.js", "settings/filters/filter_list.js", "youtube_overlay.js", "menu_item/menu_item.js", "settings/select_box.js", "xml.js", "i18n.js", "storage.js", "filter_data.js", "dropdown_settings/dropdown_settings.js", "youtube_filter.js", "main.js" ],
+      "css": [ "style.css", "settings/switch/toggle_switch.css", "dropdown_settings/style.css" ],
       "run_at": "document_idle"
     }
   ],

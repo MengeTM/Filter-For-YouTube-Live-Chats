@@ -45,7 +45,11 @@ class MenuItem {
 }
 
 class Menu {
-    constructor(app, index=true) {
+    constructor(app, index = true) {
+        this.width = "0px";
+        this.top = "0px";
+        this.left = "0px";
+
         this.app = app;  // YouTube live-chat app
         this.menuItems = [];  // List of YouTube live-chat menu items
         this.index = index;  // Index adds menu items to YouTube live-chat settings, else to YouTube live-chat message settings
@@ -87,10 +91,13 @@ class Menu {
             // console.log(item);
             if (item.attributeName == "style" && !this.items.contains(this.menuItems[0].element)) {
                 let node = item.target;
-                let x = node.style.top.replace("px", "");
+
+                this.top = parseInt(this.menu.style.top.replace("px", ""));
+                this.left = parseInt(this.menu.style.left.replace("px", ""));
+                this.width = this.menu.clientWidth;
 
 
-                if (this.index && x < 45 || !this.index && x >= 45) {
+                if (this.index && this.top < 45 || !this.index && this.top >= 45) {
                     // Adds menu items
                     for (let menuItem of this.menuItems) {
                         this.items.appendChild(menuItem.element);

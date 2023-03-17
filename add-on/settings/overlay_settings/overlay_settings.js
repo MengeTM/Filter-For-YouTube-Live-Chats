@@ -11,13 +11,13 @@ class OverlaySettings extends PopUpWindow {
         this.contents.classList.add("overlay-settings-box");
 
         // Adds setting items
-        this.addItem("fontSize", new SelectFontSize());
-        this.addItem("fontColor", new SelectColor());
-        this.addItem("fontOpacity", new SelectOpacity());
-        this.addItem("backgroundColor", new SelectColor());
-        this.addItem("backgroundOpacity", new SelectOpacity());
-        this.addItem("fontFamily", new SelectFontFamily());
-        this.addItem("align", new SelectAlign());
+        this.addItem(new SelectFontSize("fontSize"));
+        this.addItem(new SelectColor("fontColor"));
+        this.addItem(new SelectOpacity("fontOpacity"));
+        this.addItem(new SelectColor("backgroundColor"));
+        this.addItem(new SelectOpacity("backgroundOpacity"));
+        this.addItem(new SelectFontFamily("fontFamily"));
+        this.addItem(new SelectAlign("align"));
 
         this.loadOptions();
 
@@ -35,12 +35,11 @@ class OverlaySettings extends PopUpWindow {
     }
 
     /**
-     * Parses select element
-     * @param key Key of overlaySettings
-     * @param select Settings BaseSelect
+     * Adds options item to list
+     * @param select Select
      */
-    parseSettingsItem(key, select) {
-        select.key = key;
+    addItem(select) {
+        this.elements.push(select);
 
         select.element.addEventListener("change", () => {
             this.overlayStyle[key] = select.element.value;
@@ -54,24 +53,13 @@ class OverlaySettings extends PopUpWindow {
 
         // Row text element
         let text = document.createElement("span");
-        text.textContent = `${i18n(key)}:`;
+        text.textContent = `${i18n(select.key)}:`;
         element.appendChild(text);
 
         // Row select element
         element.appendChild(select.element);
 
-        return element;
-    }
-
-    /**
-     * Adds options item to list
-     * @param key Key of settings
-     * @param select Select
-     */
-    addItem(key, select) {
-        this.elements.push(select);
-
-        this.appendChild(this.parseSettingsItem(key, select));
+        this.appendChild(element);
     }
 
     /**
@@ -89,35 +77,5 @@ class OverlaySettings extends PopUpWindow {
     save() {
         sync_set({ overlayStyle: this.overlayStyle });
         chrome.runtime.sendMessage({ type: "update_overlay" });
-    }
-}
-
-class SelectOpacity extends SelectBox {
-    constructor() {
-        super(["0", "0.25", "0.50", "0.75", "1"], ["0%", "25%", "50%", "75%", "100%"]);
-    }
-}
-
-class SelectFontSize extends SelectBox {
-    constructor() {
-        super(["0.5", "0.75", "1", "1.5", "2", "3"], ["50%", "75%", "100%", "150%", "200%", "300%"]);
-    }
-}
-
-class SelectColor extends SelectBox {
-    constructor() {
-        super(["white", "yellow", "green", "cyan", "blue", "magenta", "red", "black"], i18n(["white", "yellow", "green", "cyan", "blue", "magenta", "red", "black"]));
-    }
-}
-
-class SelectFontFamily extends SelectBox {
-    constructor() {
-        super(["m_sans", "p_sans", "m_sans-serif", "p_sans-serif", "calsual", "cursive", "small_capitals"], ["Monospaced Serif", "Proportional Serif", "Monospaced Sans-Serif", "Proportional Sans-Serif", "Casual", "Cursive", "Small-Capitals"]);
-    }
-}
-
-class SelectAlign extends SelectBox {
-    constructor() {
-        super(["left", "center"], i18n(["overlayAlignLeft", "overlayAlignCenter"]));
     }
 }

@@ -1,0 +1,210 @@
+#sf-settings {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 300px;
+    height: 380px;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--yt-live-chat-primary-text-, #000000);
+    white-space: nowrap;
+    overflow: hidden;
+    z-index: 100;
+    box-shadow: 0px 4px 32px 0px var(--yt-spec-static-overlay-background-light);
+    border-radius: 10px;
+    background-color: var(--yt-live-chat-background-color, #efefef);
+}
+
+#sf-settings-main {
+    position: relative;
+    flex: auto;
+    flex-direction: column;
+}
+
+    #sf-settings-main > div {
+        cursor: auto;
+    }
+
+.sf-scroll {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 10px;
+    height: auto;
+    background-color: var(--yt-live-chat-background-color, #efefef);
+}
+
+select, input {
+    text-align: center;
+    padding: 5px;
+}
+
+.switch {
+    margin-right: 5px;
+}
+
+.sf-settings-item {
+    padding: 5px;
+}
+
+.sf-dropdown {
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    white-space: nowrap;
+    background-color: var(--yt-live-chat-background-color, #efefef);
+}
+
+.sf-fullmenu > .sf-dropdown-index {
+    padding: 10px 10px 18px 10px;
+    font-weight: bold;
+    z-index: 100;
+    background-color: var(--yt-live-chat-header-background-color, #f9f9f9);
+}
+
+    .sf-fullmenu > .sf-dropdown-index:hover {
+        background-color: var(--yt-live-chat-header-background-color, #f9f9f9);
+    }
+
+.sf-dropdown-index {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.sf-dropdown-index:last-child {
+    padding-bottom: 10px;
+}
+
+    .sf-dropdown-index:hover {
+        background-color: var(--yt-spec-10-percent-layer, #f7f7f7);
+    }
+
+    .sf-dropdown-index .sf-item {
+        height: 25px;
+        margin-right: 5px;
+    }
+
+    .sf-dropdown-index .sf-icon {
+        writing-mode: vertical-lr;
+        text-orientation: mixed;
+    }
+
+    .sf-dropdown-index .sf-title {
+        flex: auto;
+        align-items: flex-start;
+    }
+
+.sf-dropdown-box {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    overflow: hidden;
+    transition: height ease-out 0.1s;
+}
+
+    .sf-dropdown-box .sf-new-filter {
+        display: flex;
+        flex-direction: row;
+        width: auto;
+        margin: 5px 10px 10px 10px;
+    }
+
+    .sf-new-filter input {
+        margin-right: 5px;
+    }
+
+    .sf-new-filter input, .sf-new-filter select {
+        flex: auto;
+    }
+
+    .sf-dropdown-box .sf-filter {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sf-dropdown-box .input ~ .input {
+        margin-top: 5px;
+    }
+
+    .sf-dropdown-box > select {
+        margin-bottom: 10px;
+    }
+
+.sf-block {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--paper-listbox-background-color, #ffffff);
+    border-radius: 5px;
+    cursor: auto;
+    padding: 5px;
+}
+
+    .sf-block ~ .sf-block {
+        margin-top: 5px;
+    }
+
+    .sf-block .sf-block-title {
+        font-weight: bold;
+        padding-bottom: 5px;
+    }
+
+    .sf-block > div {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+    }
+
+.text-input {
+    display: none;
+}
+
+.sf-overlay-item select {
+    width: auto;
+    padding: 5px;
+}
+
+.sf-align {
+    display: flex;
+    align-items: center;
+}
+
+#sf-settings-controls {
+    display: flex;
+    flex-direction: row-reverse;
+    flex: none;
+    padding: 5px;
+    background: var(--yt-live-chat-header-background-color, #f8f8f8);
+}
+
+    #sf-settings-controls > div {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    #sf-settings-controls .sf-text {
+    }
+
+    #sf-settings-controls .sf-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 5px;
+    }
+
+.sf-hidden {
+    display: none;
+}
+
+.sf-fullmenu {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

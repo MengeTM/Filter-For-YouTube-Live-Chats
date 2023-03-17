@@ -175,6 +175,74 @@ class BaseSelect extends SelectBox {
     }
 }
 
+class SelectStyle extends SelectBox {
+    constructor(key, values, names) {
+        super(values, names);
+
+        this.key = key;
+    }
+
+    /**
+     * Updates SelectBox value with overlayStyle value
+     * @param overlayStyle JSON overlayStyle
+     */
+    update(overlayStyle) {
+        this.element.value = overlayStyle[this.key];
+    }
+}
+
+class SelectOpacity extends SelectStyle {
+    constructor(key) {
+        super(key, ["0", "0.25", "0.50", "0.75", "1"], ["0%", "25%", "50%", "75%", "100%"]);
+    }
+}
+
+class SelectFontSize extends SelectStyle {
+    constructor(key) {
+        super(key, ["0.5", "0.75", "1", "1.5", "2", "3"], ["50%", "75%", "100%", "150%", "200%", "300%"]);
+    }
+}
+
+class SelectColor extends SelectStyle {
+    constructor(key) {
+        super(key, ["white", "yellow", "green", "cyan", "blue", "magenta", "red", "black"], i18n(["white", "yellow", "green", "cyan", "blue", "magenta", "red", "black"]));
+    }
+}
+
+class SelectFontFamily extends SelectStyle {
+    constructor(key) {
+        super(key, ["m_sans", "p_sans", "m_sans-serif", "p_sans-serif", "calsual", "cursive", "small_capitals"], ["Monospaced Serif", "Proportional Serif", "Monospaced Sans-Serif", "Proportional Sans-Serif", "Casual", "Cursive", "Small-Capitals"]);
+    }
+}
+
+class SelectAlign extends SelectStyle {
+    constructor(key) {
+        super(key, ["left", "center"], i18n(["overlayAlignLeft", "overlayAlignCenter"]));
+    }
+}
+
+class Action extends BaseSelect {
+    constructor(name) {
+        super(name, ["highlight", "subtitles", "delete"], i18n(["highlight", "subtitles", "delete"]));
+
+        this.element.title = i18n("titleSelectAction");
+    }
+
+    /**
+     * JSON data from HTML element
+     */
+    json() {
+        return { type: "Action", name: this.name };
+    }
+
+    /**
+     * String
+     */
+    toString() {
+        return `Action ´${this.name}`;
+    }
+}
+
 class Authors extends BaseSelect {
     constructor(name) {
         super(name, ["all", "whitelist", "blacklist"], i18n(["allList", "whiteList", "blackList"]));

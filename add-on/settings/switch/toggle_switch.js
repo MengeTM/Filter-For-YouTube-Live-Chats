@@ -14,6 +14,10 @@ class ToggleSwitch {
         slider.classList.add("round");
         this.element.appendChild(slider);
 
+        this.element.addEventListener("click", (event) => {
+            event.stopPropagation();
+        });
+
         // Stops dragging when entering text
         this.element.draggable = true;
         this.element.addEventListener("dragstart", (event) => {

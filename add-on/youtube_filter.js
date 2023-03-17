@@ -55,16 +55,27 @@ class YouTubeFilter {
 
         this.menu = new Menu(app);
 
+        let messages = document.querySelector("#chat-messages");
+        parseXML(chrome.runtime.getURL("dropdown_settings/dropdown_settings.html"), (xml) => {
+            xml = xml.querySelector("body > div");
+            messages.appendChild(xml);
+            xml.classList.add("sf-hidden");
+
+            this.dropdownSettings = new DropdownSettings(xml);
+        });
+
         // Menu item for opening settings page
         let menuItemSettings = new MenuItem(i18n("menuSettingsPage"), chrome.runtime.getURL("menu_item/menu.svg"));
-        menuItemSettings.addEventListener("mousedown", () => {
-            chrome.runtime.sendMessage({ type: "settings" });
+        menuItemSettings.addEventListener("click", () => {
+            this.dropdownSettings.show(true);
+            this.dropdownSettings.dropdownSettings.style.top = `${this.menu.top}px`;
+            this.dropdownSettings.dropdownSettings.style.left = `${this.menu.left + this.menu.width - this.dropdownSettings.dropdownSettings.clientWidth}px`;
         });
         this.menu.addMenuItem(menuItemSettings);
 
         // Menu item for toggling highlight chat-box
         let menuItemFilter = new MenuItem(i18n("menuHideHighlight"), chrome.runtime.getURL("menu_item/enable_highlight.svg"));
-        menuItemFilter.addEventListener("mousedown", () => {
+        menuItemFilter.addEventListener("click", () => {
             this.toggleHighlightBox();
         });
         this.menu.addMenuItem(menuItemFilter);
