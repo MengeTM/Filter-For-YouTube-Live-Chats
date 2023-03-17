@@ -220,6 +220,8 @@ class Filter {
             event.dataTransfer.setData("filter", this.filterElement.id);
             event.dataTransfer.effectAllowed = "move";
 
+            this.filterList.dragElement = this.filterElement;
+
             this.filterElement.classList.add("dragging");
         });
 
@@ -227,8 +229,8 @@ class Filter {
         this.filterElement.addEventListener("dragenter", (event) => {
             event.stopPropagation();
 
-            if (this.filterElement !== event.target) {
-                this.swapFilter(event.target);
+            if (this.filterElement !== this.filterList.dragElement) {
+                this.swapFilter(this.filterList.dragElement);
             }
         });
 
@@ -250,6 +252,8 @@ class Filter {
         // Ends dragging by removing class
         this.filterElement.addEventListener("dragend", (event) => {
             event.target.classList.remove("dragging");
+
+            this.save();
         });
     }
 
@@ -263,8 +267,6 @@ class Filter {
         this.filterList.filters.replaceChild(element, filterElement);
         this.filterList.filters.replaceChild(filterElement, this.filterElement);
         this.filterList.filters.replaceChild(this.filterElement, element);
-
-        this.save();
     }
 
     /**
