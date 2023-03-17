@@ -7,6 +7,8 @@
 
     overlayElements = [];
 
+    dropdownElements = [];
+
     constructor(dropdownSettings) {
         this.dropdownSettings = dropdownSettings || document;
 
@@ -34,8 +36,14 @@
 
         this.loadOptions();
 
-        this.dropdownSettings.addEventListener("focusout", () => {
-            this.show(false);
+        this.dropdownSettings.addEventListener("focusout", (event) => {
+            console.log(event.target);
+            if (!this.dropdownSettings.contains(event.relatedTarget)) {
+                this.show(false);
+                this.dropdownElements.forEach((item) => {
+                    item.update(false);
+                });
+            }
         });
     }
 
@@ -102,6 +110,7 @@
 
         // Dropdown filter settings
         let dropdown = new DropDown(filterData.name, filterSwitch.element, filterDelete);
+        this.dropdownElements.push(dropdown);
 
         filterDelete.addEventListener("click", () => {
             if (confirm(i18n("deleteFilterMessage", filter.name))) {
@@ -138,6 +147,7 @@
      */
     setFilters() {
         let filters = new DropDown(i18n("filterRule"));
+        this.dropdownElements.push(filters);
         filters.element.id = "sf-filters";
         this.dropdownSettings.querySelector("#sf-filters").parentElement.replaceChild(filters.element, this.dropdownSettings.querySelector("#sf-filters"));
 
@@ -226,6 +236,7 @@
      */
     setOverlayStyle() {
         let overlayStyle = new DropDown(i18n("btnOverlaySettings"));
+        this.dropdownElements.push(overlayStyle);
         overlayStyle.element.id = "sf-overlay-style";
         this.dropdownSettings.querySelector("#sf-overlay-style").parentNode.replaceChild(overlayStyle.element, this.dropdownSettings.querySelector("#sf-overlay-style"));
 
@@ -293,7 +304,7 @@ class DropDown {
 
     open = false;  // Dropdown box open
 
-    constructor(title, item_0=null, item_1=null) {
+    constructor(title, item_0 = null, item_1 = null) {
         if (item_0 === null) {
             item_0 = document.createElement("div");
         }
@@ -307,6 +318,7 @@ class DropDown {
         // Dropdown element
         this.element = document.createElement("div");
         this.element.classList.add("sf-dropdown");
+        this.element.tabIndex = "1";
 
         // Index opening dropdown
         this.index = document.createElement("div");
@@ -364,8 +376,13 @@ class DropDown {
 
     /**
      * Updates dropdown open
+     * @param open (Optional) sets dropdown
      */
-    update() {
+    update(open) {
+        if (open !== undefined) {
+            this.open = open;
+        }
+
         if (this.open) {
             this.icon.textContent = this.left;
             this.box.style.height = "auto";
