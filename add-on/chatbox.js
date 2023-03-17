@@ -69,12 +69,10 @@ class ChatBox {
         message.hidden = true;
         message.deleted = true;
 
-        this.youtubeItems.prepend(message);
-        
         try {
-            this.youtubeItems.removeChild(message.div);
+            this.youtubeItems.replaceChild(message, message.div);
         } catch (e) {
-
+            this.items.removeChild(message);
         }
     }
 
