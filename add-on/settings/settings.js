@@ -124,6 +124,8 @@ class Setting {
             this.expertMode = document.querySelector("#enable_expert_mode").checked;
             sync_set({ expertMode: this.expertMode });
 
+            chrome.runtime.sendMessage({ type: "update_filters" });
+
             if (this.filterList !== null) {
                 // Toggles expert select options to be selectable
                 this.filterList.setExpertMode(this.expertMode);

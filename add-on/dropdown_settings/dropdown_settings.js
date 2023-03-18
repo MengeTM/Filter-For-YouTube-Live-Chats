@@ -7,7 +7,8 @@
 
     overlayElements = [];
 
-    dropdownElements = [];
+    dropdownElementsFilters = [];
+    dropdownElementOverlayStyle = null;
 
     constructor(dropdownSettings) {
         this.dropdownSettings = dropdownSettings || document;
@@ -16,6 +17,21 @@
             svg.classList.add("sf-icon");
             let settingsIcon = this.dropdownSettings.querySelector("#sf-settings-icon");
             settingsIcon.parentElement.replaceChild(svg, settingsIcon);
+        });
+
+        chrome.runtime.onMessage.addListener((message) => {
+            switch (message.type) {
+                case "update_overlay":
+                    if (this.dropdownSettings.classList.contains("sf-hidden")) {
+                        this.loadOverlayStyle();
+                    }
+                    break;
+                case "update_filters":
+                    if (this.dropdownSettings.classList.contains("sf-hidden")) {
+                        this.loadFilters();
+                    }
+                    break;
+            }
         });
 
         this.dropdownSettings.querySelector("#sf-enable-overlay").addEventListener("change", () => {
@@ -32,44 +48,48 @@
 
         i18n_replace(this.dropdownSettings);
 
-        this.setOverlayStyle();
-
-        this.loadOptions();
+        this.loadOverlayStyle();
+        this.loadFilters();
 
         this.dropdownSettings.addEventListener("focusout", (event) => {
             console.log(event.target);
             if (!this.dropdownSettings.contains(event.relatedTarget)) {
                 this.show(false);
-                this.dropdownElements.forEach((item) => {
+                this.dropdownElementsFilters.forEach((item) => {
                     item.update(false);
                 });
+                this.dropdownElementOverlayStyle.update(false);
             }
         });
     }
 
     /**
-     * Loads settings
+     * Loads overlay settings
      */
-    loadOptions() {
-        sync_get(["enableOverlay", "overlayStyle", "filters", "expertMode"], (result) => {
+    loadOverlayStyle() {
+        sync_get(["enableOverlay", "overlayStyle"], (result) => {
             this.enableOverlay = result.enableOverlay;
             this.overlayStyle = result.overlayStyle;
-            this.filters = result.filters;
-            this.expertMode = result.expertMode;
 
-            this.update();
+            this.dropdownSettings.querySelector("#sf-enable-overlay").checked = this.enableOverlay;
+            this.setOverlayStyle();
         });
     }
 
     /**
-     * Updates HTMLElements with settings
+     * Loads filters settings
      */
-    update() {
-        this.dropdownSettings.querySelector("#sf-enable-overlay").checked = this.enableOverlay;
+    loadFilters() { 
+        sync_get(["filters", "expertMode"], (result) => {
+            this.filters = result.filters;
+            this.expertMode = result.expertMode;
 
-        this.setFilters();
-        this.updateOverlayStyle();
+            this.setFilters();
 
+            this.dropdownSettings.querySelectorAll(".expert").forEach((item) => {
+                item.hidden = !this.expertMode;
+            });
+        });
     }
 
     /**
@@ -114,7 +134,7 @@
             name = i18n("filterName");
         }
         let dropdown = new DropDown(name, filterSwitch.element, filterDelete);
-        this.dropdownElements.push(dropdown);
+        this.dropdownElementsFilters.push(dropdown);
 
         filterDelete.addEventListener("click", () => {
             if (confirm(i18n("deleteFilterMessage", name))) {
@@ -150,8 +170,9 @@
      * Adds filters
      */
     setFilters() {
+        this.dropdownElementsFilters = [];
         let filters = new DropDown(i18n("filterRule"));
-        this.dropdownElements.push(filters);
+        this.dropdownElementsFilters.push(filters);
         filters.element.id = "sf-filters";
         this.dropdownSettings.querySelector("#sf-filters").parentElement.replaceChild(filters.element, this.dropdownSettings.querySelector("#sf-filters"));
 
@@ -203,7 +224,7 @@
      */
     setOverlayStyle() {
         let overlayStyle = new DropDown(i18n("btnOverlaySettings"));
-        this.dropdownElements.push(overlayStyle);
+        this.dropdownElementOverlayStyle = overlayStyle;
         overlayStyle.element.id = "sf-overlay-style";
         this.dropdownSettings.querySelector("#sf-overlay-style").parentNode.replaceChild(overlayStyle.element, this.dropdownSettings.querySelector("#sf-overlay-style"));
 
@@ -218,6 +239,8 @@
                 sync_set({ overlayStyle: this.overlayStyle });
                 this.updateOverlay();
             });
+
+            element.element.value = this.overlayStyle[element.key];
 
             let block = new Block(i18n(element.key));
             block.appendChild(element.element);

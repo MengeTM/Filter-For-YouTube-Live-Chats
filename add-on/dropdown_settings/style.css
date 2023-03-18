@@ -41,9 +41,17 @@ input {
     background-color: var(--yt-spec-additive-background);
 }
 
+    input:hover {
+        background-color: var(--yt-spec-10-percent-layer);
+    }
+
 select, option {
     background-color: var(--yt-live-chat-header-background-color, #f8f8f8);
 }
+
+    select:hover, option:hover {
+        background-color: var(--yt-spec-10-percent-layer);
+    }
 
 select, input, option {
     text-align: center;
@@ -52,10 +60,6 @@ select, input, option {
     color: var(--yt-live-chat-primary-text-color);
     border: 1px solid var(--yt-spec-additive-background);
 }
-
-    select:hover, input:hover, option:hover {
-        background-color: var(--yt-spec-10-percent-layer);
-    }
 
 .switch {
     margin-right: 5px;
@@ -89,6 +93,7 @@ select, input, option {
     flex-direction: row;
     padding: 5px;
     cursor: pointer;
+    border-radius: 2px;
 }
 
 .sf-dropdown-index:last-child {
