@@ -158,10 +158,6 @@ select, input {
         width: auto;
     }
 
-.text-input {
-    display: none;
-}
-
 .sf-overlay-item select {
     width: auto;
     padding: 5px;

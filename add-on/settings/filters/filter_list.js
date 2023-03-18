@@ -104,15 +104,14 @@ class FilterRule {
     parseData(data) {
         if (data instanceof TranslationLanguage) {
             return [
-                this.getText(`${i18n("translatorLanguage")}: `),
+                this.getText(i18n("translatorLanguage")),
                 data.element,
-                this.getText(", "),
+                this.getText(i18n("and")),
                 data.authors.element,
                 data.authorList.element
             ];
         } else if (data instanceof Language) {
             return [
-                this.getText(`${i18n("language")}: `),
                 data.element
             ];
         } else if (data instanceof LogicalBinary) {
