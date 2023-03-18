@@ -113,7 +113,7 @@
         this.dropdownElements.push(dropdown);
 
         filterDelete.addEventListener("click", () => {
-            if (confirm(i18n("deleteFilterMessage", filter.name))) {
+            if (confirm(i18n("deleteFilterMessage", filterData.name))) {
                 this.filters = this.filters.filter((item) => { return item !== filterData });
                 dropdown.element.parentElement.removeChild(dropdown.element);
 
@@ -157,53 +157,16 @@
         let newFilterBox = document.createElement("div");
         newFilterBox.classList.add("sf-new-filter");
 
-        let newFilter = new BaseSelect("filter_translation", ["filter_translation", "filter_language", "filter_1", "filter_2"], i18n(["filterTranslation", "filterLanguage", "filter1", "filter2"]));
-        newFilter.title = i18n("titleSelectNewFilterType");
+        let selectNewFilter = new BaseSelect("filter_translation", ["filter_translation", "filter_language", "filter_1", "filter_2"], i18n(["filterTranslation", "filterLanguage", "filter1", "filter2"]));
+        selectNewFilter.title = i18n("titleSelectNewFilterType");
 
         let btnNewFilter = document.createElement("input");
         btnNewFilter.type = "button";
         btnNewFilter.value = i18n("newFilter");
         btnNewFilter.title = i18n("titleNewFilter");
         btnNewFilter.addEventListener("click", () => {
-            let json = null;
-            switch (newFilter.element.value) {
-                case "filter_translation":
-                    // Language translation
-                    json = {
-                        name: "Translations - EN",
-                        type: "subtitles",
-                        data: new TranslationLanguage("en", new Authors("all"), new TextElement([])).json(),
-                        enable: true
-                    };
-                    break;
-                case "filter_language":
-                    // Language
-                    json = {
-                        name: "Characters - Latin",
-                        type: "highlight",
-                        data: new Language("latin").json(),
-                        enable: true
-                    };
-                    break;
-                // One logical block
-                case "filter_1":
-                    json = {
-                        name: "",
-                        type: "highlight",
-                        data: new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some")).json(),
-                        enable: true
-                    };
-                    break;
-                // Two logical blocks with logical and
-                case "filter_2":
-                    json = {
-                        name: "",
-                        type: "highlight",
-                        data: new LogicalBinary("and", new StringRegex("includes", new StringOption("author"), new TextElement([]), new LogicalArray("some")), new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some"))).json(),
-                        enable: true
-                    };
-                    break;
-            }
+            let json = newFilter(selectNewFilter.element.value);
+            json.data = json.data.json();
             this.filters.push(json);
 
             filters.appendChild(this.newFilter(json));
@@ -211,7 +174,7 @@
             this.saveFilters();
         });
         newFilterBox.appendChild(btnNewFilter);
-        newFilterBox.appendChild(newFilter.element);
+        newFilterBox.appendChild(selectNewFilter.element);
 
         filters.box.appendChild(newFilterBox);
 

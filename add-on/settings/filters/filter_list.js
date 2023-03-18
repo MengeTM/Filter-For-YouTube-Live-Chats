@@ -144,6 +144,47 @@ class FilterRule {
     }
 }
 
+/**
+ * New Filters
+ * @param id Filter type
+ */
+function newFilter(id) {
+    switch (id) {
+        case "filter_translation":
+            // Language translation
+            return {
+                name: "Translations - EN",
+                type: "subtitles",
+                data: new TranslationLanguage("en", new Authors("all"), new TextElement([])),
+                enable: true
+            };
+        case "filter_language":
+            // Language
+            return {
+                name: "Characters - Latin",
+                type: "highlight",
+                data: new Language("latin"),
+                enable: true
+            };
+        // One logical block
+        case "filter_1":
+            return {
+                name: "",
+                type: "highlight",
+                data: new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some")),
+                enable: true
+            };
+        // Two logical blocks with logical and
+        case "filter_2":
+            return {
+                name: "",
+                type: "highlight",
+                data: new LogicalBinary("and", new StringRegex("includes", new StringOption("author"), new TextElement([]), new LogicalArray("some")), new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some"))),
+                enable: true
+            };
+    }
+}
+
 class Filter {
     constructor(json) {
         // HTML Element for Filter data, is set draggable
@@ -162,45 +203,7 @@ class Filter {
 
         // Empty filter rules if no filter json data
         if (typeof json == "string") {
-            switch (json) {
-                case "filter_translation":
-                    // Language translation
-                    json = {
-                        name: "Translations - EN",
-                        type: "subtitles",
-                        data: new TranslationLanguage("en", new Authors("all"), new TextElement([])),
-                        enable: true
-                    };
-                    break;
-                case "filter_language":
-                    // Language
-                    json = {
-                        name: "Characters - Latin",
-                        type: "highlight",
-                        data: new Language("latin"),
-                        enable: true
-                    };
-                    break;
-                // One logical block
-                case "filter_1":
-                    json = {
-                        name: "",
-                        type: "highlight",
-                        data: new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some")),
-                        enable: true
-                    };
-                    break;
-                // Two logical blocks with logical and
-                case "filter_2":
-                    json = {
-                        name: "",
-                        type: "highlight",
-                        data: new LogicalBinary("and", new StringRegex("includes", new StringOption("author"), new TextElement([]), new LogicalArray("some")), new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some"))),
-                        enable: true
-                    };
-                    break;
-            }
-            
+            json = newFilter(json);
         } else {
             // Parses the filter data to HTML elements (Select, TextField)
             json.data = parseJSON(json.data);
