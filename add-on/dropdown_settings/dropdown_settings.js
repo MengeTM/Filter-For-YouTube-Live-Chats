@@ -109,11 +109,15 @@
         filterDelete.addEventListener("dragstart", (event) => { event.preventDefault(); event.stopPropagation(); });
 
         // Dropdown filter settings
-        let dropdown = new DropDown(filterData.name, filterSwitch.element, filterDelete);
+        let name = filterData.name;
+        if (name.length == 0) {
+            name = i18n("filterName");
+        }
+        let dropdown = new DropDown(name, filterSwitch.element, filterDelete);
         this.dropdownElements.push(dropdown);
 
         filterDelete.addEventListener("click", () => {
-            if (confirm(i18n("deleteFilterMessage", filterData.name))) {
+            if (confirm(i18n("deleteFilterMessage", name))) {
                 this.filters = this.filters.filter((item) => { return item !== filterData });
                 dropdown.element.parentElement.removeChild(dropdown.element);
 

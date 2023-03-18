@@ -6,13 +6,14 @@
     height: 380px;
     font-size: 16px;
     line-height: 24px;
-    color: var(--yt-live-chat-primary-text-, #000000);
+    color: var(--yt-live-chat-primary-text-color);
     white-space: nowrap;
     overflow: hidden;
     z-index: 100;
     box-shadow: 0px 4px 32px 0px var(--yt-spec-static-overlay-background-light);
     border-radius: 10px;
     background-color: var(--yt-live-chat-background-color, #efefef);
+    border: 1px solid var(--yt-spec-10-percent-layer);
 }
 
 #sf-settings-main {
@@ -36,10 +37,25 @@
     background-color: var(--yt-live-chat-background-color, #efefef);
 }
 
-select, input {
+input {
+    background-color: var(--yt-spec-additive-background);
+}
+
+select, option {
+    background-color: var(--yt-live-chat-header-background-color, #f8f8f8);
+}
+
+select, input, option {
     text-align: center;
     padding: 5px;
+    border-radius: 2px;
+    color: var(--yt-live-chat-primary-text-color);
+    border: 1px solid var(--yt-spec-additive-background);
 }
+
+    select:hover, input:hover, option:hover {
+        background-color: var(--yt-spec-10-percent-layer);
+    }
 
 .switch {
     margin-right: 5px;
@@ -158,6 +174,11 @@ select, input {
         width: auto;
     }
 
+.text-input {
+    width: auto;
+    text-align: center;
+}
+
 .sf-overlay-item select {
     width: auto;
     padding: 5px;
@@ -186,10 +207,11 @@ select, input {
     #sf-settings-controls .sf-text {
     }
 
-    #sf-settings-controls .sf-icon {
+    #sf-settings-controls svg {
         width: 24px;
         height: 24px;
         margin-right: 5px;
+        stroke: var(--yt-live-chat-primary-text-color) !important;
     }
 
 .sf-hidden {
