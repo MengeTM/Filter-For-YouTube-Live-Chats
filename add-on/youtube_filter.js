@@ -162,7 +162,7 @@ class YouTubeFilter {
                             break;
                         case "delete":
                             if (!match && filter.data.evaluate(data)) {
-                                element.hiddden = true;
+                                element.hidden = true;
 
                                 deleted = true
                             }
