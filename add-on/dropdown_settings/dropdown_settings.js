@@ -148,6 +148,11 @@
         // Filter action
         let block = new Block(i18n("filterAction"));
         let action = new Action(filterData.action);
+        action.addEventListener("change", () => {
+            filterData.action = action.element.value;
+
+            this.saveFilters();
+        });
         block.appendChild(action.element);
         dropdown.appendChild(block.element);
 

@@ -8,16 +8,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             break;
         case "overlay":
             // Sends a message from live-chat to youtube
-            let params = new URLSearchParams(sender.url);
-            if (params.has("is_popout") && params.get("is_popout") == "1") {
-                chrome.tabs.query({ url: `*://www.youtube.com/watch?=${params.get("v")}` }, (tabs) => {
-                    for (let tab of tabs) {
-                        chrome.tabs.sendMessage(tab.id, message);
-                    }
-                });
-            } else {
-                chrome.tabs.sendMessage(sender.tab.id, message);
-            }
+            chrome.tabs.sendMessage(sender.tab.id, message);
             break;
         case "settings":
             // Settings page

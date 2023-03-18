@@ -34,7 +34,7 @@ function sync_get(array, callback) {
                     result.filters = result.filters || [{
                         name: "Translations - EN",
                         type: "subtitles",
-                        data: new TranslationLanguage("en", new Authors("all"), new TextElement([])),
+                        data: new TranslationLanguage("en", new Authors("all"), new TextElement([])).json(),
                         enable: true
                     },
                     {
