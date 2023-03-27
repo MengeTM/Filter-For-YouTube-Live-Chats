@@ -53,7 +53,7 @@ yt-live-chat-item-list-renderer+#separator+div {
     cursor: grabbing;
 }
 
-.sf-overlay-text-sider {
+.sf-overlay-text-slider {
     transition: margin-bottom 0.25s cubic-bezier(0,0,0.2,1);
 }
 

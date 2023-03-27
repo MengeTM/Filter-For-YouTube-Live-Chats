@@ -8,6 +8,8 @@
 
     translatorTags = false;  // Displays not the [Language] translator tags
 
+    sliderMargin = 61;
+
 
 
     // Styles color
@@ -112,12 +114,15 @@
         this.x = x;
         this.y = y;
 
-        // Position overlay
-        this.posX = this.overlay.offsetLeft;
-        this.posY = this.player.clientHeight - this.overlay.offsetTop - this.overlay.offsetHeight;
+        if (this.overlay.style.bottom != "") {
+            this.y = this.y + this.sliderMargin;
+
+            this.setOverlayPosition(0, this.sliderMargin / this.player.clientHeight);
+        }
 
         this.overlayText.classList.add("sf-overlay-dragging");
-        this.overlay.classList.add("sf-overlay-dragging");
+
+        this.textSlider.style.marginBottom = "0px";
 
         // Dragging listener
         this.player.appendChild(this.mousearea);
@@ -133,12 +138,8 @@
         let dX = x - this.x;
         let dY = this.y - y;
 
-        // New position overlay
-        let posX = this.posX + dX;
-        let posY = this.posY + dY;
-
         // Move overlay element
-        this.setOverlayPosition(posX / this.player.clientWidth, posY / this.player.clientHeight);
+        this.setOverlayPosition(dX / this.player.clientWidth, dY / this.player.clientHeight);
     }
 
     /**
@@ -149,16 +150,14 @@
         let dX = x - this.x;
         let dY = this.y - y;
 
-        this.posX = this.posX + dX;
-        this.posY = this.posY + dY;
-
-        this.pos = this.setOverlayPosition(this.posX / this.player.clientWidth, this.posY / this.player.clientHeight);
+        this.pos = this.setOverlayPosition(dX / this.player.clientWidth, dY / this.player.clientHeight);
 
         sync_set({ overlayPos: this.pos });
 
         this.player.removeChild(this.mousearea);
         this.overlayText.classList.remove("sf-overlay-dragging");
-        this.overlay.classList.remove("sf-overlay-dragging");
+
+        this.textSlider.style.marginBottom = "";
     }
 
     /**
@@ -204,28 +203,38 @@
 
     /**
      * Sets position of overlay element
-     * @param left Left player padding
-     * @param bottom Bottom player padding
+     * @param dX X direction
+     * @param dY Y direction
      */
-    setOverlayPosition(left, bottom) {
-        let top;
-        let right;
+    setOverlayPosition(dX, dY) {
+        let bottom = this.pos.bottom;
+        let top = this.pos.top;
+        let left = this.pos.left;
+        let right = this.pos.right;
 
-        if (left === undefined || bottom === undefined) {
-            left = this.pos.left;
-            bottom = this.pos.bottom;
-            top = this.pos.top;
-            right = this.pos.right;
+        if (dX === undefined || dY === undefined) {
         } else {
-            top = 1 - bottom - this.overlay.clientHeight / this.player.clientHeight;
+            left = left + dX;
+            bottom = bottom + dY;
             right = 1 - left - this.overlay.clientWidth / this.player.clientWidth;
+            top = 1 - bottom - this.overlayText.clientHeight / this.player.clientHeight;
         }
 
         // Clamp pixel position
         left = Math.max(Math.min(1 - this.overlay.clientWidth / this.player.clientWidth, left), 0);
-        right = Math.max(Math.max(1 - this.overlay.clientWidth / this.player.clientWidth, right), 0);
+        right = Math.max(Math.min(1 - this.overlay.clientWidth / this.player.clientWidth, right), 0);
         bottom = Math.max(Math.min(1 - this.overlay.clientHeight / this.player.clientHeight, bottom), 0);
         top = Math.max(Math.min(1 - this.overlay.clientHeight / this.player.clientHeight, top), 0);
+
+        let size_w = (1 - this.overlayText.clientWidth / this.player.clientWidth) * 100;
+        let size_h = (1 - this.overlayText.clientHeight / this.player.clientHeight) * 100;
+
+        let pos = {
+            top: top,
+            bottom: bottom,
+            left: left,
+            right: right
+        };
 
         // Relative position
         left = left * 100;
@@ -234,8 +243,15 @@
         top = top * 100;
 
         // Set position
-        this.overlay.style.left = `${left}%`;
-        if (bottom < 50) {
+        if (left < size_w / 2) {
+            this.overlay.style.left = `${left}%`;
+            this.overlay.style.right = "";
+        } else {
+            this.overlay.style.left = "";
+            this.overlay.style.right = `${right}%`;
+        }
+
+        if (bottom + this.sliderMargin / this.player.clientHeight * 100 < size_h / 2) {
             this.overlay.style.bottom = `${bottom}%`;
             this.overlay.style.top = "";
         } else {
@@ -243,12 +259,7 @@
             this.overlay.style.top = `${top}%`;
         }
 
-        return {
-            top: top / 100,
-            bottom: bottom / 100,
-            left: left / 100,
-            right: right / 100
-        };
+        return pos;
     }
 
     /**
@@ -288,7 +299,7 @@
 
                     this.overlayText.removeChild(element);
                 }
-            });
+            }, this.duration);
         }
     }
 
