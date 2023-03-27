@@ -122,6 +122,7 @@
 
         this.overlayText.classList.add("sf-overlay-dragging");
 
+        this.textSlider.style.transition = "none";
         this.textSlider.style.marginBottom = "0px";
 
         // Dragging listener
@@ -157,6 +158,7 @@
         this.player.removeChild(this.mousearea);
         this.overlayText.classList.remove("sf-overlay-dragging");
 
+        this.textSlider.style.transition = "";
         this.textSlider.style.marginBottom = "";
     }
 
