@@ -39,8 +39,6 @@ yt-live-chat-item-list-renderer+#separator+div {
 
 .sf-overlay {
     position: absolute;
-    bottom: 2%;
-    left: 21.2%;
     overflow: hidden;
     z-index: 50;
 }

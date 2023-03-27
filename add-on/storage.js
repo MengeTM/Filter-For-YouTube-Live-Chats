@@ -43,17 +43,6 @@ function sync_get(array, callback) {
                         data: new StringRegex("includes", new StringOption("message"), new TextElement("[EN]"), new LogicalArray("some")).json(),
                         enable: true
                     }];
-
-                    // For users of v0.1.12
-                    for (let filter of result.filters) {
-                        if (filter.data.type == "LanguageMessage" && (filter.data.name == "en" || filter.data.name == "de")) {
-                            filter.data.name = "latin";
-                            sync_set({ filters: result.filters });
-                        } else if (filter.data.type == "Language" && filter.data.authors === undefined) {
-                            filter.data.authors = { type: "Authors", name: "all" };
-                            filter.data.authorList = { type: "TextElement", strings: [], format_array: true };
-                        }
-                    }
                     break;
                 case "enableOverlay":
                     if (result.enableOverlay === undefined) {
@@ -77,6 +66,14 @@ function sync_get(array, callback) {
                     break;
                 case "overlayDuration":
                     result.overlayDuration = result.overlayDuration || 5;
+                    break;
+                case "overlayPos":
+                    result.overlayPos = result.overlayPos || {
+                        left: 0.212,
+                        bottom: 0.02,
+                        top: 0.98,
+                        right: 0.788
+                    };
                     break;
             }
         }

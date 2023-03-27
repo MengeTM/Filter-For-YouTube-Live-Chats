@@ -2,6 +2,8 @@
     duration = null;  // Duration in ms showing a new message
     style = null;  // JSON overlay style
 
+    pos = null;  // Overlay position
+
     disabled = false;  // Disables overlay
 
     translatorTags = false;  // Displays not the [Language] translator tags
@@ -81,53 +83,82 @@
 
         // Starts dragging the overlay element
         this.overlayText.addEventListener("mousedown", (event) => {
-            this.overlayText.classList.add("sf-overlay-dragging");
-            this.overlay.classList.add("sf-overlay-dragging");
-
-            // Position overlay
-            this.left = this.overlay.offsetLeft;
-            this.bottom = this.player.clientHeight - this.overlay.offsetTop - this.overlay.offsetHeight;
-
-            // Position mouse
-            this.x = event.x;
-            this.y = event.y;
-
-            // Dragging listener
-            this.player.appendChild(this.mousearea);
+            this.startDragging(event.x, event.y);
         });
 
         // Draggs the overlay
         this.mousearea.addEventListener("mousemove", (event) => {
-            // Distance of mouse
-            let dX = event.x - this.x;
-            let dY = this.y - event.y;
-
-            // New position overlay
-            let left = this.left + dX;
-            let bottom = this.bottom + dY;
-
-            // Clamp position to player size
-            left = Math.max(0, Math.min(this.player.clientWidth - this.overlay.clientWidth, left));
-            bottom = Math.max(0, Math.min(this.player.clientHeight - this.overlay.clientHeight, bottom));
-
-            // Move overlay element
-            this.overlay.style.left = left / this.player.clientWidth * 100 + "%";
-            this.overlay.style.bottom = bottom / this.player.clientHeight * 100 + "%";
+            this.drag(event.x, event.y);
         });
 
         // Stopps dragging the overlay element
         this.mousearea.addEventListener("mouseup", (event) => {
-            this.player.removeChild(this.mousearea);
-            this.overlayText.classList.remove("sf-overlay-dragging");
-            this.overlay.classList.remove("sf-overlay-dragging");
+            this.stopDragging(event.x, event.y);
         });
 
         // Stopps dragging the overlay element
         this.mousearea.addEventListener("mouseleave", (event) => {
-            this.player.removeChild(this.mousearea);
-            this.overlayText.classList.remove("sf-overlay-dragging");
-            this.overlay.classList.remove("sf-overlay-dragging");
+            this.stopDragging(event.x, event.y);
         });
+    }
+
+    /**
+     * Starts dragging overlay
+     * @param x Mouse position x
+     * @param y Mouse position y
+     */
+    startDragging(x, y) {
+        // Position mouse
+        this.x = x;
+        this.y = y;
+
+        // Position overlay
+        this.posX = this.overlay.offsetLeft;
+        this.posY = this.player.clientHeight - this.overlay.offsetTop - this.overlay.offsetHeight;
+
+        this.overlayText.classList.add("sf-overlay-dragging");
+        this.overlay.classList.add("sf-overlay-dragging");
+
+        // Dragging listener
+        this.player.appendChild(this.mousearea);
+    }
+
+    /**
+     * Drags overlay
+     * @param x Mouse postion x
+     * @param y Mouse position y
+     */
+    drag(x, y) {
+        // Distance of mouse
+        let dX = x - this.x;
+        let dY = this.y - y;
+
+        // New position overlay
+        let posX = this.posX + dX;
+        let posY = this.posY + dY;
+
+        // Move overlay element
+        this.setOverlayPosition(posX / this.player.clientWidth, posY / this.player.clientHeight);
+    }
+
+    /**
+     * Stops dragging overlay
+     */
+    stopDragging(x, y) {
+        // Distance of mouse
+        let dX = x - this.x;
+        let dY = this.y - y;
+
+        this.posX = this.posX + dX;
+        this.posY = this.posY + dY;
+
+        this.pos = this.setOverlayPosition(this.posX / this.player.clientWidth, this.posY / this.player.clientHeight);
+
+        sync_set({ overlayPos: this.pos });
+
+        this.player.removeChild(this.mousearea);
+        this.overlayText.classList.remove("sf-overlay-dragging");
+        this.overlay.classList.remove("sf-overlay-dragging");
     }
 
     /**
@@ -150,11 +181,12 @@
      * Loads options for YouTube overlay
      */
     loadOptions() {
-        sync_get(["enableOverlay", "overlayStyle", "enableOverlayDuration", "overlayDuration"], (result) => {
+        sync_get(["enableOverlay", "overlayStyle", "enableOverlayDuration", "overlayDuration", "overlayPos"], (result) => {
             let enableOverlay = result.enableOverlay;
             let overlayStyle = result.overlayStyle;
             let enableOverlayDuration = result.enableOverlayDuration;
             let overlayDuration = result.overlayDuration;
+            this.pos = result.overlayPos;
 
             // Disable overlayDuration
             if (!enableOverlayDuration) {
@@ -171,12 +203,62 @@
     }
 
     /**
+     * Sets position of overlay element
+     * @param left Left player padding
+     * @param bottom Bottom player padding
+     */
+    setOverlayPosition(left, bottom) {
+        let top;
+        let right;
+
+        if (left === undefined || bottom === undefined) {
+            left = this.pos.left;
+            bottom = this.pos.bottom;
+            top = this.pos.top;
+            right = this.pos.right;
+        } else {
+            top = 1 - bottom - this.overlay.clientHeight / this.player.clientHeight;
+            right = 1 - left - this.overlay.clientWidth / this.player.clientWidth;
+        }
+
+        // Clamp pixel position
+        left = Math.max(Math.min(1 - this.overlay.clientWidth / this.player.clientWidth, left), 0);
+        right = Math.max(Math.max(1 - this.overlay.clientWidth / this.player.clientWidth, right), 0);
+        bottom = Math.max(Math.min(1 - this.overlay.clientHeight / this.player.clientHeight, bottom), 0);
+        top = Math.max(Math.min(1 - this.overlay.clientHeight / this.player.clientHeight, top), 0);
+
+        // Relative position
+        left = left * 100;
+        right = right * 100;
+        bottom = bottom * 100;
+        top = top * 100;
+
+        // Set position
+        this.overlay.style.left = `${left}%`;
+        if (bottom < 50) {
+            this.overlay.style.bottom = `${bottom}%`;
+            this.overlay.style.top = "";
+        } else {
+            this.overlay.style.bottom = "";
+            this.overlay.style.top = `${top}%`;
+        }
+
+        return {
+            top: top / 100,
+            bottom: bottom / 100,
+            left: left / 100,
+            right: right / 100
+        };
+    }
+
+    /**
      * Updates text element
      */
     updateSize() {
         this.videoWidth = this.video.style.width.replace("px", "");
         this.videoHeight = this.video.style.height.replace("px", "");
 
+        // Resize fontSize and overlay width
         this.fontSize = this.style["fontSize"] * this.videoHeight * 0.05 + "px";
         this.width = this.videoWidth * 0.65 + "px";
 
@@ -186,6 +268,8 @@
         if (element !== null) {
             element.style.fontSize = this.fontSize;
         }
+
+        this.setOverlayPosition();
     }
 
     /**
@@ -194,6 +278,18 @@
      */
     setDuration(duration) {
         this.duration = duration;
+
+        let element = this.overlayText.firstElementChild;
+
+        if (element !== null) {
+            setTimeout(() => {
+                if (this.overlayText.firstElementChild === element) {
+                    this.overlay.classList.add("sf-hidden");
+
+                    this.overlayText.removeChild(element);
+                }
+            });
+        }
     }
 
     /**

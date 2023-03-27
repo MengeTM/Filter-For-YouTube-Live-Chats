@@ -300,7 +300,7 @@
     "description": "Settings: Placeholder for message"
   },
   "placeholderAuthorList": {
-    "message": "Author Namen separiert bei \"\"",
+    "message": "Author Namen separiert mit \";\"",
     "description": "Settings: Placeholder for stirng array authors"
   },
   "titleFilterName": {
