@@ -85,6 +85,9 @@
 
         // Starts dragging the overlay element
         this.overlayText.addEventListener("mousedown", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
             this.startDragging(event.x, event.y);
         });
 
@@ -95,6 +98,9 @@
 
         // Stopps dragging the overlay element
         this.mousearea.addEventListener("mouseup", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
             this.stopDragging(event.x, event.y);
         });
 
@@ -214,22 +220,21 @@
         let left = this.pos.left;
         let right = this.pos.right;
 
-        if (dX === undefined || dY === undefined) {
-        } else {
+        if (dX !== undefined && dY !== undefined) {
             left = left + dX;
             bottom = bottom + dY;
-            right = 1 - left - this.overlay.clientWidth / this.player.clientWidth;
-            top = 1 - bottom - this.overlayText.clientHeight / this.player.clientHeight;
+            right = right - dX;
+            top = top - dY;
         }
 
-        // Clamp pixel position
-        left = Math.max(Math.min(1 - this.overlay.clientWidth / this.player.clientWidth, left), 0);
-        right = Math.max(Math.min(1 - this.overlay.clientWidth / this.player.clientWidth, right), 0);
-        bottom = Math.max(Math.min(1 - this.overlay.clientHeight / this.player.clientHeight, bottom), 0);
-        top = Math.max(Math.min(1 - this.overlay.clientHeight / this.player.clientHeight, top), 0);
+        let maxWidth = 1 - this.overlayWidth / this.player.clientWidth;
+        let maxHeight = 1 - this.overlay.clientHeight / this.player.clientHeight;
 
-        let size_w = (1 - this.overlayText.clientWidth / this.player.clientWidth) * 100;
-        let size_h = (1 - this.overlayText.clientHeight / this.player.clientHeight) * 100;
+        // Clamp pixel position
+        left = Math.max(Math.min(maxWidth, left), 0);
+        right = Math.max(Math.min(maxWidth, right), 0);
+        bottom = Math.max(Math.min(maxHeight, bottom), 0);
+        top = Math.max(Math.min(maxHeight, top), 0);
 
         let pos = {
             top: top,
@@ -245,20 +250,24 @@
         top = top * 100;
 
         // Set position
-        if (left < size_w / 2) {
+        if (left < maxWidth * 50) {
             this.overlay.style.left = `${left}%`;
             this.overlay.style.right = "";
+            pos.right = maxWidth - pos.left;
         } else {
             this.overlay.style.left = "";
             this.overlay.style.right = `${right}%`;
+            pos.left = maxWidth - pos.right;
         }
 
-        if (bottom + this.sliderMargin / this.player.clientHeight * 100 < size_h / 2) {
+        if (bottom < maxHeight * 30) {
             this.overlay.style.bottom = `${bottom}%`;
             this.overlay.style.top = "";
+            pos.top = maxHeight - pos.bottom;
         } else {
             this.overlay.style.bottom = "";
             this.overlay.style.top = `${top}%`;
+            pos.bottom = maxHeight - pos.top;
         }
 
         return pos;
@@ -268,21 +277,37 @@
      * Updates text element
      */
     updateSize() {
+        // Size video
         this.videoWidth = this.video.style.width.replace("px", "");
         this.videoHeight = this.video.style.height.replace("px", "");
 
-        // Resize fontSize and overlay width
-        this.fontSize = this.style["fontSize"] * this.videoHeight * 0.05 + "px";
-        this.width = this.videoWidth * 0.65 + "px";
+        this.overlayWidth = this.videoWidth * 0.65;
 
-        this.overlay.style.width = this.width;
+        // Resize fontSize and overlay width
+        this.fontSize = `${this.style["fontSize"] * this.videoHeight * 0.05}px`;
+        this.overlay.style.width = `${this.overlayWidth}px`;
 
         let element = this.overlayText.firstElementChild;
         if (element !== null) {
             element.style.fontSize = this.fontSize;
         }
 
-        this.setOverlayPosition();
+        // Relative max size of margin [0..1]
+        let maxWidth = 1 - this.overlayWidth / this.player.clientWidth;
+        let maxHeight = 1 - this.overlay.clientHeight / this.player.clientHeight;
+
+        // Add margin
+        let dW = maxWidth - this.pos.left - this.pos.right;
+        let dH = maxHeight - this.pos.top - this.pos.bottom;
+        let marginWidth = this.pos.left + this.pos.right + 1e-3;
+        let marginHeight = this.pos.top + this.pos.bottom + 1e-3;
+
+        this.pos.left = Math.max(this.pos.left + dW * this.pos.left / marginWidth, 0);
+        this.pos.right = Math.max(this.pos.right + dW * this.pos.right / marginWidth, 0);
+        this.pos.top = Math.max(this.pos.top + dH * this.pos.top / marginHeight, 0);
+        this.pos.bottom = Math.max(this.pos.bottom + dH * this.pos.bottom / marginHeight, 0);
+
+        this.pos = this.setOverlayPosition();
     }
 
     /**
@@ -422,6 +447,8 @@
 
             // Shows overlay
             this.overlay.classList.remove("sf-hidden");
+
+            this.updateSize();
         }
     }
 
@@ -471,7 +498,7 @@
      */
     videoobserver = new MutationObserver((items) => {
         for (let item of items) {
-            if (item.attributeName == "style") {
+            if (item.attributeName == "style" && (this.video.clientHeight != this.videoHeight || this.video.clientWidth != this.videoWidth)) {
                 this.updateSize();
             }
         }
