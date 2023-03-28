@@ -72,7 +72,7 @@ function sync_get(array, callback) {
                         left: 0.212,
                         bottom: 0.02,
                         top: 0.98,
-                        right: 0.788
+                        right: 0.14
                     };
                     break;
             }
