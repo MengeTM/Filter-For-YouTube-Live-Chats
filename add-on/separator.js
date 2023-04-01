@@ -6,6 +6,10 @@ class Separator {
         // Chat-box below the separator
         this.box_bottom = box_bottom;
 
+        // Scroll box
+        this.box_top_scroll = this.box_top.querySelector("#item-scroller");
+        this.box_bottom_scroll = this.box_bottom.querySelector("#item-scroller");
+
         // Separator
         this.separatorElement = document.createElement("div");
         this.separatorElement.id = "separator";
@@ -103,7 +107,13 @@ class Separator {
     updateSize(size) {
         size = size / 100;
 
+        let top_size = this.box_top.clientHeight;
+        let bottom_size = this.box_bottom.clientHeight;
+
         this.box_top.style.flex = 1 - size;
         this.box_bottom.style.flex = size;
+
+        this.box_top_scroll.scrollBy(0, Math.max(top_size - this.box_top.clientHeight, 0));
+        this.box_bottom_scroll.scrollBy(0, Math.max(bottom_size - this.box_bottom.clientHeight, 0));
     }
 }

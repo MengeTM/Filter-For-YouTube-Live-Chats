@@ -85,10 +85,12 @@
 
         // Starts dragging the overlay element
         this.overlayText.addEventListener("mousedown", (event) => {
+            this.startDragging(event.x, event.y);
+        });
+
+        this.overlayText.addEventListener("click", (event) => {
             event.preventDefault();
             event.stopPropagation();
-
-            this.startDragging(event.x, event.y);
         });
 
         // Draggs the overlay
@@ -98,9 +100,6 @@
 
         // Stopps dragging the overlay element
         this.mousearea.addEventListener("mouseup", (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-
             this.stopDragging(event.x, event.y);
         });
 
@@ -132,7 +131,7 @@
         this.textSlider.style.marginBottom = "0px";
 
         // Dragging listener
-        this.player.appendChild(this.mousearea);
+        this.overlayText.appendChild(this.mousearea);
     }
 
     /**
@@ -161,7 +160,7 @@
 
         sync_set({ overlayPos: this.pos });
 
-        this.player.removeChild(this.mousearea);
+        this.overlayText.removeChild(this.mousearea);
         this.overlayText.classList.remove("sf-overlay-dragging");
 
         this.textSlider.style.transition = "";
@@ -228,7 +227,7 @@
         }
 
         let maxWidth = 1 - this.overlayWidth / this.player.clientWidth;
-        let maxHeight = 1 - this.overlay.clientHeight / this.player.clientHeight;
+        let maxHeight = 1 - this.overlayText.clientHeight / this.player.clientHeight;
 
         // Clamp pixel position
         left = Math.max(Math.min(maxWidth, left), 0);
@@ -282,19 +281,19 @@
         this.videoHeight = this.video.style.height.replace("px", "");
 
         this.overlayWidth = this.videoWidth * 0.65;
+        this.fontSize = this.style["fontSize"] * this.videoHeight * 0.05;
 
         // Resize fontSize and overlay width
-        this.fontSize = `${this.style["fontSize"] * this.videoHeight * 0.05}px`;
         this.overlay.style.width = `${this.overlayWidth}px`;
 
         let element = this.overlayText.firstElementChild;
         if (element !== null) {
-            element.style.fontSize = this.fontSize;
+            element.style.fontSize = `${this.fontSize}px`;
         }
 
         // Relative max size of margin [0..1]
         let maxWidth = 1 - this.overlayWidth / this.player.clientWidth;
-        let maxHeight = 1 - this.overlay.clientHeight / this.player.clientHeight;
+        let maxHeight = 1 - this.fontSize / this.player.clientHeight;
 
         // Add margin
         let dW = maxWidth - this.pos.left - this.pos.right;
@@ -415,7 +414,7 @@
             node.appendChild(element);
         }
 
-        node.style.fontSize = this.fontSize;
+        node.style.fontSize = `${this.fontSize}px`;
 
         return node;
     }
@@ -448,7 +447,7 @@
             // Shows overlay
             this.overlay.classList.remove("sf-hidden");
 
-            this.updateSize();
+            this.pos = this.setOverlayPosition();
         }
     }
 

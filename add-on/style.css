@@ -40,16 +40,17 @@ yt-live-chat-item-list-renderer+#separator+div {
 .sf-overlay {
     position: absolute;
     overflow: hidden;
-    z-index: 50;
+    pointer-events: none;
+    z-index: 100;
 }
 
 .sf-overlay-mouse {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 100;
+    pointer-events: auto;
     cursor: grabbing;
 }
 
@@ -71,6 +72,7 @@ yt-live-chat-item-list-renderer+#separator+div {
 
 .sf-overlay-text {
     display: inline-block;
+    pointer-events: auto;
     line-height: normal;
     white-space: pre-wrap;
     user-select: none;
