@@ -1,6 +1,5 @@
 # YouTube Stream Filter
 
-
 ## About
 The add-on modifies the YouTube live-chat for both live-streams and re-play, allowing to either highlight, show as video captions, or delete chat-messages matching a set of customizable filter rules. This is useful e.g. for highlighting Hololive live-chat translator messages, or deleting annoying messages and emoji.
 
