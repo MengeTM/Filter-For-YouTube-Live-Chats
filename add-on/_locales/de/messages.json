@@ -40,7 +40,7 @@
     "description": "Settings: Font color overlay"
   },
   "fontOpacity": {
-    "message": "Schrift-Transparenz",
+    "message": "Schrift-Deckstärke",
     "description": "Settings: Font opacity overlay"
   },
   "backgroundColor": {
@@ -48,7 +48,7 @@
     "description": "Settings: Background color overlay"
   },
   "backgroundOpacity": {
-    "message": "Hintergrund-Transparenz",
+    "message": "Hintergrund-Deckstärke",
     "description": "Settings: Background opacity overlay"
   },
   "fontFamily": {
@@ -56,7 +56,7 @@
     "description": "Settings: Font family overlay"
   },
   "align": {
-    "message": "Untertitel Anordnung",
+    "message": "Untertitel Ausrichtung",
     "description": "Settings: Option alignment of overlay"
   },
   "overlayAlignLeft": {
@@ -252,7 +252,7 @@
     "description": "Settings: Name of column filter action"
   },
   "filterRule": {
-    "message": "Filter Anwendungs-Regeln",
+    "message": "Filter Regeln",
     "description": "Settings: Name of column filter rules"
   },
   "enableHighlight": {
@@ -300,7 +300,7 @@
     "description": "Settings: Placeholder for message"
   },
   "placeholderAuthorList": {
-    "message": "Author Namen separiert mit \";\"",
+    "message": "Autor Namen separiert mit \";\"",
     "description": "Settings: Placeholder for stirng array authors"
   },
   "titleFilterName": {
@@ -367,7 +367,7 @@
     "message": "Fügt eine neue Filter Regel hinzu",
     "description": "Settings: Title button filter"
   },
-  "titleTranslationAuthor": {
+  "titleSelectTranslationAuthor": {
     "message": "Zeigt Übersetzungen von allen Autoren, Autoren auf einer White-List, oder Autoren nicht auf einer Black-List",
     "description": "Settings: Title select author list"
   },
