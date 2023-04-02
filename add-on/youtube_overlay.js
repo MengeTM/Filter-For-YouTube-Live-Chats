@@ -214,59 +214,69 @@
      * @param dY Y direction
      */
     setOverlayPosition(dX, dY) {
-        let bottom = this.pos.bottom;
-        let top = this.pos.top;
-        let left = this.pos.left;
-        let right = this.pos.right;
+        let pos = this.pos;
 
-        if (dX !== undefined && dY !== undefined) {
-            left = left + dX;
-            bottom = bottom + dY;
-            right = right - dX;
-            top = top - dY;
-        }
+        if (this.player !== null && this.player.clientHeight && this.player.clientHeight != 0 && this.player.clientWidth != 0) {
+            let bottom = this.pos.bottom;
+            let top = this.pos.top;
+            let left = this.pos.left;
+            let right = this.pos.right;
 
-        let maxWidth = 1 - this.overlayWidth / this.player.clientWidth;
-        let maxHeight = 1 - this.overlayText.clientHeight / this.player.clientHeight;
+            if (dX !== undefined && dY !== undefined) {
+                left = left + dX;
+                bottom = bottom + dY;
+                right = right - dX;
+                top = top - dY;
+            }
 
-        // Clamp pixel position
-        left = Math.max(Math.min(maxWidth, left), 0);
-        right = Math.max(Math.min(maxWidth, right), 0);
-        bottom = Math.max(Math.min(maxHeight, bottom), 0);
-        top = Math.max(Math.min(maxHeight, top), 0);
+            let maxWidth = 1 - this.overlayWidth / this.player.clientWidth;
+            let maxHeight = 1 - this.overlayText.clientHeight / this.player.clientHeight;
 
-        let pos = {
-            top: top,
-            bottom: bottom,
-            left: left,
-            right: right
-        };
+            // Clamp pixel position
+            left = Math.max(Math.min(maxWidth, left), 0);
+            right = Math.max(Math.min(maxWidth, right), 0);
+            bottom = Math.max(Math.min(maxHeight, bottom), 0);
+            top = Math.max(Math.min(maxHeight, top), 0);
 
-        // Relative position
-        left = left * 100;
-        right = right * 100;
-        bottom = bottom * 100;
-        top = top * 100;
+            pos = {
+                top: top,
+                bottom: bottom,
+                left: left,
+                right: right
+            };
 
-        // Set position
-        if (left < maxWidth * 50) {
-            this.overlay.style.left = `${left}%`;
-            this.overlay.style.right = "";
-            pos.right = maxWidth - pos.left;
-        } else {
-            this.overlay.style.left = "";
-            this.overlay.style.right = `${right}%`;
-            pos.left = maxWidth - pos.right;
-        }
+            // Relative position
+            left = left * 100;
+            right = right * 100;
+            bottom = bottom * 100;
+            top = top * 100;
 
-        if (bottom < maxHeight * 30) {
-            this.overlay.style.bottom = `${bottom}%`;
-            this.overlay.style.top = "";
-            pos.top = maxHeight - pos.bottom;
-        } else {
-            this.overlay.style.bottom = "";
-            this.overlay.style.top = `${top}%`;
-            pos.bottom = maxHeight - pos.top;
+            // Set position
+            if (left < maxWidth * 50) {
+                this.overlay.style.left = `${left}%`;
+                this.overlay.style.right = "";
+                pos.right = maxWidth - pos.left;
+            } else {
+                this.overlay.style.left = "";
+                this.overlay.style.right = `${right}%`;
+                pos.left = maxWidth - pos.right;
+            }
+
+            if (bottom < maxHeight * 30) {
+                this.overlay.style.bottom = `${bottom}%`;
+                this.overlay.style.top = "";
+                pos.top = maxHeight - pos.bottom;
+            } else {
+                this.overlay.style.bottom = "";
+                this.overlay.style.top = `${top}%`;
+                pos.bottom = maxHeight - pos.top;
+            }
+
+            // Save not undedined
+            if (isNaN(pos.left) || isNaN(pos.right) || isNaN(pos.bottom) || isNaN(pos.top)) {
+                console.log(`overlayPos is NaN: ${pos}`);
+                pos = this.pos;
+            }
         }
 
         return pos;
@@ -276,37 +286,39 @@
      * Updates text element
      */
     updateSize() {
-        // Size video
-        this.videoWidth = this.video.style.width.replace("px", "");
-        this.videoHeight = this.video.style.height.replace("px", "");
+        if (this.player !== null && this.player.clientHeight != 0 && this.player.clientWidth != 0) {
+            // Size video
+            this.videoWidth = this.video.style.width.replace("px", "");
+            this.videoHeight = this.video.style.height.replace("px", "");
 
-        this.overlayWidth = this.videoWidth * 0.65;
-        this.fontSize = this.style["fontSize"] * this.videoHeight * 0.05;
+            this.overlayWidth = this.videoWidth * 0.65;
+            this.fontSize = this.style["fontSize"] * this.videoHeight * 0.05;
 
-        // Resize fontSize and overlay width
-        this.overlay.style.width = `${this.overlayWidth}px`;
+            // Resize fontSize and overlay width
+            this.overlay.style.width = `${this.overlayWidth}px`;
 
-        let element = this.overlayText.firstElementChild;
-        if (element !== null) {
-            element.style.fontSize = `${this.fontSize}px`;
+            let element = this.overlayText.firstElementChild;
+            if (element !== null) {
+                element.style.fontSize = `${this.fontSize}px`;
+            }
+
+            // Relative max size of margin [0..1]
+            let maxWidth = 1 - this.overlayWidth / this.player.clientWidth;
+            let maxHeight = 1 - this.fontSize / this.player.clientHeight;
+
+            // Add margin
+            let dW = maxWidth - this.pos.left - this.pos.right;
+            let dH = maxHeight - this.pos.top - this.pos.bottom;
+            let marginWidth = this.pos.left + this.pos.right + 1e-3;
+            let marginHeight = this.pos.top + this.pos.bottom + 1e-3;
+
+            this.pos.left = Math.max(this.pos.left + dW * this.pos.left / marginWidth, 0);
+            this.pos.right = Math.max(this.pos.right + dW * this.pos.right / marginWidth, 0);
+            this.pos.top = Math.max(this.pos.top + dH * this.pos.top / marginHeight, 0);
+            this.pos.bottom = Math.max(this.pos.bottom + dH * this.pos.bottom / marginHeight, 0);
+
+            this.pos = this.setOverlayPosition();
         }
-
-        // Relative max size of margin [0..1]
-        let maxWidth = 1 - this.overlayWidth / this.player.clientWidth;
-        let maxHeight = 1 - this.fontSize / this.player.clientHeight;
-
-        // Add margin
-        let dW = maxWidth - this.pos.left - this.pos.right;
-        let dH = maxHeight - this.pos.top - this.pos.bottom;
-        let marginWidth = this.pos.left + this.pos.right + 1e-3;
-        let marginHeight = this.pos.top + this.pos.bottom + 1e-3;
-
-        this.pos.left = Math.max(this.pos.left + dW * this.pos.left / marginWidth, 0);
-        this.pos.right = Math.max(this.pos.right + dW * this.pos.right / marginWidth, 0);
-        this.pos.top = Math.max(this.pos.top + dH * this.pos.top / marginHeight, 0);
-        this.pos.bottom = Math.max(this.pos.bottom + dH * this.pos.bottom / marginHeight, 0);
-
-        this.pos = this.setOverlayPosition();
     }
 
     /**

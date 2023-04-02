@@ -252,7 +252,7 @@
     "description": "Settings: Name of column filter action"
   },
   "filterRule": {
-    "message": "Filter matching rules",
+    "message": "Filter rules",
     "description": "Settings: Name of column filter rules"
   },
   "enableHighlight": {

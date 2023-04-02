@@ -363,4 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 *.crx
 *.pem
+manifest.json
 /add-on/add-on.zip

@@ -1,3 +1,11 @@
+@media (color: var(--yt-spec-text-primary-inverse)) {
+
+}
+
+@media (color: var(--yt-spec-text-primary)) {
+
+}
+
 #sf-settings {
     display: flex;
     flex-direction: column;
@@ -41,10 +49,6 @@ input {
     background-color: var(--yt-spec-additive-background);
 }
 
-    input:hover {
-        background-color: var(--yt-spec-10-percent-layer);
-    }
-
 select, option {
     background-color: var(--yt-live-chat-header-background-color, #f8f8f8);
 }
@@ -60,6 +64,14 @@ select, input, option {
     color: var(--yt-live-chat-primary-text-color);
     border: 1px solid var(--yt-spec-additive-background);
 }
+
+    input[disabled] {
+        opacity: 0.3;
+    }
+
+    input[type=button]:hover {
+        background-color: var(--yt-spec-10-percent-layer);
+    }
 
 .switch {
     margin-right: 5px;

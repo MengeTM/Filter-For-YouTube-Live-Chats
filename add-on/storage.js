@@ -18,7 +18,9 @@ function sync_get(array, callback) {
         for (let id of array) {
             switch (id) {
                 case "size":
-                    result.size = result.size || 30;
+                    if (result.size === undefined) {
+                        result.size = 30;
+                    }
                     break;
                 case "enableHighlight":
                     if (result.enableHighlight === undefined) {
@@ -74,6 +76,18 @@ function sync_get(array, callback) {
                         top: 0.98,
                         right: 0.14
                     };
+
+                    // Bug resulting in overlayPos being undefined, breaking overlay
+                    if (isNaN(result.overlayPos.left) || isNaN(result.overlayPos.bottom) || isNaN(result.overlayPos.top) || isNaN(result.overlayPos.right)) {
+                        console.log("Storage: overlayPos is NaN");
+ 
+                        result.overlayPos = {
+                            left: 0.212,
+                            bottom: 0.02,
+                            top: 0.98,
+                            right: 0.14
+                        }
+                    }
                     break;
             }
         }

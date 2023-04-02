@@ -252,7 +252,7 @@
     "description": "Settings: Name of column filter action"
   },
   "filterRule": {
-    "message": "フィルター一致ルール",
+    "message": "フィルタ ルール",
     "description": "Settings: Name of column filter rules"
   },
   "enableHighlight": {
