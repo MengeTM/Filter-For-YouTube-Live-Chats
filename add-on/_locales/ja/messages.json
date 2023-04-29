@@ -251,6 +251,10 @@
     "message": "フィルタ アクション",
     "description": "Settings: Name of column filter action"
   },
+  "filters": {
+    "message": "フィルター",
+    "description": "Settings: Name DropdownSettings Filters"
+  },
   "filterRule": {
     "message": "フィルタ ルール",
     "description": "Settings: Name of column filter rules"

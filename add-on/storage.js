@@ -63,11 +63,11 @@ function sync_get(array, callback) {
                     };
                 case "enableOverlayDuration":
                     if (result.enableOverlayDuration === undefined) {
-                        result.enableOverlayDuration = false;
+                        result.enableOverlayDuration = true;
                     }
                     break;
                 case "overlayDuration":
-                    result.overlayDuration = result.overlayDuration || 5;
+                    result.overlayDuration = result.overlayDuration || 10;
                     break;
                 case "overlayPos":
                     result.overlayPos = result.overlayPos || {

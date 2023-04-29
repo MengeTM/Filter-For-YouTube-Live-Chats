@@ -251,9 +251,13 @@
     "message": "Filter action",
     "description": "Settings: Name of column filter action"
   },
+  "filters": {
+    "message": "Filters",
+    "description": "Settings: Name DropdownSettings Filters"
+  },
   "filterRule": {
-    "message": "Filter rules",
-    "description": "Settings: Name of column filter rules"
+    "message": "Filter rule",
+    "description": "Settings: Name of column filter rule"
   },
   "enableHighlight": {
     "message": "Enable highlight chat-box",

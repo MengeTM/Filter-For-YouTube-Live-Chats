@@ -1,4 +1,5 @@
 class Separator {
+    size = 0; // Size of chat-box below separator [0..1]
 
     constructor(box_top, box_bottom) {
         // Chat-box above the separator
@@ -41,7 +42,7 @@ class Separator {
 
             // Set new height of box_bottom
             let size = this.getSize(posY - this.startY);
-            this.updateSize(size);
+            this.updateSeparator(size);
         });
 
         this.mouseElement.addEventListener("mouseup", (event) => {
@@ -71,7 +72,7 @@ class Separator {
         this.box_bottom.parentNode.appendChild(this.mouseElement);
     }
 
-    /*
+    /**
      * Stops dragging separator
      * @param y Y-pixel when stop dragging separator
      */
@@ -81,11 +82,26 @@ class Separator {
 
         // Set new height of box_bottom and save height
         let size = this.getSize(y - this.startY);
-        this.updateSize(size);
+
+        this.setSize(size);
         sync_set({ size: size });
 
         this.startY = null;
         this.startHeight = null;
+    }
+
+    /**
+     * Sets Separator and bottom_box to be visible or hidden
+     * @param visible Sets bottom_box and separator to be visible
+     */
+    setVisible(visible = true) {
+        if (visible) {
+            this.separatorElement.classList.remove("hidden");
+            this.updateSeparator(this.size);
+        } else {
+            this.separatorElement.classList.add("hidden");
+            this.updateSeparator(0);
+        }
     }
 
     /**
@@ -97,14 +113,25 @@ class Separator {
 
         size = Math.round(size);
         size = Math.min(Math.max(size, 0), 100);
+
         return size;
     }
 
     /**
-     * Updates height of box_top and box_bottom
-     * @param size Size of box_bottom [0..1]
+     * Sets size box_bottom
+     * @param size Size box_bottom [0..100]
      */
-    updateSize(size) {
+    setSize(size) {
+        this.size = size;
+
+        this.updateSeparator(this.size);
+    }
+
+    /**
+     * Updates height of box_top and box_bottom
+     * @param size Size of box_bottom [0..100]
+     */
+    updateSeparator(size) {
         size = size / 100;
 
         let top_size = this.box_top.clientHeight;

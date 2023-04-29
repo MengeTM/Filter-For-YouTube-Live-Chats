@@ -3,7 +3,6 @@ class YouTubeFilter {
 
     constructor() {
         // Settings
-        this.size = null;  // Size of chat-window
         this.enableHighlight = null;  // Enables highlight chat-box
         this.filters = null;  // Usernames for highlighting
         this.showMessages = null; // Shows messages at the player
@@ -62,6 +61,8 @@ class YouTubeFilter {
             xml.classList.add("sf-hidden");
 
             this.dropdownSettings = new DropdownSettings(xml);
+
+            this.updateColorScheme();
         });
 
         // Menu item for opening settings page
@@ -110,6 +111,19 @@ class YouTubeFilter {
             return strings.join("");
         } else {
             return strings;
+        }
+    }
+
+    /**
+     * Updates DropdownSettings color scheme for YouTube color scheme
+     */
+    updateColorScheme() {
+        let style = getComputedStyle(document.querySelector("#content-pages"));
+
+        if (style.getPropertyValue("--yt-live-chat-primary-text-color") == style.getPropertyValue("--yt-spec-text-primary")) {
+            this.dropdownSettings.dropdownSettings.style.colorScheme = "light";
+        } else {
+            this.dropdownSettings.dropdownSettings.style.colorScheme = "dark";
         }
     }
 
@@ -207,11 +221,10 @@ class YouTubeFilter {
     loadOptions() {
 
         sync_get(["size", "enableHighlight", "enableOverlay"], (result) => {
-            this.size = result.size;
             this.enableHighlight = result.enableHighlight;
             this.enableOverlay = result.enableOverlay;
 
-            this.separator.updateSize(this.size);
+            this.separator.setSize(result.size);
 
             this.toggleHighlightBox(this.enableHighlight);
         });
@@ -281,15 +294,7 @@ class YouTubeFilter {
                 this.enableHighlight = highlight;
             }
 
-            if (this.enableHighlight) {
-                this.highlightBox.renderer.classList.remove("sf-hidden");
-                this.separator.separatorElement.classList.remove("sf-hidden");
-                this.separator.updateSize(this.size);
-            } else {
-                this.highlightBox.renderer.classList.add("sf-hidden");
-                this.separator.separatorElement.classList.add("sf-hidden");
-                this.separator.updateSize(0);
-            }
+            this.separator.setVisible(this.enableHighlight);
         }
     }
 

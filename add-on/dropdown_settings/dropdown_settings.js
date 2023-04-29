@@ -176,7 +176,7 @@
      */
     setFilters() {
         this.dropdownElementsFilters = [];
-        let filters = new DropDown(i18n("filterRule"));
+        let filters = new DropDown(i18n("filters"));
         this.dropdownElementsFilters.push(filters);
         filters.element.id = "sf-filters";
         this.dropdownSettings.querySelector("#sf-filters").parentElement.replaceChild(filters.element, this.dropdownSettings.querySelector("#sf-filters"));

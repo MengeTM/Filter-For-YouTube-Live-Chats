@@ -34,6 +34,12 @@
         cursor: auto;
     }
 
+.sf-separator-light {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--yt-spec-10-percent-layer);
+}
+
 .sf-scroll {
     flex: auto;
     display: flex;
@@ -44,34 +50,6 @@
     height: auto;
     background-color: var(--yt-live-chat-background-color, #efefef);
 }
-
-input {
-    background-color: var(--yt-spec-additive-background);
-}
-
-select, option {
-    background-color: var(--yt-live-chat-header-background-color, #f8f8f8);
-}
-
-    select:hover, option:hover {
-        background-color: var(--yt-spec-10-percent-layer);
-    }
-
-select, input, option {
-    text-align: center;
-    padding: 5px;
-    border-radius: 2px;
-    color: var(--yt-live-chat-primary-text-color);
-    border: 1px solid var(--yt-spec-additive-background);
-}
-
-    input[disabled] {
-        opacity: 0.3;
-    }
-
-    input[type=button]:hover {
-        background-color: var(--yt-spec-10-percent-layer);
-    }
 
 .switch {
     margin-right: 5px;
@@ -170,7 +148,7 @@ select, input, option {
 .sf-block {
     display: flex;
     flex-direction: column;
-    background-color: var(--paper-listbox-background-color, #ffffff);
+    background-color: var(--yt-spec-10-percent-layer, #f7f7f7);
     border-radius: 5px;
     cursor: auto;
     padding: 5px;
@@ -181,7 +159,8 @@ select, input, option {
     }
 
     .sf-block .sf-block-title {
-        font-weight: bold;
+        font-weight: normal;
+        margin-left: 5px;
         padding-bottom: 5px;
     }
 
