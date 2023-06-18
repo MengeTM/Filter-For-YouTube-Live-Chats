@@ -152,7 +152,7 @@
     "description": "Settings: Filter option translation"
   },
   "latinCH": {
-    "message": "ラテン文字 (英語、ドイツ語)",
+    "message": "ローマ字",
     "description": "Settings: Language characters Latin"
   },
   "japaneseCH": {
@@ -176,7 +176,7 @@
     "description": "Settings: Filter option two filter rules"
   },
   "highlight": {
-    "message": "ハイライトします",
+    "message": "ハイライト",
     "description": "Settings: Select option for highlighting messages"
   },
   "subtitles": {
@@ -184,7 +184,7 @@
     "description": "Settings: Select option for YouTube player overlay"
   },
   "delete": {
-    "message": "削除します",
+    "message": "削除",
     "description": "Settings: Select option for deleting messages"
   },
   "startsWith": {

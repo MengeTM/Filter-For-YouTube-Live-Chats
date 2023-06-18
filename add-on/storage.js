@@ -33,18 +33,39 @@ function sync_get(array, callback) {
                     }
                     break;
                 case "filters":
-                    result.filters = result.filters || [{
-                        name: "Translations - EN",
-                        type: "subtitles",
-                        data: new TranslationLanguage("en", new Authors("all"), new TextElement([])).json(),
-                        enable: true
-                    },
-                    {
-                        name: "Hololive EN",
-                        type: "highlight",
-                        data: new StringRegex("includes", new StringOption("message"), new TextElement("[EN]"), new LogicalArray("some")).json(),
-                        enable: true
-                    }];
+                    if (chrome.i18n.getUILanguage().startsWith("ja")) {
+                        result.filters = result.filters || [{
+                            name: `${i18n("filterTranslation")} - JA`,
+                            type: "subtitles",
+                            data: new TranslationLanguage("ja", new Authors("all"), new TextElement([])).json(),
+                            enable: true
+                        },
+                        {
+                            name: `${i18n("filterTranslation")} - JA`,
+                            type: "highlight",
+                            data: new StringRegex("includes", new StringOption("message"), new TextElement("[JP]; [JA]"), new LogicalArray("some")).json(),
+                            enable: true
+                        },
+                        {
+                            name: `${i18n("delete")} - EN`,
+                            type: "delete",
+                            data: new TranslationLanguage("en", new Authors("all"), new TextElement([])).json(),
+                            enable: true
+                        }];
+                    } else {
+                        result.filters = result.filters || [{
+                            name: `${i18n("filterTranslation")} - EN`,
+                            type: "subtitles",
+                            data: new TranslationLanguage("en", new Authors("all"), new TextElement([])).json(),
+                            enable: true
+                        },
+                        {
+                            name: `${i18n("filterTranslation")} -  EN`,
+                            type: "highlight",
+                            data: new StringRegex("includes", new StringOption("message"), new TextElement("[EN]"), new LogicalArray("some")).json(),
+                            enable: true
+                        }];
+                    }
                     break;
                 case "enableOverlay":
                     if (result.enableOverlay === undefined) {

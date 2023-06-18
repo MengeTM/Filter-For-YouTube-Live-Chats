@@ -151,16 +151,25 @@ function newFilter(id) {
     switch (id) {
         case "filter_translation":
             // Language translation
-            return {
-                name: "Translations - EN",
-                type: "subtitles",
-                data: new TranslationLanguage("en", new Authors("all"), new TextElement([])),
-                enable: true
-            };
+            if (chrome.i18n.getUILanguage().startsWith("ja")) {
+                return {
+                    name: `${i18n("filterTranslation")} - JA`,
+                    type: "subtitles",
+                    data: new TranslationLanguage("ja", new Authors("all"), new TextElement([])),
+                    enable: true
+                };
+            } else {
+                return {
+                    name: `${i18n("filterTranslation")} - EN`,
+                    type: "subtitles",
+                    data: new TranslationLanguage("en", new Authors("all"), new TextElement([])),
+                    enable: true
+                };
+            }
         case "filter_language":
             // Language
             return {
-                name: "Characters - Latin",
+                name: `${i18n("filterLanguage")}`,
                 type: "highlight",
                 data: new Language("latin"),
                 enable: true
@@ -168,7 +177,7 @@ function newFilter(id) {
         // One logical block
         case "filter_1":
             return {
-                name: "",
+                name: i18n("filter1"),
                 type: "highlight",
                 data: new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some")),
                 enable: true
@@ -176,7 +185,7 @@ function newFilter(id) {
         // Two logical blocks with logical and
         case "filter_2":
             return {
-                name: "",
+                name: i18n("filter2"),
                 type: "highlight",
                 data: new LogicalBinary("and", new StringRegex("includes", new StringOption("author"), new TextElement([]), new LogicalArray("some")), new StringRegex("includes", new StringOption("message"), new TextElement([]), new LogicalArray("some"))),
                 enable: true

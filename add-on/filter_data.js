@@ -314,7 +314,14 @@ class TranslationLanguage extends BaseSelect {
 
         let author = data["author"].toLocaleLowerCase();
 
-        let authorTranslation = string.toLocaleLowerCase().includes(`[${this.name}]`);
+        let name = this.name;
+
+        // Japanese ja or jp
+        if (name == "ja") {
+            name = "(ja|jp)";
+        }
+
+        let authorTranslation = string.toLocaleLowerCase().match(new RegExp(`\\[${name}\\]`)) !== null;
         switch (this.authors.element.value) {
             case "all":
                 return authorTranslation;
