@@ -79,7 +79,7 @@ class YouTubeFilter {
         menuItemFilter.addEventListener("click", () => {
             this.toggleHighlightBox();
         });
-        this.menu.addMenuItem(menuItemFilter);
+        // this.menu.addMenuItem(menuItemFilter);
     }
 
     /**

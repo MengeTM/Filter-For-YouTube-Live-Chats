@@ -12,7 +12,7 @@
     "description": "Filter settings for live-chat."
   },
   "filterTitle": {
-    "message": "Filter rule",
+    "message": "Filter",
     "description": "Settings: Title filter"
   },
   "evaluationTitle": {
@@ -24,7 +24,7 @@
     "description": "Size of the live-chat box setting."
   },
   "enableOverlay": {
-    "message": "Enable player subtitles",
+    "message": "Enable subtitles",
     "description": "Settings: Option enable YouTube player overlay"
   },
   "btnOverlaySettings": {
@@ -104,7 +104,7 @@
     "description": "Settings: Select black"
   },
   "newFilter": {
-    "message": "New filter rule",
+    "message": "Add new",
     "description": "Settings: add new filter"
   },
   "en": {
@@ -144,11 +144,11 @@
     "description": "Settings: Blacklist authors"
   },
   "translatorLanguage": {
-    "message": "Translator message",
+    "message": "Translation",
     "description": "Settings: Filter translator language"
   },
   "filterTranslation": {
-    "message": "translator message",
+    "message": "translation",
     "description": "Settings: Filter option translation"
   },
   "latinCH": {
@@ -160,19 +160,19 @@
     "description": "Settings: Language characters Japanese"
   },
   "language": {
-    "message": "Message language",
+    "message": "Language",
     "description": "Settings: Filter language"
   },
   "filterLanguage": {
-    "message": "message language",
+    "message": "language",
     "description": "Settings: Filter option language"
   },
   "filter1": {
-    "message": "One filter rule",
+    "message": "custom (1)",
     "description": "Settings: Filter option one filter rule"
   },
   "filter2": {
-    "message": "Two filter rules",
+    "message": "custom (2)",
     "description": "Settings: Filter option two filter rules"
   },
   "highlight": {
@@ -244,11 +244,11 @@
     "description": "Settings: When of When string matches"
   },
   "filterName": {
-    "message": "Filter name",
+    "message": "Name",
     "description": "Settings: Filter name text field"
   },
   "filterAction": {
-    "message": "Filter action",
+    "message": "Action",
     "description": "Settings: Name of column filter action"
   },
   "filters": {
@@ -256,7 +256,7 @@
     "description": "Settings: Name DropdownSettings Filters"
   },
   "filterRule": {
-    "message": "Filter rule",
+    "message": "Matching rule",
     "description": "Settings: Name of column filter rule"
   },
   "enableHighlight": {
@@ -268,11 +268,11 @@
     "description": "Settings: Checkbox for enabling expert mode"
   },
   "evaluateFilter": {
-    "message": "Filter rule validation",
+    "message": "Filter validation",
     "description": "Settings: Title of filter rule evaluation"
   },
   "match": {
-    "message": "Filter rule matching",
+    "message": "matches",
     "description": "Settings: Title filter rule match"
   },
   "doesMatch": {

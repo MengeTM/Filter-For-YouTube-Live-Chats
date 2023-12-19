@@ -2,6 +2,17 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../settings/switch/toggle_switch.css" />
+    <link rel="stylesheet" href="../list/style.css" />
+    <script src="../storage.js"></script>
+    <script src="../i18n.js"></script>
+    <script src="../settings/filters/filter_list.js"></script>
+    <script src="../settings/switch/toggle_switch.js"></script>
+    <script src="../settings/select_box.js"></script>
+    <script src="../list/list.js"></script>
+    <script src="../filter_data.js"></script>
+    <script src="../xml.js"></script>
 </head>
 <body>
     <div id="sf-settings" tabindex="1">
@@ -17,6 +28,13 @@
                         <span class="slider round i18n" title-id="titleEnableOverlay"></span>
                     </label>
                     <span class="i18n" data-id="enableOverlay"></span>
+                </div>
+                <div class="sf-settings-item sf-align">
+                    <label class="switch">
+                        <input type="checkbox" id="sf-enable-highlight" />
+                        <span class="slider round i18n" title-id="titleEnableHighlightBox"></span>
+                    </label>
+                    <span class="i18n" data-id="enableHighlight"></span>
                 </div>
                 <div id="sf-overlay-style" class="sf-settings-item"></div>
                 <div id="sf-filters" class="sf-settings-item"></div>

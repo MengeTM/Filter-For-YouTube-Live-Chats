@@ -2,6 +2,8 @@
     enableOverlay = null;  // Enable overlay
     overlayStyle = null;  // JSON overlay style
 
+    enableHighlight = null; // Enable highlight
+
     filters = null;  // List of filters
     expertMode = null;  // Expert mode
 
@@ -11,7 +13,7 @@
     dropdownElementOverlayStyle = null;
 
     constructor(dropdownSettings) {
-        this.dropdownSettings = dropdownSettings || document;
+        this.dropdownSettings = dropdownSettings || document.querySelector("body");
 
         parseXML(chrome.runtime.getURL("../menu_item/menu.svg"), (svg) => {
             svg.classList.add("sf-icon");
@@ -29,6 +31,11 @@
                 case "update_filters":
                     if (this.dropdownSettings.classList.contains("sf-hidden")) {
                         this.loadFilters();
+                    }
+                    break;
+                case "updade_box":
+                    if (this.dropdownSettings.classList.contains("sf-hidden")) {
+                        this.loadChatBox();
                     }
                     break;
             }
@@ -50,9 +57,10 @@
 
         this.loadOverlayStyle();
         this.loadFilters();
+        this.loadChatBox();
 
         this.dropdownSettings.addEventListener("focusout", (event) => {
-            console.log(event.target);
+            // console.log(event.target);
             if (!this.dropdownSettings.contains(event.relatedTarget)) {
                 this.show(false);
                 this.dropdownElementsFilters.forEach((item) => {
@@ -60,6 +68,24 @@
                 });
                 this.dropdownElementOverlayStyle.update(false);
             }
+        });
+    }
+
+    /**
+     * Loads highlight settings
+     */
+    loadChatBox() {
+        sync_get(["enableHighlight"], (result) => {
+            this.enableHighlight = result.enableHighlight;
+
+            const enableHighlight = this.dropdownSettings.querySelector("#sf-enable-highlight");
+            enableHighlight.checked = this.enableHighlight;
+            enableHighlight.addEventListener("change", () => {
+                this.enableHighlight = enableHighlight.checked;
+                sync_set({ enableHighlight: this.enableHighlight });
+
+                this.updateSettings();
+            });
         });
     }
 
@@ -134,10 +160,54 @@
             name = i18n("filterName");
         }
         let dropdown = new DropDown(name, filterSwitch.element, filterDelete);
+        dropdown.filterData = filterData;
         this.dropdownElementsFilters.push(dropdown);
 
+        // Start dragging filter
+        dropdown.index.addEventListener("dragstart", (event) => {
+            event.dataTransfer.effectAllowed = "move";
+            dropdown.index.classList.add("sf-dragging");
+            this.dragElement = dropdown;
+        });
+
+        // Swapping filter when entering filter
+        dropdown.index.draggable = true;
+        dropdown.index.addEventListener("dragenter", (event) => {
+            const element = document.createElement("div");
+            if (this.dragElement !== dropdown) {
+                const dropdownId = this.filters.indexOf(dropdown.filterData);
+                const dragId = this.filters.indexOf(this.dragElement.filterData);
+
+                this.dragElement.element.replaceWith(element);
+                dropdown.element.replaceWith(this.dragElement.element);
+                element.replaceWith(dropdown.element);
+                
+
+                this.filters[dragId] = dropdown.filterData;
+                this.filters[dropdownId] = this.dragElement.filterData;
+            }
+        });
+
+        dropdown.index.addEventListener("dragover", (event) => {
+            event.preventDefault();
+        });
+
+        dropdown.index.addEventListener("drop", (event) => {
+            event.preventDefault();
+
+            event.dataTransfer.dropEffect = "move";
+        });
+
+        // Stop dragging filter
+        dropdown.index.addEventListener("dragend", (event) => {
+            this.dragElement.index.classList.remove("sf-dragging");
+            dropdown.index.focus();
+
+            this.saveFilters();
+        });
+
         filterDelete.addEventListener("click", () => {
-            if (confirm(i18n("deleteFilterMessage", name))) {
+            if (confirm(i18n("deleteFilterMessage", dropdown.title.textContent))) {
                 this.filters = this.filters.filter((item) => { return item !== filterData });
                 dropdown.element.parentElement.removeChild(dropdown.element);
 
@@ -145,8 +215,27 @@
             }
         });
 
+        // Filter name
+        let block = new Block(i18n("filterName"));
+        name = document.createElement("input");
+        name.type = "text";
+        name.title = i18n("titleFilterName");
+        name.value = filterData.name;
+        name.addEventListener("change", () => {
+            filterData.name = name.value.trim();
+
+            let title = filterData.name;
+            if (title.length == 0) {
+                title = i18n("filterName");
+            }
+            dropdown.setTitle(title);
+            this.saveFilters();
+        });
+        block.appendChild(name);
+        dropdown.appendChild(block.element);
+
         // Filter action
-        let block = new Block(i18n("filterAction"));
+        block = new Block(i18n("filterAction"));
         let action = new Action(filterData.type);
         action.element.addEventListener("change", () => {
             filterData.type = action.element.value;
@@ -275,7 +364,7 @@
      * Updates highlight chat-box settings
      */
     updateSettings() {
-        chrome.runtime.sendMessage({ type: "update_settings" });
+        chrome.runtime.sendMessage({ type: "update_box" });
     }
 
     /**
@@ -319,6 +408,7 @@ class DropDown {
         this.index = document.createElement("div");
         this.index.classList.add("sf-dropdown-index");
         this.index.classList.add("sf-align");
+        this.index.tabIndex = 0;
         this.index.addEventListener("click", () => {
             this.open = !this.open;
 
@@ -358,6 +448,14 @@ class DropDown {
      */
     appendChild(element) {
         this.scroll.appendChild(element);
+    }
+
+    /**
+     * Sets title of DropDown
+     * @param title String title
+     */
+    setTitle(title) {
+        this.title.textContent = title;
     }
 
     /**
@@ -421,4 +519,8 @@ class Block {
     appendChild(element) {
         this.block.appendChild(element);
     }
+}
+
+if (document.querySelector("body > #sf-settings")) {
+    new DropdownSettings();
 }

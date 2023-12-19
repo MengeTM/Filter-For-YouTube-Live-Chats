@@ -1,9 +1,33 @@
-@media (color: var(--yt-spec-text-primary-inverse)) {
-
+@media (prefers-color-scheme: dark) {
+    :root {
+        --sf-background: #0f0f0f;
+        --sf-header-background: #0f0f0f;
+        --sf-color: #ffffff;
+        --sf-border: rgba(255, 255, 255, 0.2);
+    }
 }
 
-@media (color: var(--yt-spec-text-primary)) {
+@media (prefers-color-scheme: light) {
+    :root {
+        --sf-background: #ffffff;
+        --sf-header-background: #ffffff;
+        --sf-color: #000000;
+        --sf-border: rgba(0, 0, 0, 0.1);
+    }
+}
 
+body {
+    width: 300px;
+    height: 380px;
+    margin: 0px;
+    padding: 0px;
+    font-family: sans-serif;
+    font-size: 10px;
+    background-color: var(--sf-background);
+}
+
+body > #sf-settings {
+    border: none !important;
 }
 
 #sf-settings {
@@ -14,14 +38,14 @@
     height: 380px;
     font-size: 16px;
     line-height: 24px;
-    color: var(--yt-live-chat-primary-text-color);
+    color: var(--yt-live-chat-primary-text-color, var(--sf-color));
     white-space: nowrap;
     overflow: hidden;
     z-index: 100;
     box-shadow: 0px 4px 32px 0px var(--yt-spec-static-overlay-background-light);
-    border-radius: 10px;
-    background-color: var(--yt-live-chat-background-color, #efefef);
-    border: 1px solid var(--yt-spec-10-percent-layer);
+    border-radius: 8px;
+    background-color: var(--yt-live-chat-background-color, var(--sf-background-color));
+    border: 1px solid var(--yt-spec-10-percent-layer, var(--sf-border));
 }
 
 #sf-settings-main {
@@ -37,7 +61,7 @@
 .sf-separator-light {
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    border-bottom-color: var(--yt-spec-10-percent-layer);
+    border-bottom-color: var(--yt-spec-10-percent-layer, var(--sf-border));
 }
 
 .sf-scroll {
@@ -48,7 +72,12 @@
     overflow-y: auto;
     margin: 10px;
     height: auto;
-    background-color: var(--yt-live-chat-background-color, #efefef);
+    background-color: var(--yt-live-chat-background-color, var(--sf-background));
+    scrollbar-width: none;
+}
+
+.sf-scroll::-webkit-scrollbar {
+    display: none;
 }
 
 .switch {
@@ -64,18 +93,18 @@
     flex-direction: column;
     user-select: none;
     white-space: nowrap;
-    background-color: var(--yt-live-chat-background-color, #efefef);
+    background-color: var(--yt-live-chat-background-color, var(--sf-background));
 }
 
 .sf-fullmenu > .sf-dropdown-index {
     padding: 15px 20px 15px 20px;
     font-weight: bold;
     z-index: 100;
-    background-color: var(--yt-live-chat-header-background-color, #f9f9f9);
+    background-color: var(--yt-live-chat-header-background-color, var(--sf-header-backgound));
 }
 
     .sf-fullmenu > .sf-dropdown-index:hover {
-        background-color: var(--yt-live-chat-header-background-color, #f9f9f9);
+        background-color: var(--yt-live-chat-header-background-color, var(--sf-header-background));
     }
 
 .sf-dropdown-index {
@@ -86,12 +115,17 @@
     border-radius: 2px;
 }
 
+.sf-dragging {
+    filter: opacity(0.3);
+    background-color: var(--yt-live-chat-background-color, var(--sf-background));
+}
+
 .sf-dropdown-index:last-child {
     padding-bottom: 10px;
 }
 
     .sf-dropdown-index:hover {
-        background-color: var(--yt-spec-10-percent-layer, #f7f7f7);
+        background-color: var(--yt-spec-10-percent-layer, var(--sf-border));
     }
 
     .sf-dropdown-index .sf-item {
@@ -107,6 +141,8 @@
     .sf-dropdown-index .sf-title {
         flex: auto;
         align-items: flex-start;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
 .sf-dropdown-box {
@@ -148,7 +184,9 @@
 .sf-block {
     display: flex;
     flex-direction: column;
-    background-color: var(--yt-spec-10-percent-layer, #f7f7f7);
+    background: var(--yt-spec-10-percent-layer, var(--sf-border));
+    border-width: 1px;
+    border-style: solid;
     border-radius: 5px;
     cursor: auto;
     padding: 5px;
@@ -190,7 +228,7 @@
     flex-direction: row-reverse;
     flex: none;
     padding: 5px;
-    background: var(--yt-live-chat-header-background-color, #f8f8f8);
+    background: var(--yt-live-chat-header-background-color, var(--sf-header-background));
 }
 
     #sf-settings-controls > div {
@@ -207,7 +245,7 @@
         width: 24px;
         height: 24px;
         margin-right: 5px;
-        stroke: var(--yt-live-chat-primary-text-color) !important;
+        stroke: var(--yt-live-chat-primary-text-color, var(--sf-color)) !important;
     }
 
 .sf-hidden {

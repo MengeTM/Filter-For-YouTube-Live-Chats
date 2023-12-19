@@ -12,7 +12,7 @@
     "description": "Filter settings for live-chat."
   },
   "filterTitle": {
-    "message": "フィルタ ルール",
+    "message": "フィルタ",
     "description": "Settings: Title filter"
   },
   "evaluationTitle": {
@@ -24,7 +24,7 @@
     "description": "Size of the live-chat box setting."
   },
   "enableOverlay": {
-    "message": "プレーヤーの字幕",
+    "message": "字幕有効",
     "description": "Settings: Option enable YouTube player overlay"
   },
   "btnOverlaySettings": {
@@ -104,7 +104,7 @@
     "description": "Settings: Select black"
   },
   "newFilter": {
-    "message": "新しいフィルター ルール",
+    "message": "追加",
     "description": "Settings: add new filter"
   },
   "en": {
@@ -144,11 +144,11 @@
     "description": "Settings: Blacklist authors"
   },
   "translatorLanguage": {
-    "message": "翻訳者メッセージ",
+    "message": "翻訳",
     "description": "Settings: Filter translator language"
   },
   "filterTranslation": {
-    "message": "翻訳者メッセージ",
+    "message": "翻訳",
     "description": "Settings: Filter option translation"
   },
   "latinCH": {
@@ -160,19 +160,19 @@
     "description": "Settings: Language characters Japanese"
   },
   "language": {
-    "message": "メッセージ言語",
+    "message": "言語",
     "description": "Settings: Filter language"
   },
   "filterLanguage": {
-    "message": "メッセージ言語",
+    "message": "言語",
     "description": "Settings: Filter option language"
   },
   "filter1": {
-    "message": "フィルター ルール (1)",
+    "message": "カスタム (1)",
     "description": "Settings: Filter option one filter rule"
   },
   "filter2": {
-    "message": "フィルター ルール (2)",
+    "message": "カスタム (2)",
     "description": "Settings: Filter option two filter rules"
   },
   "highlight": {
@@ -244,11 +244,11 @@
     "description": "Settings: When of When string matches"
   },
   "filterName": {
-    "message": "フィルター名",
+    "message": "ネーム",
     "description": "Settings: Filter name text field"
   },
   "filterAction": {
-    "message": "フィルタ アクション",
+    "message": "アクション",
     "description": "Settings: Name of column filter action"
   },
   "filters": {
@@ -256,11 +256,11 @@
     "description": "Settings: Name DropdownSettings Filters"
   },
   "filterRule": {
-    "message": "フィルタ ルール",
+    "message": "マッチングルール",
     "description": "Settings: Name of column filter rules"
   },
   "enableHighlight": {
-    "message": "ハイライトチャットボックスを有効にします",
+    "message": "チャットボックス有効",
     "description": "Settings: Slider for enabling highlight chat-box"
   },
   "expertMode": {
@@ -268,11 +268,11 @@
     "description": "Settings: Checkbox for enabling expert mode"
   },
   "evaluateFilter": {
-    "message": "フィルタ ルールの検証",
+    "message": "フィルタの検証",
     "description": "Settings: Title of filter rule evaluation"
   },
   "match": {
-    "message": "フィルタ ルールの一致",
+    "message": "一致",
     "description": "Settings: Title filter rule match"
   },
   "doesMatch": {
@@ -382,6 +382,10 @@
   "titleSelectTranslationLanguage": {
     "message": "YouTube ライブチャット メッセージの翻訳言語",
     "description": "Settings: Title select language"
+  },
+  "titleSelectTranslationAuthor": {
+    "message": "すべての著者、ホワイトリストの著者、またはブラックリストにない著者の翻訳を表示します",
+    "description": "Settings: Title select author list"
   },
   "titleSelectFilterType": {
     "message": "新しいフィルタ ルールのタイプ",

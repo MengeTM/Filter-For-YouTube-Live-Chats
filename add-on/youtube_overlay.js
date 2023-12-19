@@ -1,16 +1,10 @@
 ﻿class YouTubeOverlay {
     duration = null;  // Duration in ms showing a new message
     style = null;  // JSON overlay style
-
     pos = null;  // Overlay position
-
     disabled = false;  // Disables overlay
-
     translatorTags = false;  // Displays not the [Language] translator tags
-
     sliderMargin = 61;
-
-
 
     // Styles color
     styleColor = {
@@ -288,8 +282,8 @@
     updateSize() {
         if (this.player !== null && this.player.clientHeight != 0 && this.player.clientWidth != 0) {
             // Size video
-            this.videoWidth = this.video.style.width.replace("px", "");
-            this.videoHeight = this.video.style.height.replace("px", "");
+            this.videoWidth = this.player.clientWidth; // this.video.style.width.replace("px", "");
+            this.videoHeight = this.player.clientHeight; // this.video.style.height.replace("px", "");
 
             this.overlayWidth = this.videoWidth * 0.65;
             this.fontSize = this.style["fontSize"] * this.videoHeight * 0.05;
@@ -418,7 +412,7 @@
                 // Text element
                 let string = obj.text;
                 if (!this.translatorTags) {
-                    string = string.replace(/\[(TL)?\/?([A-Za-z]{2}|.語)\]/g, "");
+                    string = string.replace(/\[(TL)?\/?([A-Za-z]{2}|.語)\]:?/g, "");
                 }
                 element = document.createTextNode(string);
             }
