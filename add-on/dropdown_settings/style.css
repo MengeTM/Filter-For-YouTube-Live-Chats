@@ -73,7 +73,7 @@ body > #sf-settings {
     margin: 10px;
     height: auto;
     background-color: var(--yt-live-chat-background-color, var(--sf-background));
-    scrollbar-width: none;
+    scrollbar-width: none
 }
 
 .sf-scroll::-webkit-scrollbar {

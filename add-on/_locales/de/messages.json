@@ -252,7 +252,7 @@
     "description": "Settings: Name of column filter action"
   },
   "filters": {
-    "message": "Anwendungsregel",
+    "message": "Filter",
     "description": "Settings: Name DropdownSettings Filters"
   },
   "filterRule": {

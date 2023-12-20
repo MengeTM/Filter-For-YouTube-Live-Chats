@@ -61,7 +61,7 @@
 
         this.dropdownSettings.addEventListener("focusout", (event) => {
             // console.log(event.target);
-            if (!this.dropdownSettings.contains(event.relatedTarget)) {
+            if (!this.dropdownSettings.contains(event.relatedTarget) && event.target !== this.dragElement) {
                 this.show(false);
                 this.dropdownElementsFilters.forEach((item) => {
                     item.update(false);
@@ -249,6 +249,13 @@
         block = new Block(i18n("filterRule"));
         let filter = new FilterRule(null, parseJSON(filterData.data));
         filter.element.classList.add("sf-filter");
+        if (filterData.type == "subtitles") {
+            for (let element of filter.elementList) {
+                if (element instanceof HTMLDivElement) {
+                    element.remove();
+                }
+            }
+        }
         filter.addEventListener("change", () => {
             filterData.data = filter.json();
 

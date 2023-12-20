@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
-  "version": "0.1.23",
+  "version": "0.1.24",
 
   "homepage_url": "https://github.com/MengeTM/Filter-For-YouTube-Live-Chats",
 
@@ -46,7 +46,7 @@
       "matches": [ "*://*.youtube.com/*", "*://*.youtube.com/live_chat_replay*" ],
       "all_frames": true,
       "js": [ "separator.js", "chatbox.js", "settings/switch/toggle_switch.js", "settings/filters/filter_list.js", "youtube_overlay.js", "menu_item/menu_item.js", "settings/select_box.js", "xml.js", "i18n.js", "storage.js", "filter_data.js", "dropdown_settings/dropdown_settings.js", "youtube_filter.js", "main.js" ],
-      "css": [ "style.css", "settings/switch/toggle_switch.css", "list/style.css", "dropdown_settings/style.css" ],
+      "css": [ "style.css", "settings/switch/toggle_switch.css", "dropdown_settings/style.css" ],
       "run_at": "document_idle"
     }
   ],
