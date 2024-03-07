@@ -49,13 +49,6 @@
             this.updateOverlay();
         });
 
-        this.dropdownSettings.querySelector("#sf-enable-highlight").addEventListener("change", () => {
-            this.enableHighlight = this.dropdownSettings.querySelector("#sf-enable-highlight").checked;
-            sync_set({ enableHighlight: this.enableHighlight });
-
-            this.updateSettings();
-        });
-
         this.dropdownSettings.querySelector("#sf-settings-controls > div").addEventListener("click", () => {
             chrome.runtime.sendMessage({ type: "settings" });
         });
@@ -85,8 +78,14 @@
         sync_get(["enableHighlight"], (result) => {
             this.enableHighlight = result.enableHighlight;
 
-            this.dropdownSettings.querySelector("#sf-enable-highlight").checked = this.enableHighlight;
-            
+            const enableHighlight = this.dropdownSettings.querySelector("#sf-enable-highlight");
+            enableHighlight.checked = this.enableHighlight;
+            enableHighlight.addEventListener("change", () => {
+                this.enableHighlight = enableHighlight.checked;
+                sync_set({ enableHighlight: this.enableHighlight });
+
+                this.updateSettings();
+            });
         });
     }
 
@@ -252,7 +251,7 @@
         filter.element.classList.add("sf-filter");
         if (filterData.type == "subtitles") {
             for (let element of filter.elementList) {
-                if (element.nodeName == "DIV") {
+                if (element instanceof HTMLDivElement) {
                     element.remove();
                 }
             }

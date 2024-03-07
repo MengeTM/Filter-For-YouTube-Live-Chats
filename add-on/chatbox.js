@@ -1,5 +1,4 @@
 class ChatBox {
-
     constructor() {
         // Function for adding YouTube live-chat class names
         let addRenderer = function (node) {
@@ -33,8 +32,8 @@ class ChatBox {
         itemScroller.addEventListener("scroll", () => {
             // Force that scrolls down to bottom of chat-box, if user does not scroll strong enough
             // When at this area, chat - box will scroll automatically to bottom when new chat messages are added
-            if (this.itemScroller.scrollTop > this.scrollTopMax() - 15) {
-                this.itemScroller.scrollTo(0, this.scrollTopMax());
+            if (this.itemScroller.scrollTop > this._scrollTopMax() - 15) {
+                this.itemScroller.scrollTo(0, this._scrollTopMax());
             }
         });
         contents.appendChild(itemScroller);
@@ -48,6 +47,9 @@ class ChatBox {
         this.items = items;
     }
 
+    /**
+     * Deletes all messages
+     */
     clear() {
         while (this.items.firstElementChild !== null) {
             this.deleteMessage(this.items.firstElementChild);
@@ -57,13 +59,13 @@ class ChatBox {
     /**
      * Maximum scrollTop, similar to Firefox scrollTopMax
      */
-    scrollTopMax() {
+    _scrollTopMax() {
         return this.itemScroller.scrollHeight - this.itemScroller.clientHeight;
     }
 
     /**
      * Deletes YouTube live-chat message by adding it to YouTube live-chat items
-     * @param message YouTube live-chat message
+     * @param {HTMLElement} message YouTube live-chat message
      */
     deleteMessage(message) {
         message.hidden = true;
@@ -76,8 +78,9 @@ class ChatBox {
         }
     }
 
-    /*
+    /**
     * Adds YouTube live-chat message element to chat box
+    * @param {HTMLElement} message YouTube live-chat message
     */
     addMessage(message) {
         // Removes oldest highlighted message if 100 messages
@@ -85,12 +88,12 @@ class ChatBox {
             this.deleteMessage(this.items.firstElementChild);
         }
 
-        let scrollTopMax = this.scrollTopMax();
+        let scrollTopMax = this._scrollTopMax();
         this.items.appendChild(message);
 
         // When at the bottom area, scrolls down chat box to newest message
         if (this.itemScroller.scrollTop > scrollTopMax - 15) {
-            this.itemScroller.scrollTo(0, this.scrollTopMax());
+            this.itemScroller.scrollTo(0, this._scrollTopMax());
         }
     }
 }

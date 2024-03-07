@@ -3,7 +3,7 @@
  * @param json JSON data
  * @param callback Function when set data
  */
-function sync_set(json, callback) {
+function sync_set(json, callback=null) {
 	chrome.storage.local.set(json, callback);
 }
 
@@ -92,10 +92,10 @@ function sync_get(array, callback) {
                     break;
                 case "overlayPos":
                     result.overlayPos = result.overlayPos || {
-                        left: 0.212,
+                        left: 0.175,
                         bottom: 0.02,
                         top: 0.98,
-                        right: 0.14
+                        right: 0.175
                     };
 
                     // Bug resulting in overlayPos being undefined, breaking overlay

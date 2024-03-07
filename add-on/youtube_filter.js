@@ -14,10 +14,10 @@ class YouTubeFilter {
         this.filtering = false;
         this.requestFiltering = false;
 
-        this.setHighlightBox();
+        this._setHighlightBox();
 
-        this.loadOptions();
-        this.loadFilters();
+        this._loadOptions();
+        this._loadFilters();
 
         let app = document.querySelector("yt-live-chat-app");
 
@@ -37,14 +37,14 @@ class YouTubeFilter {
                     break;
                 case "update_filters":
                     console.log("update filters");
-                    this.loadFilters();
+                    this._loadFilters();
                     break;
                 case "update_box":
                     console.log("update box");
-                    this.loadOptions();
+                    this._loadOptions();
                     break;
                 case "update_overlay":
-                    this.loadOverlayOptions();
+                    this._loadOverlayOptions();
                     break;
             }
         });
@@ -62,7 +62,7 @@ class YouTubeFilter {
 
             this.dropdownSettings = new DropdownSettings(xml);
 
-            this.updateColorScheme();
+            this._updateColorScheme();
         });
 
         // Menu item for opening settings page
@@ -84,10 +84,11 @@ class YouTubeFilter {
 
     /**
      * Parses YouTube live-chat message element into either a string or a list of strings
-     * @param message YouTube live-chat message element
-     * @param merge Merges message texts and alt-texts of icons into a string, else returns list of message texts and icon urls
+     * @param {HTMLElement} message YouTube live-chat message element
+     * @param {Boolean} merge Merges message texts and alt-texts of icons into a string, else returns list of message texts and icon urls
+     * @returns String or list of strings
      */
-    parseMessage(message, merge=true) {
+    _parseMessage(message, merge=true) {
         let strings = [];
         for (let node of message.childNodes) {
             if (node instanceof HTMLImageElement) {
@@ -117,8 +118,8 @@ class YouTubeFilter {
     /**
      * Updates DropdownSettings color scheme for YouTube color scheme
      */
-    updateColorScheme() {
-        let style = getComputedStyle(document.querySelector("#content-pages"));
+    _updateColorScheme() {
+        const style = getComputedStyle(document.querySelector("#content-pages"));
 
         if (style.getPropertyValue("--yt-live-chat-primary-text-color") == style.getPropertyValue("--yt-spec-text-primary")) {
             this.dropdownSettings.dropdownSettings.style.colorScheme = "light";
@@ -129,6 +130,7 @@ class YouTubeFilter {
 
     /**
      * Applies filters to a HTMLElement
+     * @param {HTMLElement} element Message element to be filtered
      */
     filter(element) {
         let authorName = element.querySelector("#author-name");
@@ -136,14 +138,14 @@ class YouTubeFilter {
         if (!element.deleted && authorName !== null) {
             authorName = authorName.textContent;
 
-            let messageElement = element.querySelector("#content>#message");
-            let message = this.parseMessage(messageElement, true);
-            let rawMessage = this.parseMessage(messageElement, false);
+            const messageElement = element.querySelector("#content>#message");
+            const message = this._parseMessage(messageElement, true);
+            const rawMessage = this._parseMessage(messageElement, false);
 
             element.hidden = false;
 
             // Matches author and message of chat message
-            let data = { author: authorName, message: message, rawMessage: rawMessage };
+            const data = { author: authorName, message: message, rawMessage: rawMessage };
             let match = false;  // Does not apply other filters when already matched
             let deleted = false;  // Deletes node
             for (let filter of this.filters) {
@@ -209,7 +211,7 @@ class YouTubeFilter {
     /**
      * Loads options for YouTube overlay
      */
-    loadOverlayOptions() {
+    _loadOverlayOptions() {
         sync_get(["enableOverlay"], (result) => {
             this.enableOverlay = result.enableOverlay;
         });
@@ -218,7 +220,7 @@ class YouTubeFilter {
     /**
      * Loads add-on settings
      */
-    loadOptions() {
+    _loadOptions() {
 
         sync_get(["size", "enableHighlight", "enableOverlay"], (result) => {
             this.enableHighlight = result.enableHighlight;
@@ -233,8 +235,7 @@ class YouTubeFilter {
     /*
      * Loads add-on filters
      */
-    loadFilters() {
-
+    _loadFilters() {
         sync_get(["filters"], (result) => {
             this.filters = result.filters;
 
@@ -249,7 +250,7 @@ class YouTubeFilter {
                 while (this.requestFiltering) {
                     this.requestFiltering = false;
 
-                    this.filterItems();
+                    this.filterAll();
                 }
 
                 this.filtering = false;
@@ -260,14 +261,16 @@ class YouTubeFilter {
     /**
      * Filters YouTube live-chat items
      */
-    filterItems() {
+    filterAll() {
         // Put elements back to items
         let i = 0;
-        let max = this.highlightBox.items.childNodes.length;
+        const max = this.highlightBox.items.childNodes.length;
         while (this.highlightBox.items.firstElementChild !== null && i < max) {
             i += 1;
 
-            let element = this.highlightBox.items.firstElementChild;
+            const element = this.highlightBox.items.firstElementChild;
+            element.deleted = false;
+            element.hidden = false;
             try {
                 this.items.replaceChild(element, element.div);
             } catch (e) {
@@ -283,7 +286,7 @@ class YouTubeFilter {
 
     /**
      * Toggles highlight chat-box and separator functionality and visibillity
-     * @param highlight (Optional) Highlights chat-box and separator, else toggles chat-box and separator 
+     * @param {Boolean} highlight (Optional) Highlights chat-box and separator, else toggles chat-box and separator 
      */
     toggleHighlightBox(highlight) {
         if (this.highlightBox !== null) {
@@ -301,7 +304,7 @@ class YouTubeFilter {
     /*
      * Makes and appends highlighted chat messages box and the separator element
      */
-    setHighlightBox() {
+    _setHighlightBox() {
         let box = document.querySelector("#chat>#item-list>#live-chat-item-list-panel");
         let contents = box.querySelector("#contents");
 

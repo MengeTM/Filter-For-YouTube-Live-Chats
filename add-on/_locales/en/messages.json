@@ -24,7 +24,7 @@
     "description": "Size of the live-chat box setting."
   },
   "enableOverlay": {
-    "message": "Enable subtitles",
+    "message": "Subtitles",
     "description": "Settings: Option enable YouTube player overlay"
   },
   "btnOverlaySettings": {
@@ -260,7 +260,7 @@
     "description": "Settings: Name of column filter rule"
   },
   "enableHighlight": {
-    "message": "Enable highlight chat-box",
+    "message": "Highlight chat-box",
     "description": "Settings: Slider for enabling highlight chat-box"
   },
   "expertMode": {

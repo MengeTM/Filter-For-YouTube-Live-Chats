@@ -31,7 +31,7 @@ class Separator {
         this.separatorElement.addEventListener("mousedown", (event) => {
             event.preventDefault();
 
-            this.startDragging(event.clientY);
+            this._startDragging(event.clientY);
         });
 
         this.mouseElement.addEventListener("mousemove", (event) => {
@@ -42,27 +42,27 @@ class Separator {
 
             // Set new height of box_bottom
             let size = this.getSize(posY - this.startY);
-            this.updateSeparator(size);
+            this._updateSeparator(size);
         });
 
         this.mouseElement.addEventListener("mouseup", (event) => {
             event.preventDefault();
 
-            this.stopDragging(event.clientY);
+            this._stopDragging(event.clientY);
         });
 
         this.mouseElement.addEventListener("mouseleave", (event) => {
             event.preventDefault();
 
-            this.stopDragging(event.clientY);
+            this._stopDragging(event.clientY);
         });
     }
 
     /**
      * Starts dragging separator
-     * @param y Y-pixel when start dragging separator
+     * @param {Number} y Y-pixel when start dragging separator
      */
-    startDragging(y) {
+    _startDragging(y) {
         // Set start variables
         this.startY = y;
         this.height = this.box_top.offsetHeight + this.box_bottom.offsetHeight;
@@ -74,9 +74,9 @@ class Separator {
 
     /**
      * Stops dragging separator
-     * @param y Y-pixel when stop dragging separator
+     * @param {Number} y Y-pixel when stop dragging separator
      */
-    stopDragging(y) {
+    _stopDragging(y) {
         // Stop dragging by removing mouseElement
         this.box_bottom.parentNode.removeChild(this.mouseElement);
 
@@ -92,21 +92,21 @@ class Separator {
 
     /**
      * Sets Separator and bottom_box to be visible or hidden
-     * @param visible Sets bottom_box and separator to be visible
+     * @param {Boolean} visible Sets bottom_box and separator to be visible
      */
     setVisible(visible = true) {
         if (visible) {
             this.separatorElement.classList.remove("hidden");
-            this.updateSeparator(this.size);
+            this._updateSeparator(this.size);
         } else {
             this.separatorElement.classList.add("hidden");
-            this.updateSeparator(0);
+            this._updateSeparator(0);
         }
     }
 
     /**
      * Gets flex size of box_bottom when moving mouse dY pixel
-     * @param dY Y-pixel distance separator
+     * @param {Number} dY Y-pixel distance separator
      */
     getSize(dY) {
         let size = (this.startHeight - dY) / this.height * 100;
@@ -119,19 +119,19 @@ class Separator {
 
     /**
      * Sets size box_bottom
-     * @param size Size box_bottom [0..100]
+     * @param {Number} size Size box_bottom [0..100]
      */
     setSize(size) {
         this.size = size;
 
-        this.updateSeparator(this.size);
+        this._updateSeparator(this.size);
     }
 
     /**
      * Updates height of box_top and box_bottom
-     * @param size Size of box_bottom [0..100]
+     * @param {Number} size Size of box_bottom [0..100]
      */
-    updateSeparator(size) {
+    _updateSeparator(size) {
         size = size / 100;
 
         let top_size = this.box_top.clientHeight;
